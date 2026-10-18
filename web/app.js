@@ -14,7 +14,6 @@ const VIEWS = {
   library: ["Biblioteca", "Seus apps instalados"],
   explore: ["Explorar", "Todos os apps disponíveis no Hub"],
   updates: ["Atualizações", "Versões novas prontas para instalar"],
-  macros: ["Macros", "Teclado e mouse para testar seus jogos: gravador, autoclicker e analisador anti-macro"],
   settings: ["Configurações", "Preferências do Hub"],
 };
 
@@ -115,15 +114,13 @@ function render() {
   const updates = snap.apps.filter((a) => st(a).updateAvailable);
   $("#updBadge").hidden = !updates.length;
   $("#updBadge").textContent = updates.length;
-  $("#btnUpdateAll").hidden = !updates.length || view === "settings" || view === "macros";
+  $("#btnUpdateAll").hidden = !updates.length || view === "settings";
   $("#btnUpdateAll").textContent = `Atualizar tudo (${updates.length})`;
-  $("#search").hidden = $("#btnCheck").hidden = view === "settings" || view === "macros";
+  $("#search").hidden = $("#btnCheck").hidden = view === "settings";
   $("#hubVer").textContent = `Piphin Hub v${snap.hubVersion || ""}`;
   renderHubUpdate();
 
-  if (view !== "macros" && Lab.on) Lab.stop();
   if (view === "settings") { $("#chips").innerHTML = ""; renderSettings(); }
-  else if (view === "macros") { $("#chips").innerHTML = ""; Macro.show(); }
   else renderGrid();
   if (drawerId) renderDrawer();
 }

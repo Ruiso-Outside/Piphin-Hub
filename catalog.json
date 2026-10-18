@@ -35,6 +35,22 @@
         "keep": ["Uninstall LLM Local.exe", "uninstallerIcon.ico"],
         "selfUpdating": true
       }
+    },
+    {
+      "id": "macro",
+      "name": "Piphin Macro",
+      "description": "Macros de teclado e mouse, gravador, autoclicker e analisador anti-macro para testar seus jogos. Sem programas de terceiros.",
+      "category": "Jogos",
+      "icon": "icons/macro.png",
+      "accent": "#e879f9",
+      "source": { "type": "github", "repo": "Ruiso-Outside/Piphin-Macro", "asset": "^Piphin-Macro-.*-win-x64\\.zip$" },
+      "install": {
+        "type": "portable",
+        "folder": "Piphin Macro",
+        "exe": "Piphin Macro.exe",
+        "versionFile": "resources/app/package.json",
+        "shortcutName": "Piphin Macro"
+      }
     }
   ]
 }

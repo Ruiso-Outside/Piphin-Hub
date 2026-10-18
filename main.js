@@ -1,11 +1,10 @@
 // Piphin Hub: processo principal do Electron.
-const { app, BrowserWindow, ipcMain, shell, dialog, Notification, nativeImage, Tray, Menu } = require("electron");
+const { app, BrowserWindow, ipcMain, shell, dialog, Notification, nativeImage } = require("electron");
 const fs = require("fs");
 const path = require("path");
 const { Hub } = require("./lib/apps");
 const U = require("./lib/util");
 const selfupdate = require("./lib/selfupdate");
-const { Macros } = require("./lib/macro");
 
 app.setAppUserModelId("studio.piphin.hub");
 if (!app.requestSingleInstanceLock()) { app.quit(); process.exit(0); }
@@ -15,10 +14,6 @@ let win = null;
 let hub = null;
 let hubUpdate = null; // atualização do próprio Hub: { version, notes, pct, ready, error }
 let hubChecking = false;
-let macros = null;
-let tray = null;
-let trayHinted = false;
-let quitting = false;
 const CHECK_EVERY = 6 * 60 * 60 * 1000; // apps
 const HUB_CHECK_EVERY = 60 * 60 * 1000; // o próprio Hub (1 consulta, pacote pequeno)
 
@@ -37,13 +32,6 @@ function createWindow() {
     webPreferences: { preload: path.join(__dirname, "preload.js"), contextIsolation: true, sandbox: true },
   });
   win.removeMenu();
-  // com macros ligadas, fechar a janela só esconde (os atalhos continuam funcionando na bandeja)
-  win.on("close", (e) => {
-    if (quitting || !macros || !macros.settings.keepInTray || !macros.hasActiveHotkeys()) return;
-    e.preventDefault();
-    win.hide();
-    showTray();
-  });
   win.loadFile(path.join(__dirname, "web", "index.html"));
   win.once("ready-to-show", () => win.show());
   // links externos abrem no navegador
@@ -97,95 +85,11 @@ function registerIpc() {
   handle("hub:removeCustom", (id) => hub.removeCustomApp(id));
   handle("hub:folderSize", (id) => { const s = hub.status[id]; return s && s.dir ? U.folderSize(s.dir) : 0; });
   handle("hub:selfCheck", () => checkHubUpdate({ force: true, ask: true }));
-  registerMacroIpc();
   handle("hub:selfRestart", () => {
     if (!hubUpdate || !hubUpdate.ready) throw new Error("Nenhuma atualização do Hub pronta");
     if (hub.jobs.size) throw new Error("Espere as instalações em andamento terminarem");
     selfupdate.restartNow(app);
   });
-}
-
-// ------------------------------------------------------------------ macros
-function registerMacroIpc() {
-  handle("macro:snapshot", () => macros.snapshot());
-  handle("macro:start", () => macros.start());
-  handle("macro:save", (def) => macros.saveMacro(def));
-  handle("macro:delete", (id) => macros.deleteMacro(id));
-  handle("macro:run", (id, opts) => macros.run(id, { once: !!(opts && opts.once) }));
-  handle("macro:test", (id) => macros.test(id));
-  handle("macro:stop", (id) => macros.stop(id));
-  handle("macro:stopAll", () => macros.stopAll());
-  handle("macro:settings", (patch) => macros.setSettings(patch));
-  handle("macro:pause", (on) => macros.setHotkeysPaused(on));
-  handle("macro:recStart", (opts) => macros.startRecording(opts));
-  handle("macro:recStop", () => macros.stopRecording("button", win ? win.getBounds() : null));
-  handle("macro:lab", (on, moves) => macros.setLab(on, moves));
-  // posição do mouse, cor do pixel ou processo em foco, depois de alguns segundos (para dar tempo de ir ao jogo)
-  handle("macro:capture", async (kind, delay) => {
-    await macros.start();
-    if (delay) await new Promise((r) => setTimeout(r, delay * 1000));
-    if (kind === "fg") return { process: (await macros.engine.ask("fg"))[0] };
-    const [x, y, color] = await macros.engine.ask("pix", "", "");
-    return { x: +x, y: +y, color };
-  });
-  handle("macro:export", async (ids) => {
-    const list = macros.list.filter((m) => ids.includes(m.id));
-    const r = await dialog.showSaveDialog(win, { title: "Exportar macros", defaultPath: (list.length === 1 ? list[0].name : "macros") + ".piphin-macro.json",
-      filters: [{ name: "Macros do Piphin", extensions: ["json"] }] });
-    if (r.canceled || !r.filePath) return false;
-    U.writeJson(r.filePath, { schema: 1, macros: list });
-    return true;
-  });
-  handle("macro:import", async () => {
-    const r = await dialog.showOpenDialog(win, { title: "Importar macros", properties: ["openFile"], filters: [{ name: "Macros do Piphin", extensions: ["json"] }] });
-    if (r.canceled || !r.filePaths[0]) return 0;
-    return macros.importMacros(U.readJson(r.filePaths[0], null));
-  });
-}
-
-function initMacros() {
-  macros = new Macros({ userDir: app.getPath("userData") });
-  let batch = [];
-  let flushing = null;
-  macros.on("changed", () => { send("macro:changed"); updateTray(); });
-  macros.on("loop", (l) => send("macro:loop", l));
-  macros.on("recorded", (r) => { send("macro:recorded", r); if (win && !win.isVisible()) win.show(); });
-  macros.on("notice", (n) => {
-    send("macro:notice", n);
-    if (n.kind === "panic" && win && !win.isFocused() && Notification.isSupported()) new Notification({ title: "Piphin Macro", body: n.text, icon: ICON }).show();
-  });
-  // eventos do analisador vão em lotes (o mouse pode gerar centenas por segundo)
-  macros.on("input", (e) => {
-    batch.push(e);
-    if (!flushing) flushing = setTimeout(() => { send("macro:input", batch); batch = []; flushing = null; }, 50);
-  });
-  macros.boot();
-}
-
-// Ícone na bandeja: aparece quando a janela é escondida com macros ligadas
-function showTray() {
-  if (tray) return;
-  tray = new Tray(nativeImage.createFromPath(ICON).resize({ width: 16, height: 16 }));
-  tray.on("click", () => { win.show(); win.focus(); });
-  updateTray();
-  if (!trayHinted) {
-    trayHinted = true;
-    tray.displayBalloon({ title: "Piphin Hub", content: "As macros continuam ativas aqui na bandeja. Clique no ícone para abrir o Hub.", iconType: "info" });
-  }
-}
-
-function updateTray() {
-  if (!tray || !macros) return;
-  const running = Object.keys(macros.running).length;
-  tray.setToolTip(`Piphin Hub · macros ${macros.settings.armed ? "ligadas" : "desligadas"}${running ? ` · ${running} em execução` : ""}`);
-  tray.setContextMenu(Menu.buildFromTemplate([
-    { label: "Abrir o Piphin Hub", click: () => { win.show(); win.focus(); } },
-    { type: "separator" },
-    { label: "Atalhos de macro ligados", type: "checkbox", checked: !!macros.settings.armed, click: (i) => macros.setSettings({ armed: i.checked }) },
-    { label: "Parar todas as macros", enabled: running > 0, click: () => macros.stopAll() },
-    { type: "separator" },
-    { label: "Sair", click: () => { quitting = true; app.quit(); } },
-  ]));
 }
 
 // Atualização do próprio Hub: verifica o GitHub, baixa sozinho e pergunta se pode reiniciar.
@@ -288,7 +192,6 @@ app.whenReady().then(() => {
   hubShortcuts(false);
   hub.on("changed", () => send("hub:changed"));
   hub.on("progress", (p) => send("hub:progress", p));
-  initMacros();
   registerIpc();
   createWindow();
   if (hub.settings.checkOnStart) periodicCheck(true);
@@ -300,11 +203,9 @@ app.whenReady().then(() => {
 });
 
 // "Depois": aplica a versão baixada ao fechar
-app.on("before-quit", () => { quitting = true; });
 app.on("will-quit", () => {
-  if (macros) macros.shutdown();
   if (hubUpdate && hubUpdate.ready) { try { selfupdate.swap(app); } catch { /* tenta de novo na próxima vez */ } }
 });
 
-app.on("second-instance", () => { if (win) { if (!win.isVisible()) win.show(); if (win.isMinimized()) win.restore(); win.show(); win.focus(); } });
+app.on("second-instance", () => { if (win) { if (win.isMinimized()) win.restore(); win.show(); win.focus(); } });
 app.on("window-all-closed", () => app.quit());
