@@ -1,0 +1,40 @@
+{
+  "schema": 1,
+  "apps": [
+    {
+      "id": "infohardware",
+      "name": "InfoHardware",
+      "description": "Informações completas do hardware, sensores e monitoramento em tempo real com overlay de FPS para jogos.",
+      "category": "Sistema",
+      "icon": "icons/infohardware.png",
+      "accent": "#a855f7",
+      "source": { "type": "github", "repo": "Ruiso-Outside/InfoHardware", "asset": "^InfoHardware-Setup-.*\\.exe$" },
+      "install": {
+        "type": "installer",
+        "exe": "InfoHardware.exe",
+        "silentArgs": ["/silent"],
+        "dirArg": "/dir={dir}",
+        "uninstallKey": "InfoHardware"
+      }
+    },
+    {
+      "id": "llm-local",
+      "name": "Piphin LLM",
+      "description": "Rode modelos de IA no seu PC: chat com anexos, Codex, geração de imagens e pergunta rápida. Sem conta e sem nada indo para a internet.",
+      "category": "IA",
+      "icon": "icons/llm-local.png",
+      "accent": "#22d3ee",
+      "source": { "type": "github", "repo": "Ruiso-Outside/LLM", "asset": "^LLM-Local-.*-win-x64\\.zip$" },
+      "install": {
+        "type": "portable",
+        "folder": "LLM Local",
+        "exe": "LLM Local.exe",
+        "versionFile": "resources/app/package.json",
+        "shortcutName": "Piphin LLM",
+        "shortcutAliases": ["LLM Local"],
+        "keep": ["Uninstall LLM Local.exe", "uninstallerIcon.ico"],
+        "selfUpdating": true
+      }
+    }
+  ]
+}

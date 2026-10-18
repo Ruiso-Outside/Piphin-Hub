@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' file: https: data:; style-src 'self' 'unsafe-inline'; script-src 'self'">
+  <title>Piphin Hub</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="titlebar">
+    <div class="brand"><img src="../icons/hub.png" alt=""><span>Piphin <b>Hub</b></span></div>
+  </header>
+
+  <div class="layout">
+    <nav class="sidebar">
+      <button class="nav active" data-view="library"><span class="ico">▦</span>Biblioteca</button>
+      <button class="nav" data-view="explore"><span class="ico">✦</span>Explorar</button>
+      <button class="nav" data-view="updates"><span class="ico">⟳</span>Atualizações <span class="badge" id="updBadge" hidden></span></button>
+      <button class="nav" data-view="settings"><span class="ico">⚙</span>Configurações</button>
+      <div class="spacer"></div>
+      <div id="hubUpdate" class="hub-update" hidden></div>
+      <div class="hub-ver" id="hubVer"></div>
+    </nav>
+
+    <main>
+      <div class="topbar">
+        <div>
+          <h1 id="viewTitle">Biblioteca</h1>
+          <p id="viewSub" class="muted"></p>
+        </div>
+        <div class="top-actions">
+          <input id="search" type="search" placeholder="Buscar app..." autocomplete="off">
+          <button id="btnCheck" class="btn ghost" title="Consultar versões novas no GitHub">⟳ Verificar</button>
+          <button id="btnUpdateAll" class="btn primary" hidden>Atualizar tudo</button>
+        </div>
+      </div>
+      <div id="chips" class="chips"></div>
+      <section id="content"></section>
+    </main>
+  </div>
+
+  <aside id="drawer" class="drawer" hidden></aside>
+  <div id="modal" class="modal" hidden><div class="modal-box" id="modalBox"></div></div>
+  <div id="toasts" class="toasts"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>

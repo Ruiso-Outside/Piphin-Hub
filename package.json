@@ -1,0 +1,49 @@
+{
+  "name": "piphin-hub",
+  "productName": "Piphin Hub",
+  "version": "1.0.0",
+  "description": "Piphin Hub: baixe, atualize e gerencie os apps da Piphin Studio",
+  "main": "main.js",
+  "author": "Piphin Studio",
+  "private": true,
+  "scripts": {
+    "start": "electron .",
+    "icon": "electron scripts/make-icon.js",
+    "check": "node scripts/check.js",
+    "dist": "electron-builder --win --publish never && node scripts/make-patch.js"
+  },
+  "build": {
+    "appId": "studio.piphin.hub",
+    "productName": "Piphin Hub",
+    "copyright": "Piphin Studio",
+    "files": [
+      "main.js",
+      "preload.js",
+      "catalog.json",
+      "lib/**",
+      "web/**",
+      "icons/**"
+    ],
+    "directories": {
+      "output": "dist"
+    },
+    "win": {
+      "target": [
+        {
+          "target": "zip",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "icons/hub.ico",
+      "signAndEditExecutable": false,
+      "artifactName": "Piphin-Hub-${version}-win-x64.${ext}"
+    },
+    "asar": false
+  },
+  "devDependencies": {
+    "electron": "44.4.5",
+    "electron-builder": "26.16.1"
+  }
+}
