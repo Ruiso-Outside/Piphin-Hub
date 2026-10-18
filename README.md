@@ -15,7 +15,7 @@ Igual ao Piphin LLM: o `.exe` é o do Electron oficial, sem modificações, por 
 - **Detalhes** (clique num card): novidades da versão, pasta, espaço em disco, abrir pasta, reinstalar, desinstalar.
 - Downloads conferidos por **SHA-256** (o GitHub publica o hash de cada arquivo). Se o app estiver aberto, o Hub pergunta antes de fechá-lo.
 - Atualização **sem perder dados**: a versão nova é extraída ao lado, as pastas marcadas em `keep` são mantidas, e se algo falhar a versão anterior volta.
-- O próprio Hub se atualiza pelo repositório `Ruiso-Outside/Piphin-Hub` (troca só `resources\app`).
+- **O próprio Hub se atualiza sozinho**: ao abrir e a cada hora ele consulta os Releases de `Ruiso-Outside/Piphin-Hub`, baixa a versão nova em segundo plano (conferindo o SHA-256) e pergunta se pode reiniciar. Se você escolher "Depois", ela entra quando o Hub for fechado. Só a pasta `resources\app` é trocada; se algo falhar, a versão atual continua.
 
 ## Adicionar um app novo
 Há dois jeitos:

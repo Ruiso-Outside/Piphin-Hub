@@ -129,14 +129,19 @@ function renderHubUpdate() {
   const box = $("#hubUpdate");
   if (!snap.hubUpdate) { box.hidden = true; return; }
   box.hidden = false;
-  if (!box.dataset.v || box.dataset.v !== snap.hubUpdate.version) {
-    box.dataset.v = snap.hubUpdate.version;
-    box.innerHTML = `<b>Hub v${esc(snap.hubUpdate.version)}</b> disponível<button class="btn primary sm" id="btnSelf">Atualizar o Hub</button>`;
-    $("#btnSelf").onclick = async () => {
-      box.innerHTML = `Atualizando o Hub...<div class="progress" style="margin-top:8px"><i></i></div>`;
-      const r = await hub.selfUpdate();
-      if (!r.ok) { toast(r.error, "err"); box.dataset.v = ""; renderHubUpdate(); }
-    };
+  const u = snap.hubUpdate;
+  const key = `${u.version}|${u.ready}|${u.error || ""}`;
+  if (box.dataset.k === key) return; // só o progresso muda (onSelfProgress)
+  box.dataset.k = key;
+  if (u.ready) {
+    box.innerHTML = `<b>Hub v${esc(u.version)}</b> pronto para usar<button class="btn primary sm" id="btnSelf">Reiniciar agora</button>
+      <div class="muted" style="font-size:11.5px;margin-top:6px">Ou ele entra quando você fechar o Hub.</div>`;
+    $("#btnSelf").onclick = async () => { const r = await hub.selfRestart(); if (!r.ok) toast(r.error, "err"); };
+  } else if (u.error) {
+    box.innerHTML = `Não foi possível baixar o <b>Hub v${esc(u.version)}</b><button class="btn sm" id="btnSelf">Tentar de novo</button>`;
+    $("#btnSelf").onclick = () => { box.dataset.k = ""; hub.selfCheck().then(load); };
+  } else {
+    box.innerHTML = `Baixando o <b>Hub v${esc(u.version)}</b>...<div class="progress" style="margin-top:8px"><i style="width:${Math.round((u.pct || 0) * 100)}%"></i></div>`;
   }
 }
 
@@ -285,6 +290,8 @@ async function renderDrawer() {
 function renderSettings() {
   const s = snap.settings;
   $("#content").innerHTML = `<div class="settings">
+    <div class="set toggle"><div><h4>Piphin Hub v${esc(snap.hubVersion)}</h4><p>O Hub se atualiza sozinho: consulta o GitHub ao abrir e a cada hora, baixa a versão nova em segundo plano e pergunta se pode reiniciar.</p></div>
+      <button class="btn" id="sSelf">Verificar agora</button></div>
     <div class="set"><h4>Pasta dos apps portáteis</h4><p>Onde o Hub instala apps que vêm em .zip (ex.: Piphin LLM). Apps com instalador próprio usam a pasta deles.</p>
       <div class="row"><input type="text" id="sLib" value="${esc(s.libraryDir)}"><button class="btn" id="sLibPick">Escolher...</button></div></div>
     <div class="set toggle"><div><h4>Atalho na Área de Trabalho</h4><p>Ao instalar um app portátil, cria também um atalho na Área de Trabalho (o do Menu Iniciar é sempre criado).</p></div>
@@ -304,6 +311,14 @@ function renderSettings() {
   $("#sLib").onchange = (e) => save({ libraryDir: e.target.value.trim() });
   $("#sLibPick").onclick = async () => { const r = await hub.pickFolder("Pasta dos apps"); if (r.ok && r.data) save({ libraryDir: r.data }); };
   $("#sDesk").onchange = (e) => save({ desktopShortcuts: e.target.checked });
+  $("#sSelf").onclick = async (e) => {
+    e.target.disabled = true; e.target.textContent = "Verificando...";
+    const r = await hub.selfCheck();
+    e.target.disabled = false; e.target.textContent = "Verificar agora";
+    if (!r.ok) toast(r.error, "err");
+    else if (!r.data) toast("O Hub já está na versão mais recente", "ok");
+    load();
+  };
   $("#sHubLnk").onclick = async () => { const r = await hub.hubShortcuts(); toast(r.ok ? "Atalhos do Hub criados" : r.error, r.ok ? "ok" : "err"); };
   $("#sCheck").onchange = (e) => save({ checkOnStart: e.target.checked });
   $("#sAuto").onchange = (e) => save({ autoUpdate: e.target.checked });

@@ -12,8 +12,10 @@ if (!app.requestSingleInstanceLock()) { app.quit(); process.exit(0); }
 const ICON = path.join(__dirname, "icons", "hub.png");
 let win = null;
 let hub = null;
-let hubUpdate = null; // versão nova do próprio Hub
-const CHECK_EVERY = 6 * 60 * 60 * 1000;
+let hubUpdate = null; // atualização do próprio Hub: { version, notes, pct, ready, error }
+let hubChecking = false;
+const CHECK_EVERY = 6 * 60 * 60 * 1000; // apps
+const HUB_CHECK_EVERY = 60 * 60 * 1000; // o próprio Hub (1 consulta, pacote pequeno)
 
 function createWindow() {
   win = new BrowserWindow({
@@ -82,17 +84,66 @@ function registerIpc() {
   handle("hub:addCustom", (def) => hub.addCustomApp(def));
   handle("hub:removeCustom", (id) => hub.removeCustomApp(id));
   handle("hub:folderSize", (id) => { const s = hub.status[id]; return s && s.dir ? U.folderSize(s.dir) : 0; });
-  handle("hub:selfUpdate", async () => {
-    if (!hubUpdate) return null;
-    await selfupdate.apply(app, hubUpdate, ({ done, total }) => send("hub:selfProgress", total ? done / total : null));
+  handle("hub:selfCheck", () => checkHubUpdate({ force: true, ask: true }));
+  handle("hub:selfRestart", () => {
+    if (!hubUpdate || !hubUpdate.ready) throw new Error("Nenhuma atualização do Hub pronta");
+    if (hub.jobs.size) throw new Error("Espere as instalações em andamento terminarem");
+    selfupdate.restartNow(app);
   });
+}
+
+// Atualização do próprio Hub: verifica o GitHub, baixa sozinho e pergunta se pode reiniciar.
+// Se a resposta for "Depois", a versão nova entra quando o Hub for fechado.
+async function checkHubUpdate({ force = false, ask = true } = {}) {
+  if (hubChecking || (hubUpdate && hubUpdate.ready)) return hubUpdate;
+  hubChecking = true;
+  try {
+    const latest = await selfupdate.check(app, { force });
+    if (!latest) return null;
+    hubUpdate = { version: latest.version, notes: latest.notes, pct: 0, ready: false };
+    send("hub:changed");
+    await selfupdate.prepare(app, latest, ({ done, total }) => {
+      hubUpdate.pct = total ? done / total : null;
+      send("hub:selfProgress", hubUpdate.pct);
+    });
+    hubUpdate.ready = true;
+    send("hub:changed");
+    if (ask) askRestart();
+    return hubUpdate;
+  } catch (e) {
+    if (hubUpdate) { hubUpdate.error = e.message; send("hub:changed"); }
+    return hubUpdate;
+  } finally {
+    hubChecking = false;
+  }
+}
+
+async function askRestart() {
+  if (!win || win.isDestroyed()) return;
+  if (!win.isFocused() && Notification.isSupported()) {
+    const n = new Notification({ title: "Piphin Hub", body: `A versão ${hubUpdate.version} do Hub está pronta. Clique para reiniciar.`, icon: ICON });
+    n.on("click", () => { win.show(); win.focus(); });
+    n.show();
+  }
+  if (hub.jobs.size) return; // não interrompe instalações: aplica ao fechar
+  const notes = String(hubUpdate.notes || "").replace(/[*`]/g, "").trim().slice(0, 600);
+  const r = await dialog.showMessageBox(win, {
+    type: "info",
+    title: "Atualização do Piphin Hub",
+    message: `O Piphin Hub ${hubUpdate.version} foi baixado.`,
+    detail: (notes ? notes + "\n\n" : "") + "Reiniciar agora para usar a versão nova? Se escolher \"Depois\", ela é aplicada quando você fechar o Hub.",
+    buttons: ["Reiniciar agora", "Depois"],
+    defaultId: 0,
+    cancelId: 1,
+    noLink: true,
+  });
+  if (r.response === 0 && !hub.jobs.size) selfupdate.restartNow(app);
 }
 
 // Verificação periódica: avisa (ou atualiza, se ligado) os apps com versão nova
 async function periodicCheck(first) {
   try {
     await hub.refresh({ force: !first });
-    hubUpdate = await selfupdate.check(app);
     send("hub:changed");
     const pending = hub.snapshot().apps.filter((a) => a.status && a.status.updateAvailable);
     if (hub.settings.autoUpdate) {
@@ -146,6 +197,14 @@ app.whenReady().then(() => {
   if (hub.settings.checkOnStart) periodicCheck(true);
   else hub.refresh().catch(() => {});
   setInterval(() => periodicCheck(false), CHECK_EVERY);
+  // o Hub sempre se mantém atualizado (mesmo com a verificação dos apps desligada)
+  win.once("ready-to-show", () => setTimeout(() => checkHubUpdate({ force: true }), 3000));
+  setInterval(() => checkHubUpdate({ force: true }), HUB_CHECK_EVERY);
+});
+
+// "Depois": aplica a versão baixada ao fechar
+app.on("will-quit", () => {
+  if (hubUpdate && hubUpdate.ready) { try { selfupdate.swap(app); } catch { /* tenta de novo na próxima vez */ } }
 });
 
 app.on("second-instance", () => { if (win) { if (win.isMinimized()) win.restore(); win.show(); win.focus(); } });
