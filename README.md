@@ -17,6 +17,20 @@ Igual ao Piphin LLM: o `.exe` é o do Electron oficial, sem modificações, por 
 - Atualização **sem perder dados**: a versão nova é extraída ao lado, as pastas marcadas em `keep` são mantidas, e se algo falhar a versão anterior volta.
 - **O próprio Hub se atualiza sozinho**: ao abrir e a cada hora ele consulta os Releases de `Ruiso-Outside/Piphin-Hub`, baixa a versão nova em segundo plano (conferindo o SHA-256) e pergunta se pode reiniciar. Se você escolher "Depois", ela entra quando o Hub for fechado. Só a pasta `resources\app` é trocada; se algo falhar, a versão atual continua.
 
+## Macros (teclado e mouse)
+Aba **Macros**, feita para testar seus jogos e desenvolver o anti-macro deles. Nada de programa de terceiros: o motor é o arquivo `lib/macro/engine.cs` (código aberto), que o próprio PowerShell do Windows compila na memória ao ligar. Não há `.exe` novo, então o Controle Inteligente de Aplicativos não bloqueia.
+
+- **Macros**: passos de tecla (pressionar/segurar/soltar), clique (com tempo segurado e repetições), mover o mouse (posição na tela ou relativo para câmera/FPS, com duração), espera fixa ou aleatória, roda do mouse, digitar texto, esperar a cor de um pixel e blocos de repetição.
+- **Gravador**: grava teclado e mouse (com ou sem movimento, absoluto ou relativo). <kbd>F9</kbd> no jogo encerra a gravação.
+- **Disparo**: atalho global (teclado ou botões do mouse, com Ctrl/Alt/Shift/Win), modos *Uma vez*, *Repetir N vezes*, *Liga/desliga* e *Enquanto segurar*; pode bloquear o atalho no jogo e funcionar só num processo (`MeuJogo.exe`).
+- **Variação humana**: sorteia esperas, tempos segurados e curva do mouse.
+- **Autoclicker**: CPS mínimo/máximo, botão, tempo segurado, clique duplo, ponto fixo e limite.
+- **Analisador anti-macro**: mostra cada entrada como física, injetada ou do Piphin, mede intervalos, variação, tempo segurado, teleporte do mouse, desenha o histograma e dá um veredito com os motivos. Tem simulação de macro robótica e humanizada para comparar.
+- **Segurança**: tecla de pânico (<kbd>F12</kbd>) para tudo e solta qualquer tecla/botão preso; as entradas enviadas pelo Piphin são marcadas e nunca disparam outro atalho. Com atalhos ativos, fechar a janela deixa o Hub na bandeja.
+- Teclas vão por **scancode** (funciona com DirectInput/Raw Input). Jogo aberto como administrador exige o Hub como administrador. Anti-cheats online detectam macros: use nos seus jogos ou offline.
+
+As macros ficam em `%APPDATA%\Piphin Hub\macros.json` (dá para exportar/importar cada uma em `.json`).
+
 ## Adicionar um app novo
 Há dois jeitos:
 
@@ -81,5 +95,7 @@ npm run dist       # gera dist\Piphin-Hub-X-win-x64.zip e dist\hub-app-X.zip
 | `lib/download.js` | Download com progresso, cancelamento e SHA-256 |
 | `lib/selfupdate.js` | Atualização do próprio Hub |
 | `lib/util.js` | Registro, processos, versões, extração de `.zip` |
-| `web/` | Interface |
+| `lib/macro/engine.cs` | Motor de entrada (ganchos globais e `SendInput`), compilado pelo PowerShell |
+| `lib/macro/engine.js` / `index.js` | Processo do motor; macros, atalhos, gravação, autoclicker |
+| `web/` | Interface (`macro.js`: aba Macros) |
 | `catalog.json` | Apps que vêm com o Hub |
