@@ -289,6 +289,8 @@ function renderSettings() {
       <div class="row"><input type="text" id="sLib" value="${esc(s.libraryDir)}"><button class="btn" id="sLibPick">Escolher...</button></div></div>
     <div class="set toggle"><div><h4>Atalho na Área de Trabalho</h4><p>Ao instalar um app portátil, cria também um atalho na Área de Trabalho (o do Menu Iniciar é sempre criado).</p></div>
       <label class="switch"><input type="checkbox" id="sDesk" ${s.desktopShortcuts ? "checked" : ""}><span></span></label></div>
+    <div class="set toggle"><div><h4>Atalhos do Piphin Hub</h4><p>Cria (ou recria) os atalhos do próprio Hub na Área de Trabalho e no Menu Iniciar.</p></div>
+      <button class="btn" id="sHubLnk">Criar atalhos</button></div>
     <div class="set toggle"><div><h4>Verificar atualizações ao abrir</h4><p>Consulta o GitHub ao abrir o Hub e a cada 6 horas enquanto ele estiver aberto.</p></div>
       <label class="switch"><input type="checkbox" id="sCheck" ${s.checkOnStart ? "checked" : ""}><span></span></label></div>
     <div class="set toggle"><div><h4>Atualizar automaticamente</h4><p>Instala as versões novas sozinho, sem perguntar. Apps abertos ficam para a próxima verificação.</p></div>
@@ -302,6 +304,7 @@ function renderSettings() {
   $("#sLib").onchange = (e) => save({ libraryDir: e.target.value.trim() });
   $("#sLibPick").onclick = async () => { const r = await hub.pickFolder("Pasta dos apps"); if (r.ok && r.data) save({ libraryDir: r.data }); };
   $("#sDesk").onchange = (e) => save({ desktopShortcuts: e.target.checked });
+  $("#sHubLnk").onclick = async () => { const r = await hub.hubShortcuts(); toast(r.ok ? "Atalhos do Hub criados" : r.error, r.ok ? "ok" : "err"); };
   $("#sCheck").onchange = (e) => save({ checkOnStart: e.target.checked });
   $("#sAuto").onchange = (e) => save({ autoUpdate: e.target.checked });
   $("#sCat").onchange = (e) => save({ catalogUrl: e.target.value.trim() });

@@ -1,5 +1,6 @@
 // Piphin Hub: processo principal do Electron.
 const { app, BrowserWindow, ipcMain, shell, dialog, Notification, nativeImage } = require("electron");
+const fs = require("fs");
 const path = require("path");
 const { Hub } = require("./lib/apps");
 const U = require("./lib/util");
@@ -77,6 +78,7 @@ function registerIpc() {
     hub.setSettings(patch);
     return null;
   });
+  handle("hub:hubShortcuts", () => hubShortcuts(true));
   handle("hub:addCustom", (def) => hub.addCustomApp(def));
   handle("hub:removeCustom", (id) => hub.removeCustomApp(id));
   handle("hub:folderSize", (id) => { const s = hub.status[id]; return s && s.dir ? U.folderSize(s.dir) : 0; });
@@ -105,9 +107,38 @@ async function periodicCheck(first) {
   } catch { /* sem rede */ }
 }
 
+// Atalhos do próprio Hub (Área de Trabalho e Menu Iniciar). Criados na primeira execução;
+// depois só são corrigidos se a pasta do Hub mudar, para não voltarem se o usuário apagar.
+function hubShortcuts(force) {
+  if (!app.isPackaged && !force) return;
+  const links = [
+    path.join(app.getPath("desktop"), "Piphin Hub.lnk"),
+    path.join(app.getPath("appData"), "Microsoft", "Windows", "Start Menu", "Programs", "Piphin Hub.lnk"),
+  ];
+  const opts = {
+    target: process.execPath,
+    cwd: path.dirname(process.execPath),
+    description: "Piphin Hub: baixe, atualize e gerencie os apps da Piphin Studio",
+    icon: path.join(__dirname, "icons", "hub.ico"),
+    iconIndex: 0,
+    appUserModelId: "studio.piphin.hub",
+  };
+  const first = !hub.state.hubShortcuts;
+  for (const lnk of links) {
+    const exists = fs.existsSync(lnk);
+    try {
+      if (first || force) shell.writeShortcutLink(lnk, exists ? "replace" : "create", opts);
+      else if (exists && shell.readShortcutLink(lnk).target.toLowerCase() !== process.execPath.toLowerCase())
+        shell.writeShortcutLink(lnk, "replace", opts);
+    } catch { /* sem permissão na pasta */ }
+  }
+  if (first) { hub.state.hubShortcuts = true; hub.save(); }
+}
+
 app.whenReady().then(() => {
   selfupdate.cleanup(app);
   hub = new Hub({ appDir: __dirname, userDir: app.getPath("userData"), shell, desktopDir: app.getPath("desktop") });
+  hubShortcuts(false);
   hub.on("changed", () => send("hub:changed"));
   hub.on("progress", (p) => send("hub:progress", p));
   registerIpc();
