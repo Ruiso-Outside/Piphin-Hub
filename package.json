@@ -10,7 +10,8 @@
     "start": "electron .",
     "icon": "electron scripts/make-icon.js",
     "check": "node scripts/check.js",
-    "dist": "electron-builder --win --publish never && node scripts/make-patch.js"
+    "dist": "electron-builder --win --publish never && node scripts/make-patch.js",
+    "release": "node scripts/release.js"
   },
   "build": {
     "appId": "studio.piphin.hub",
