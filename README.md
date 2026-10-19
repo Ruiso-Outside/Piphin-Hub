@@ -69,8 +69,10 @@ npm run dist       # gera dist\Piphin-Hub-X-win-x64.zip e dist\hub-app-X.zip
 ```
 
 ### Publicar uma versão do Hub
-1. Aumente `"version"` no `package.json` e rode `npm run dist`.
-2. Crie o Release `vX.Y.Z` em `Ruiso-Outside/Piphin-Hub` com `Piphin-Hub-X.Y.Z-win-x64.zip` (instalação nova) e `hub-app-X.Y.Z.zip` (atualização automática).
+1. Aumente `"version"` no `package.json`, faça o commit e rode `npm run dist`.
+2. Rode `npm run release -- notas.md` (o arquivo de notas é opcional). Ele envia o código, cria a tag `vX.Y.Z` e o Release com `Piphin-Hub-X.Y.Z-win-x64.zip` (instalação nova) e `hub-app-X.Y.Z.zip` (atualização automática). Usa a variável `GH_TOKEN` ou, sem ela, o login do GitHub salvo no Git.
+
+Em até uma hora, todos os Hubs abertos baixam a versão nova e perguntam se podem reiniciar.
 
 ## Estrutura
 | Arquivo | Conteúdo |
