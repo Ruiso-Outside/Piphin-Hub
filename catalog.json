@@ -8,11 +8,17 @@
       "category": "Sistema",
       "icon": "icons/infohardware.png",
       "accent": "#a855f7",
-      "source": { "type": "github", "repo": "Ruiso-Outside/InfoHardware", "asset": "^InfoHardware-Setup-.*\\.exe$" },
+      "source": {
+        "type": "github",
+        "repo": "Ruiso-Outside/InfoHardware",
+        "asset": "^InfoHardware-Setup-.*\\.exe$"
+      },
       "install": {
         "type": "installer",
         "exe": "InfoHardware.exe",
-        "silentArgs": ["/silent"],
+        "silentArgs": [
+          "/silent"
+        ],
         "dirArg": "/dir={dir}",
         "uninstallKey": "InfoHardware"
       }
@@ -24,15 +30,24 @@
       "category": "IA",
       "icon": "icons/llm-local.png",
       "accent": "#22d3ee",
-      "source": { "type": "github", "repo": "Ruiso-Outside/LLM", "asset": "^LLM-Local-.*-win-x64\\.zip$" },
+      "source": {
+        "type": "github",
+        "repo": "Ruiso-Outside/LLM",
+        "asset": "^LLM-Local-.*-win-x64\\.zip$"
+      },
       "install": {
         "type": "portable",
         "folder": "LLM Local",
         "exe": "LLM Local.exe",
         "versionFile": "resources/app/package.json",
         "shortcutName": "Piphin LLM",
-        "shortcutAliases": ["LLM Local"],
-        "keep": ["Uninstall LLM Local.exe", "uninstallerIcon.ico"],
+        "shortcutAliases": [
+          "LLM Local"
+        ],
+        "keep": [
+          "Uninstall LLM Local.exe",
+          "uninstallerIcon.ico"
+        ],
         "selfUpdating": true
       }
     },
@@ -43,13 +58,32 @@
       "category": "Jogos",
       "icon": "icons/macro.png",
       "accent": "#e879f9",
-      "source": { "type": "github", "repo": "Ruiso-Outside/Piphin-Macro", "asset": "^Piphin-Macro-.*-win-x64\\.zip$" },
+      "source": {
+        "type": "github",
+        "repo": "Ruiso-Outside/Piphin-Macro",
+        "asset": "^Piphin-Macro-.*-win-x64\\.zip$"
+      },
       "install": {
         "type": "portable",
         "folder": "Piphin Macro",
         "exe": "Piphin Macro.exe",
         "versionFile": "resources/app/package.json",
         "shortcutName": "Piphin Macro"
+      }
+    }
+  ],
+  "modules": [
+    {
+      "id": "macro",
+      "name": "Piphin Macro",
+      "description": "Macros de teclado e mouse, gravador, autoclicker e analisador anti-macro para testar seus jogos. Roda dentro do Hub (120 KB em vez de um app de 146 MB).",
+      "category": "Jogos",
+      "icon": "icons/macro.png",
+      "accent": "#e879f9",
+      "source": {
+        "type": "github",
+        "repo": "Ruiso-Outside/Piphin-Macro",
+        "asset": "^piphin-module-macro-.*\\.zip$"
       }
     }
   ]

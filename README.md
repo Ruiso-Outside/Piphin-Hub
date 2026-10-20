@@ -17,6 +17,46 @@ Igual ao Piphin LLM: o `.exe` é o do Electron oficial, sem modificações, por 
 - Atualização **sem perder dados**: a versão nova é extraída ao lado, as pastas marcadas em `keep` são mantidas, e se algo falhar a versão anterior volta.
 - **O próprio Hub se atualiza sozinho**: ao abrir e a cada hora ele consulta os Releases de `Ruiso-Outside/Piphin-Hub`, baixa a versão nova em segundo plano (conferindo o SHA-256) e pergunta se pode reiniciar. Se você escolher "Depois", ela entra quando o Hub for fechado. Só a pasta `resources\app` é trocada; se algo falhar, a versão atual continua.
 
+## Módulos
+Módulos são partes do Piphin que rodam **dentro do Hub**, com uma área própria na janela e um item em **Módulos** na barra lateral. Como usam o Electron do próprio Hub, cada um tem poucos KB (o Piphin Macro tem 120 KB como módulo, contra 146 MB como app separado). Instalar, atualizar e remover um módulo não reinicia o Hub.
+
+- O motor de cada módulo roda num **processo separado**: se ele travar, o Hub e os outros módulos continuam funcionando (o card mostra "parou" e há o botão **Reiniciar módulo**).
+- Os motores começam junto com o Hub. Quando um módulo precisa continuar trabalhando (ex.: atalhos de macro ligados), fechar a janela só esconde o Hub no ícone perto do relógio; **Sair** pelo menu do ícone fecha tudo.
+- Ao sair, cada módulo desliga o que abriu (ganchos de teclado, processos auxiliares).
+- Removido um módulo, os dados dele continuam no PC.
+
+### Fazer um módulo
+Um módulo é um `.zip` publicado no Release do repositório dele, com:
+
+```
+module.json      { "id", "name", "version", "main": "backend.js", "ui": "web/index.html", "icon", "accent", "minHub": "1.1.0" }
+backend.js       motor (Node.js), opcional
+web/             interface
+```
+
+**Motor** (`backend.js`): exporta `activate(ctx)` (e, se quiser, `deactivate()`).
+
+| `ctx` | Para quê |
+|---|---|
+| `ctx.handle(canal, fn)` | responde às chamadas da interface |
+| `ctx.emit(canal, dados)` | envia eventos para a interface |
+| `ctx.onStop(fn)` | limpeza antes de o módulo parar |
+| `ctx.dataDir`, `ctx.dir`, `ctx.version` | pasta de dados do módulo, pasta do módulo, versão |
+| `ctx.host.saveDialog/openDialog(opts)` | janelas de arquivo do Windows |
+| `ctx.host.notify(título, texto)`, `ctx.host.focus()` | notificação; trazer o módulo para a frente |
+| `ctx.host.keepAlive(ligado, motivo)` | manter o Hub rodando escondido ao fechar a janela |
+| `ctx.log(...)` | registro em `%APPDATA%\Piphin Hub\logs\<id>.log` |
+
+**Interface**: uma página comum (sem barra de título; a barra lateral já é a do Hub) com `window.piphin`:
+`piphin.invoke(canal, ...args)` → `{ ok, data }` ou `{ ok: false, error }`, `piphin.on(canal, fn)` e `piphin.info`.
+
+**No catálogo**, módulos ficam em `"modules"` (o Hub antigo ignora essa lista). Um módulo com o mesmo `id` de um app separado substitui o app no Hub:
+```json
+"modules": [{ "id": "macro", "name": "Piphin Macro", "category": "Jogos", "icon": "icons/macro.png",
+  "source": { "type": "github", "repo": "Ruiso-Outside/Piphin-Macro", "asset": "^piphin-module-macro-.*\\.zip$" } }]
+```
+Exemplo completo: `module/` e `scripts/make-module.js` no repositório do Piphin Macro.
+
 ## Adicionar um app novo
 Há dois jeitos:
 

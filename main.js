@@ -1,10 +1,11 @@
 // Piphin Hub: processo principal do Electron.
-const { app, BrowserWindow, ipcMain, shell, dialog, Notification, nativeImage } = require("electron");
+const { app, BrowserWindow, ipcMain, shell, dialog, Notification, nativeImage, Tray, Menu } = require("electron");
 const fs = require("fs");
 const path = require("path");
 const { Hub } = require("./lib/apps");
 const U = require("./lib/util");
 const selfupdate = require("./lib/selfupdate");
+const { ModuleHost } = require("./lib/modules");
 
 app.setAppUserModelId("studio.piphin.hub");
 if (!app.requestSingleInstanceLock()) { app.quit(); process.exit(0); }
@@ -14,6 +15,10 @@ let win = null;
 let hub = null;
 let hubUpdate = null; // atualização do próprio Hub: { version, notes, pct, ready, error }
 let hubChecking = false;
+let modules = null; // módulos que rodam dentro do Hub
+let tray = null;
+let quitting = false;
+let modulesStopped = false;
 const CHECK_EVERY = 6 * 60 * 60 * 1000; // apps
 const HUB_CHECK_EVERY = 60 * 60 * 1000; // o próprio Hub (1 consulta, pacote pequeno)
 
@@ -37,6 +42,50 @@ function createWindow() {
   // links externos abrem no navegador
   win.webContents.setWindowOpenHandler(({ url }) => { if (/^https:\/\//.test(url)) shell.openExternal(url); return { action: "deny" }; });
   win.webContents.on("will-navigate", (e, url) => { if (!url.startsWith("file:")) { e.preventDefault(); if (/^https:\/\//.test(url)) shell.openExternal(url); } });
+  win.on("resize", () => modules && modules.layout());
+  // com um módulo trabalhando em segundo plano (ex.: atalhos de macro), fechar só esconde o Hub
+  win.on("close", (e) => {
+    if (quitting || !modules || !modules.keepAliveReasons().length) return;
+    e.preventDefault();
+    win.hide();
+    showTray(true);
+  });
+}
+
+const showWin = () => { if (!win) return; if (win.isMinimized()) win.restore(); win.show(); win.focus(); };
+
+// Ícone perto do relógio: aparece quando o Hub fica rodando escondido
+let trayHinted = false;
+function showTray(hint) {
+  if (!tray) {
+    tray = new Tray(nativeImage.createFromPath(ICON).resize({ width: 16, height: 16 }));
+    tray.on("click", showWin);
+  }
+  updateTray();
+  if (hint && !trayHinted) {
+    trayHinted = true;
+    tray.displayBalloon({ title: "Piphin Hub", content: `Continua rodando aqui: ${modules.keepAliveReasons().join(", ")}. Clique no ícone para abrir.`, iconType: "info" });
+  }
+}
+
+function updateTray() {
+  if (!tray) return;
+  const reasons = modules ? modules.keepAliveReasons() : [];
+  tray.setToolTip("Piphin Hub" + (reasons.length ? " · " + reasons.join(", ") : ""));
+  const mods = modules ? modules.status() : [];
+  tray.setContextMenu(Menu.buildFromTemplate([
+    { label: "Abrir o Piphin Hub", click: showWin },
+    ...(mods.length ? [{ type: "separator" }, ...mods.map((m) => ({ label: m.name, click: () => { showWin(); send("hub:openModule", m.id); } }))] : []),
+    { type: "separator" },
+    { label: "Sair", click: () => { quitting = true; app.quit(); } },
+  ]));
+}
+
+// Para os módulos com calma (eles desligam ganchos de teclado, processos auxiliares...)
+async function stopModules() {
+  if (modulesStopped || !modules) return;
+  await modules.stopAll();
+  modulesStopped = true;
 }
 
 const send = (ch, data) => { if (win && !win.isDestroyed()) win.webContents.send(ch, data); };
@@ -50,7 +99,10 @@ function handle(name, fn) {
 }
 
 function registerIpc() {
-  handle("hub:snapshot", () => ({ ...hub.snapshot(), hubVersion: app.getVersion(), hubUpdate }));
+  handle("hub:snapshot", () => ({ ...hub.snapshot(), hubVersion: app.getVersion(), hubUpdate, modules: modules.status(), visibleModule: modules.visible }));
+  handle("hub:openModule", (id) => modules.show(id));
+  handle("hub:closeModule", () => modules.hide());
+  handle("hub:restartModule", async (id) => { const vis = modules.visible === id; await modules.restart(id); if (vis) await modules.show(id); });
   handle("hub:refresh", async (force) => { await hub.refresh({ force: !!force }); return null; });
   handle("hub:install", (id, opts) => hub.install(id, opts));
   handle("hub:cancel", (id) => hub.cancel(id));
@@ -85,9 +137,10 @@ function registerIpc() {
   handle("hub:removeCustom", (id) => hub.removeCustomApp(id));
   handle("hub:folderSize", (id) => { const s = hub.status[id]; return s && s.dir ? U.folderSize(s.dir) : 0; });
   handle("hub:selfCheck", () => checkHubUpdate({ force: true, ask: true }));
-  handle("hub:selfRestart", () => {
+  handle("hub:selfRestart", async () => {
     if (!hubUpdate || !hubUpdate.ready) throw new Error("Nenhuma atualização do Hub pronta");
     if (hub.jobs.size) throw new Error("Espere as instalações em andamento terminarem");
+    await stopModules();
     selfupdate.restartNow(app);
   });
 }
@@ -137,7 +190,7 @@ async function askRestart() {
     cancelId: 1,
     noLink: true,
   });
-  if (r.response === 0 && !hub.jobs.size) selfupdate.restartNow(app);
+  if (r.response === 0 && !hub.jobs.size) { await stopModules(); selfupdate.restartNow(app); }
 }
 
 // Verificação periódica: avisa (ou atualiza, se ligado) os apps com versão nova
@@ -188,12 +241,25 @@ function hubShortcuts(force) {
 
 app.whenReady().then(() => {
   selfupdate.cleanup(app);
-  hub = new Hub({ appDir: __dirname, userDir: app.getPath("userData"), shell, desktopDir: app.getPath("desktop") });
+  const userData = app.getPath("userData");
+  modules = new ModuleHost({
+    dir: path.join(userData, "modules"),
+    dataDir: path.join(userData, "module-data"),
+    logDir: path.join(userData, "logs"),
+    hubVersion: app.getVersion(),
+    getWindow: () => (win && !win.isDestroyed() ? win : null),
+  });
+  modules.on("changed", () => { send("hub:changed"); updateTray(); });
+  modules.on("keepAlive", () => { updateTray(); if (tray && !modules.keepAliveReasons().length && win && win.isVisible()) { tray.destroy(); tray = null; } });
+  modules.on("focus", (id) => { showWin(); send("hub:openModule", id); });
+  hub = new Hub({ appDir: __dirname, userDir: userData, shell, desktopDir: app.getPath("desktop"), modules });
+  hub.on("openModule", (id) => send("hub:openModule", id));
   hubShortcuts(false);
   hub.on("changed", () => send("hub:changed"));
   hub.on("progress", (p) => send("hub:progress", p));
   registerIpc();
   createWindow();
+  modules.startAll(); // os motores começam junto com o Hub (atalhos de macro funcionam desde já)
   if (hub.settings.checkOnStart) periodicCheck(true);
   else hub.refresh().catch(() => {});
   setInterval(() => periodicCheck(false), CHECK_EVERY);
@@ -207,5 +273,13 @@ app.on("will-quit", () => {
   if (hubUpdate && hubUpdate.ready) { try { selfupdate.swap(app); } catch { /* tenta de novo na próxima vez */ } }
 });
 
-app.on("second-instance", () => { if (win) { if (win.isMinimized()) win.restore(); win.show(); win.focus(); } });
+app.on("second-instance", showWin);
+
+// antes de sair, cada módulo desliga o que abriu
+app.on("before-quit", (e) => {
+  quitting = true;
+  if (modulesStopped || !modules) return;
+  e.preventDefault();
+  stopModules().finally(() => app.quit());
+});
 app.on("window-all-closed", () => app.quit());

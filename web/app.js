@@ -22,11 +22,13 @@ async function load() {
   const r = await hub.snapshot();
   if (!r.ok) return toast(r.error, "err");
   snap = r.data;
+  if (modOf() && !(snap.modules || []).some((m) => m.id === modOf())) { view = "library"; hub.closeModule(); }
   for (const a of snap.apps) { if (a.job) jobs[a.id] = a.job; else if (jobs[a.id] && !jobs[a.id].local) delete jobs[a.id]; }
   render();
 }
 
 hub.onChanged(load);
+hub.onOpenModule((id) => openModule(id));
 hub.onProgress((p) => {
   jobs[p.id] = p;
   updateJobUi(p.id);
@@ -65,6 +67,7 @@ async function act(kind, id, opts = {}) {
     else if (r.error !== "Cancelado") toast(r.error, "err");
     return load();
   }
+  if (kind === "launch" && a.kind === "module") return openModule(id);
   if (kind === "launch") {
     const r = await hub.launch(id);
     if (!r.ok) toast(r.error, "err"); else toast(`Abrindo ${a.name}...`);
@@ -73,7 +76,8 @@ async function act(kind, id, opts = {}) {
   if (kind === "uninstall") {
     const portable = a.install.type === "portable";
     const ok = await confirmBox(`Desinstalar ${a.name}?`,
-      portable ? `A pasta <code>${esc(st(a).dir)}</code> vai para a Lixeira (dá para recuperar).${a.install.selfUpdating ? " Seus dados (modelos, conversas...) ficam na pasta de dados do app e não são apagados." : ""}`
+      a.kind === "module" ? "O módulo vai para a Lixeira. Os dados dele (configurações e arquivos salvos) continuam no PC."
+      : portable ? `A pasta <code>${esc(st(a).dir)}</code> vai para a Lixeira (dá para recuperar).${a.install.selfUpdating ? " Seus dados (modelos, conversas...) ficam na pasta de dados do app e não são apagados." : ""}`
         : `O desinstalador do ${esc(a.name)} será executado.`, "Desinstalar", true);
     if (!ok) return;
     jobs[id] = { phase: "uninstall", pct: null, text: "Desinstalando...", local: true };
@@ -90,12 +94,13 @@ async function act(kind, id, opts = {}) {
     if (r.ok) { toast(`${a.name} desinstalado`, "ok"); } else toast(r.error, "err");
     return load();
   }
-  const simple = { cancel: hub.cancel, folder: hub.openFolder, locate: hub.locate, forget: hub.forget, removeCustom: hub.removeCustom };
+  const simple = { cancel: hub.cancel, folder: hub.openFolder, locate: hub.locate, forget: hub.forget, removeCustom: hub.removeCustom, restartModule: hub.restartModule };
   if (kind === "removeCustom" && !(await confirmBox(`Remover ${a.name} do Hub?`, "O app sai da lista do Hub. Se estiver instalado, os arquivos continuam no PC.", "Remover", true))) return;
   const r = await simple[kind](id);
   if (!r.ok) toast(r.error, "err");
   if (kind === "removeCustom") closeDrawer();
   if (kind === "locate" && r.ok && r.data) toast(`${a.name} encontrado`, "ok");
+  if (kind === "restartModule" && r.ok) toast(`${a.name} reiniciado`, "ok");
   load();
 }
 
@@ -105,11 +110,44 @@ async function updateAll() {
 }
 
 // ------------------------------------------------------------------ render
+// ------------------------------------------------------------------ módulos
+const modOf = () => (view.startsWith("module:") ? view.slice(7) : null);
+
+async function openModule(id) {
+  view = "module:" + id;
+  closeDrawer();
+  render();
+  const r = await hub.openModule(id);
+  if (!r.ok) { toast(r.error, "err"); view = "library"; render(); }
+}
+
+function renderModNav() {
+  const mods = snap.modules || [];
+  const cur = modOf();
+  $("#modNav").innerHTML = mods.length ? `<div class="label">Módulos</div>` + mods.map((m) => {
+    const cat = snap.apps.find((a) => a.id === m.id);
+    const icon = (cat && cat.iconUrl) || m.icon;
+    return `<button class="nav ${m.id === cur ? "active" : ""}" data-mod="${esc(m.id)}" title="${esc(m.error || m.name)}">
+      ${icon ? `<img class="ico" src="${esc(icon)}" alt="">` : `<span class="ico">◆</span>`}${esc(m.name)}<span class="dot ${esc(m.state)}"></span></button>`;
+  }).join("") : "";
+}
+
 function render() {
+  renderModNav();
+  const mid = modOf();
+  if (mid) {
+    const m = (snap.modules || []).find((x) => x.id === mid);
+    document.querySelectorAll(".sidebar > .nav").forEach((b) => b.classList.remove("active"));
+    $("#viewTitle").textContent = m ? m.name : "";
+    $("#viewSub").textContent = "";
+    $("#chips").innerHTML = "";
+    $("#content").innerHTML = `<div class="module-cover">Carregando o módulo...</div>`;
+    return;
+  }
   const [title, sub] = VIEWS[view];
   $("#viewTitle").textContent = title;
   $("#viewSub").textContent = sub;
-  document.querySelectorAll(".nav").forEach((b) => b.classList.toggle("active", b.dataset.view === view));
+  document.querySelectorAll(".sidebar > .nav").forEach((b) => b.classList.toggle("active", b.dataset.view === view));
 
   const updates = snap.apps.filter((a) => st(a).updateAvailable);
   $("#updBadge").hidden = !updates.length;
@@ -178,6 +216,7 @@ function iconHtml(a) {
 function statusPill(a) {
   const s = st(a);
   if (!a.status) return `<span class="pill off">verificando...</span>`;
+  if (a.kind === "module" && s.installed && s.moduleState === "crashed") return `<span class="pill err" title="${esc(s.moduleError || "")}">parou</span>`;
   if (s.updateAvailable) return `<span class="pill upd">v${esc(s.latest.version)} disponível</span>`;
   if (s.installed) return `<span class="pill ok">Instalado</span>`;
   if (s.latestError) return `<span class="pill err" title="${esc(s.latestError)}">indisponível</span>`;
@@ -255,6 +294,7 @@ async function renderDrawer() {
   if (s.installed) {
     more.push(`<button class="btn" data-act="folder" data-id="${a.id}">📁 Abrir pasta</button>`);
     if (!s.updateAvailable && s.latest) more.push(`<button class="btn" data-act="install" data-id="${a.id}">Reinstalar</button>`);
+    if (a.kind === "module") more.push(`<button class="btn" data-act="restartModule" data-id="${a.id}">Reiniciar módulo</button>`);
     more.push(`<button class="btn danger" data-act="uninstall" data-id="${a.id}">Desinstalar</button>`);
   } else if (a.install.type === "portable") {
     more.push(`<button class="btn" data-act="locate" data-id="${a.id}" title="Já tem este app numa pasta? Aponte para ela">Já tenho instalado...</button>`);
@@ -274,7 +314,7 @@ async function renderDrawer() {
       ${s.latest && s.latest.size ? `<dt>Download</dt><dd>${mb(s.latest.size)}</dd>` : ""}
       ${s.installed ? `<dt>Pasta</dt><dd>${esc(s.dir)}</dd><dt>Espaço em disco</dt><dd id="dsize">calculando...</dd>` : ""}
       <dt>Origem</dt><dd>${src}</dd>
-      <dt>Tipo</dt><dd>${a.install.type === "portable" ? "Portátil (pasta)" : "Instalador"}${a.install.selfUpdating ? " · também se atualiza sozinho" : ""}</dd>
+      <dt>Tipo</dt><dd>${a.kind === "module" ? "Módulo (roda dentro do Hub)" : a.install.type === "portable" ? "Portátil (pasta)" : "Instalador"}${a.install.selfUpdating ? " · também se atualiza sozinho" : ""}</dd>
     </dl>
     ${s.latest && s.latest.notes ? `<div class="section-title">Novidades da v${esc(s.latest.version)}</div><div class="notes">${esc(s.latest.notes)}</div>` : ""}`;
 
@@ -397,7 +437,10 @@ document.addEventListener("click", (e) => {
   if (link) { e.preventDefault(); hub.openUrl(link.href); return; }
   const btn = e.target.closest("[data-act]");
   if (btn) { e.stopPropagation(); act(btn.dataset.act, btn.dataset.id); return; }
+  const modBtn = e.target.closest("[data-mod]");
+  if (modBtn) return openModule(modBtn.dataset.mod);
   const nav = e.target.closest("[data-view]");
+  if (nav && modOf()) hub.closeModule();
   if (nav) { view = nav.dataset.view; closeDrawer(); render(); return; }
   const go = e.target.closest("[data-goto]");
   if (go) { view = go.dataset.goto; render(); return; }
