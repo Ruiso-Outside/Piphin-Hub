@@ -44,6 +44,7 @@ function createWindow() {
   win.webContents.setWindowOpenHandler(({ url }) => { if (/^https:\/\//.test(url)) shell.openExternal(url); return { action: "deny" }; });
   win.webContents.on("will-navigate", (e, url) => { if (!url.startsWith("file:")) { e.preventDefault(); if (/^https:\/\//.test(url)) shell.openExternal(url); } });
   win.on("resize", () => modules && modules.layout());
+  for (const [ev, on] of [["hide", false], ["minimize", false], ["show", true], ["restore", true]]) win.on(ev, () => modules && modules.windowVisibility(on));
   // com um módulo trabalhando em segundo plano (ex.: atalhos de macro), fechar só esconde o Hub
   win.on("close", (e) => {
     if (quitting || !modules || !modules.keepAliveReasons().length) return;

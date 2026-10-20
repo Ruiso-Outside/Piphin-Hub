@@ -98,6 +98,19 @@
         "repo": "Ruiso-Outside/LLM",
         "asset": "^piphin-module-llm-.*\\.zip$"
       }
+    },
+    {
+      "id": "infohardware",
+      "name": "InfoHardware",
+      "description": "Informações do hardware, sensores e monitoramento em tempo real com overlay de FPS para jogos. Roda dentro do Hub (4,5 MB em vez de um instalador de 63 MB).",
+      "category": "Sistema",
+      "icon": "icons/infohardware.png",
+      "accent": "#a855f7",
+      "source": {
+        "type": "github",
+        "repo": "Ruiso-Outside/InfoHardware",
+        "asset": "^piphin-module-infohardware-.*\\.zip$"
+      }
     }
   ]
 }

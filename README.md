@@ -52,7 +52,8 @@ web/             interface
 | `ctx.host.showWindow(nome, { placement: "cursor-top" })`, `hideWindow`, `setWindowBounds`, `windowState`, `sendToWindow` | controle das janelas extras |
 | `ctx.host.captureScreen({ hide })`, `ctx.host.readClipboard()` | print do monitor do mouse; texto e imagem copiados |
 | `ctx.host.setStartWithWindows(ligado)` | liga "Iniciar com o Windows" do Hub |
-| `ctx.host.on(evento, fn)` | `hotkey`, `window-blur`, `window-show`, `window-hide` |
+| `ctx.host.on(evento, fn)` | `hotkey`, `window-blur`, `window-show`, `window-hide`, `view-shown` / `view-hidden` (a tela do módulo apareceu / sumiu: bom para ligar e desligar o que só serve enquanto alguém olha) |
+| janelas de overlay | `openWindow` com `clickThrough: true` (cliques passam) e `topLevel: "screen-saver"` (acima de jogos); `showWindow` com `placement: "top-left"`, `"top-right"`, `"bottom-left"` ou `"bottom-right"` e `focus: false`; `setWindowOpacity` |
 | `ctx.log(...)` | registro em `%APPDATA%\Piphin Hub\logs\<id>.log` |
 
 Atalhos e janelas extras são liberados sozinhos quando o módulo para.
@@ -67,7 +68,7 @@ Se a interface vem de um servidor local do próprio módulo (como o Piphin LLM),
 "modules": [{ "id": "macro", "name": "Piphin Macro", "category": "Jogos", "icon": "icons/macro.png",
   "source": { "type": "github", "repo": "Ruiso-Outside/Piphin-Macro", "asset": "^piphin-module-macro-.*\\.zip$" } }]
 ```
-Exemplos completos: `module/` e `scripts/make-module.js` no repositório do Piphin Macro, e `desktop/module/` e `desktop/scripts/make-module.js` no do Piphin LLM.
+Exemplos completos: `module/` e `scripts/make-module.js` no repositório do Piphin Macro, `desktop/module/` e `desktop/scripts/make-module.js` no do Piphin LLM, e `module/`, `src/InfoHardware.Engine` e `build-module.ps1` no do InfoHardware (motor .NET que roda dentro do PowerShell do Windows, com administrador pelo UAC: o jeito de usar código .NET sem criar um `.exe` que o Controle Inteligente de Aplicativos bloquearia).
 
 Enquanto um módulo ainda não tem Release (e não está instalado), o Hub continua mostrando o app separado de mesmo `id`, se houver.
 
