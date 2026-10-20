@@ -336,6 +336,8 @@ function renderSettings() {
       <div class="row"><input type="text" id="sLib" value="${esc(s.libraryDir)}"><button class="btn" id="sLibPick">Escolher...</button></div></div>
     <div class="set toggle"><div><h4>Atalho na Área de Trabalho</h4><p>Ao instalar um app portátil, cria também um atalho na Área de Trabalho (o do Menu Iniciar é sempre criado).</p></div>
       <label class="switch"><input type="checkbox" id="sDesk" ${s.desktopShortcuts ? "checked" : ""}><span></span></label></div>
+    <div class="set toggle"><div><h4>Iniciar com o Windows</h4><p>Abre o Hub escondido no ícone perto do relógio quando o PC liga, para os módulos (atalhos de macro, pergunta rápida do LLM...) funcionarem desde o início.</p></div>
+      <label class="switch"><input type="checkbox" id="sBoot" ${s.startWithWindows ? "checked" : ""}><span></span></label></div>
     <div class="set toggle"><div><h4>Atalhos do Piphin Hub</h4><p>Cria (ou recria) os atalhos do próprio Hub na Área de Trabalho e no Menu Iniciar.</p></div>
       <button class="btn" id="sHubLnk">Criar atalhos</button></div>
     <div class="set toggle"><div><h4>Verificar atualizações ao abrir</h4><p>Consulta o GitHub ao abrir o Hub e a cada 6 horas enquanto ele estiver aberto.</p></div>
@@ -362,6 +364,7 @@ function renderSettings() {
   $("#sHubLnk").onclick = async () => { const r = await hub.hubShortcuts(); toast(r.ok ? "Atalhos do Hub criados" : r.error, r.ok ? "ok" : "err"); };
   $("#sCheck").onchange = (e) => save({ checkOnStart: e.target.checked });
   $("#sAuto").onchange = (e) => save({ autoUpdate: e.target.checked });
+  $("#sBoot").onchange = (e) => save({ startWithWindows: e.target.checked });
   $("#sCat").onchange = (e) => save({ catalogUrl: e.target.value.trim() });
   $("#sTok").onchange = (e) => save({ githubToken: e.target.value.trim() });
 }

@@ -45,7 +45,19 @@ web/             interface
 | `ctx.host.saveDialog/openDialog(opts)` | janelas de arquivo do Windows |
 | `ctx.host.notify(título, texto)`, `ctx.host.focus()` | notificação; trazer o módulo para a frente |
 | `ctx.host.keepAlive(ligado, motivo)` | manter o Hub rodando escondido ao fechar a janela |
+| `ctx.host.messageBox({ message, detail, buttons })` | pergunta ao usuário (devolve o índice do botão) |
+| `ctx.host.openPath(pasta)`, `ctx.host.showItem(arquivo)` | abrir pasta / mostrar arquivo no Explorer |
+| `ctx.host.registerHotkey(atalho)`, `unregisterHotkey` | atalho global; ao apertar, chega o evento `hotkey` |
+| `ctx.host.openWindow(nome, { url ou file, width, height, frame, transparent, alwaysOnTop, ... })` | janela extra (ex.: pergunta rápida do LLM), também com `window.piphin` |
+| `ctx.host.showWindow(nome, { placement: "cursor-top" })`, `hideWindow`, `setWindowBounds`, `windowState`, `sendToWindow` | controle das janelas extras |
+| `ctx.host.captureScreen({ hide })`, `ctx.host.readClipboard()` | print do monitor do mouse; texto e imagem copiados |
+| `ctx.host.setStartWithWindows(ligado)` | liga "Iniciar com o Windows" do Hub |
+| `ctx.host.on(evento, fn)` | `hotkey`, `window-blur`, `window-show`, `window-hide` |
 | `ctx.log(...)` | registro em `%APPDATA%\Piphin Hub\logs\<id>.log` |
+
+Atalhos e janelas extras são liberados sozinhos quando o módulo para.
+
+Se a interface vem de um servidor local do próprio módulo (como o Piphin LLM), declare o endereço em `"allowOrigins": ["http://127.0.0.1:8765"]` no `module.json`; qualquer outro endereço abre no navegador.
 
 **Interface**: uma página comum (sem barra de título; a barra lateral já é a do Hub) com `window.piphin`:
 `piphin.invoke(canal, ...args)` → `{ ok, data }` ou `{ ok: false, error }`, `piphin.on(canal, fn)` e `piphin.info`.
@@ -55,7 +67,11 @@ web/             interface
 "modules": [{ "id": "macro", "name": "Piphin Macro", "category": "Jogos", "icon": "icons/macro.png",
   "source": { "type": "github", "repo": "Ruiso-Outside/Piphin-Macro", "asset": "^piphin-module-macro-.*\\.zip$" } }]
 ```
-Exemplo completo: `module/` e `scripts/make-module.js` no repositório do Piphin Macro.
+Exemplos completos: `module/` e `scripts/make-module.js` no repositório do Piphin Macro, e `desktop/module/` e `desktop/scripts/make-module.js` no do Piphin LLM.
+
+Enquanto um módulo ainda não tem Release (e não está instalado), o Hub continua mostrando o app separado de mesmo `id`, se houver.
+
+Em **Configurações → Iniciar com o Windows**, o Hub abre escondido no ícone perto do relógio quando o PC liga, para os atalhos dos módulos funcionarem desde o início.
 
 ## Adicionar um app novo
 Há dois jeitos:

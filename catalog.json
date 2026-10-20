@@ -85,6 +85,19 @@
         "repo": "Ruiso-Outside/Piphin-Macro",
         "asset": "^piphin-module-macro-.*\\.zip$"
       }
+    },
+    {
+      "id": "llm-local",
+      "name": "Piphin LLM",
+      "description": "IA local no seu PC: chat com anexos, Codex, imagens e pergunta rápida. Roda dentro do Hub (cerca de 1 MB em vez de um app de 147 MB). Precisa do Python 3.9+.",
+      "category": "IA",
+      "icon": "icons/llm-local.png",
+      "accent": "#22d3ee",
+      "source": {
+        "type": "github",
+        "repo": "Ruiso-Outside/LLM",
+        "asset": "^piphin-module-llm-.*\\.zip$"
+      }
     }
   ]
 }

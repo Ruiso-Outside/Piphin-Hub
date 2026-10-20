@@ -38,7 +38,8 @@ function createWindow() {
   });
   win.removeMenu();
   win.loadFile(path.join(__dirname, "web", "index.html"));
-  win.once("ready-to-show", () => win.show());
+  // aberto pelo Windows (iniciar com o Windows): fica só no ícone perto do relógio
+  win.once("ready-to-show", () => { if (process.argv.includes("--hidden")) showTray(false); else win.show(); });
   // links externos abrem no navegador
   win.webContents.setWindowOpenHandler(({ url }) => { if (/^https:\/\//.test(url)) shell.openExternal(url); return { action: "deny" }; });
   win.webContents.on("will-navigate", (e, url) => { if (!url.startsWith("file:")) { e.preventDefault(); if (/^https:\/\//.test(url)) shell.openExternal(url); } });
@@ -79,6 +80,13 @@ function updateTray() {
     { type: "separator" },
     { label: "Sair", click: () => { quitting = true; app.quit(); } },
   ]));
+}
+
+// Iniciar com o Windows: abre escondido (--hidden), para os atalhos dos módulos funcionarem desde o início
+function applyStartWithWindows() {
+  const on = !!hub.settings.startWithWindows;
+  if (modules) modules.startWithWindows = on;
+  if (app.isPackaged) app.setLoginItemSettings({ openAtLogin: on, args: ["--hidden"] });
 }
 
 // Para os módulos com calma (eles desligam ganchos de teclado, processos auxiliares...)
@@ -130,6 +138,7 @@ function registerIpc() {
   handle("hub:setSettings", (patch) => {
     if (patch.githubToken === "••••") delete patch.githubToken; // valor mascarado: não mudou
     hub.setSettings(patch);
+    if ("startWithWindows" in patch) applyStartWithWindows();
     return null;
   });
   handle("hub:hubShortcuts", () => hubShortcuts(true));
@@ -252,8 +261,10 @@ app.whenReady().then(() => {
   modules.on("changed", () => { send("hub:changed"); updateTray(); });
   modules.on("keepAlive", () => { updateTray(); if (tray && !modules.keepAliveReasons().length && win && win.isVisible()) { tray.destroy(); tray = null; } });
   modules.on("focus", (id) => { showWin(); send("hub:openModule", id); });
+  modules.on("startWithWindows", (on) => { hub.setSettings({ startWithWindows: on }); applyStartWithWindows(); send("hub:changed"); });
   hub = new Hub({ appDir: __dirname, userDir: userData, shell, desktopDir: app.getPath("desktop"), modules });
   hub.on("openModule", (id) => send("hub:openModule", id));
+  applyStartWithWindows();
   hubShortcuts(false);
   hub.on("changed", () => send("hub:changed"));
   hub.on("progress", (p) => send("hub:progress", p));
