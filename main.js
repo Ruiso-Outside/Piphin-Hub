@@ -14,7 +14,32 @@ app.setAppUserModelId("studio.piphin.hub");
 // desenvolvimento: desenha a janela mesmo coberta por outras (para revisar telas automaticamente)
 if (process.env.PIPHIN_DEV === "1") app.commandLine.appendSwitch("disable-features", "CalculateNativeWinOcclusion");
 protocol.registerSchemesAsPrivileged([{ scheme: "piphin", privileges: { standard: true, secure: true, supportFetchAPI: true, corsEnabled: true } }]);
-if (!app.requestSingleInstanceLock()) { app.quit(); process.exit(0); }
+// Uma cópia do Hub por vez. Se outra cópia MAIS ANTIGA estiver aberta (ex.: escondida perto do relógio),
+// ela fecha e passa a vez para esta (ver "second-instance"); a mesma versão ou mais nova só vem para a frente.
+const INSTANCE = { version: app.getVersion(), exe: process.execPath };
+let hasLock = app.requestSingleInstanceLock(INSTANCE);
+const instanceFile = () => path.join(app.getPath("userData"), "instance.json");
+
+async function acquireInstance() {
+  if (!hasLock) {
+    // escrito pelo Hub 1.4.2 ou mais novo; sem ele, a cópia aberta é mais antiga e não sabe passar a vez
+    const running = U.readJson(instanceFile(), null);
+    if (running && running.version && U.cmpVersion(app.getVersion(), running.version) <= 0) return false;
+    const tries = running ? 24 : 6;
+    for (let i = 0; i < tries && !hasLock; i++) {
+      await new Promise((r) => setTimeout(r, 500));
+      hasLock = app.requestSingleInstanceLock(INSTANCE);
+    }
+    if (!hasLock) {
+      await dialog.showMessageBox({ type: "warning", title: "Piphin Hub", noLink: true, buttons: ["OK"],
+        message: "Outra cópia do Piphin Hub está aberta",
+        detail: `Uma versão mais antiga do Hub continua rodando (talvez escondida perto do relógio). Clique com o botão direito no ícone dela, escolha "Sair" e abra esta versão (${app.getVersion()}) de novo.` });
+      return false;
+    }
+  }
+  try { U.writeJson(instanceFile(), { ...INSTANCE, pid: process.pid, at: new Date().toISOString() }); } catch { /* sem disco */ }
+  return true;
+}
 
 const ICON = path.join(__dirname, "icons", "hub.png");
 let win = null;
@@ -57,6 +82,7 @@ function createWindow() {
     e.preventDefault();
     win.hide();
     showTray(true);
+    if (hubUpdate && hubUpdate.ready) restartHidden(); // atualização pronta: aproveita que a janela saiu da frente
   });
 }
 
@@ -205,8 +231,16 @@ async function checkHubUpdate({ force = false, ask = true } = {}) {
   }
 }
 
+// Hub escondido perto do relógio: aplica a atualização sozinho, sem interromper (volta escondido)
+async function restartHidden() {
+  if (!hubUpdate || !hubUpdate.ready || hub.jobs.size) return;
+  await stopModules();
+  selfupdate.restartNow(app, { hidden: true });
+}
+
 async function askRestart() {
   if (!win || win.isDestroyed()) return;
+  if (!win.isVisible()) return restartHidden();
   if (!win.isFocused() && Notification.isSupported()) {
     const n = new Notification({ title: "Piphin Hub", body: `A versão ${hubUpdate.version} do Hub está pronta. Clique para reiniciar.`, icon: ICON });
     n.on("click", () => { win.show(); win.focus(); });
@@ -296,7 +330,9 @@ function sysPulse() {
     user: os.userInfo().username, host: os.hostname() };
 }
 
-app.whenReady().then(() => {
+app.whenReady().then(async () => {
+  if (!(await acquireInstance())) return app.exit(0);
+  if (selfupdate.applyStagedOnStart(app)) return; // versão baixada e não aplicada: troca e reabre
   registerUiProtocol();
   selfupdate.cleanup(app);
   const userData = app.getPath("userData");
@@ -334,7 +370,11 @@ app.on("will-quit", () => {
   if (hubUpdate && hubUpdate.ready) { try { selfupdate.swap(app); } catch { /* tenta de novo na próxima vez */ } }
 });
 
-app.on("second-instance", showWin);
+// outra cópia foi aberta: se for mais nova, esta fecha e passa a vez; senão, só aparece
+app.on("second-instance", (_e, _argv, _cwd, other) => {
+  if (other && other.version && U.cmpVersion(other.version, app.getVersion()) > 0) { quitting = true; app.quit(); }
+  else showWin();
+});
 
 // antes de sair, cada módulo desliga o que abriu
 app.on("before-quit", (e) => {
