@@ -1,0 +1,50 @@
+/* Piphin UI · tokens (cores, forma, tipografia). Também usado sozinho por módulos que já têm o próprio CSS
+   (ex.: Piphin LLM), para adotarem a paleta do Hub sem trocar os componentes. */
+:root {
+  color-scheme: dark;
+  /* camadas: do fundo para a frente */
+  --p-bg: #08070d;
+  --p-bg-2: #0d0c14;
+  --p-surface-1: #12111b;
+  --p-surface-2: #181623;
+  --p-surface-3: #201d2e;
+  --p-hover: rgba(255, 255, 255, .045);
+  --p-active: rgba(255, 255, 255, .075);
+  --p-line: rgba(255, 255, 255, .07);
+  --p-line-2: rgba(255, 255, 255, .12);
+  /* texto */
+  --p-text: #eeedf6;
+  --p-text-2: #a9a6c2;
+  --p-text-3: #6f6b8b;
+  /* destaque */
+  --p-accent: #8b5cf6;
+  --p-accent-2: #b197fc;
+  --p-accent-soft: rgba(139, 92, 246, .14);
+  --p-accent-line: rgba(139, 92, 246, .45);
+  --p-grad: linear-gradient(135deg, #7c3aed 0%, #9f5cf7 55%, #c084fc 100%);
+  --p-module: var(--p-accent);
+  /* estados */
+  --p-ok: #34d399;   --p-ok-soft: rgba(52, 211, 153, .12);
+  --p-warn: #fbbf24; --p-warn-soft: rgba(251, 191, 36, .12);
+  --p-err: #f87171;  --p-err-soft: rgba(248, 113, 113, .12);
+  --p-info: #38bdf8; --p-info-soft: rgba(56, 189, 248, .12);
+  /* paleta de dados (gráficos e sensores) */
+  --p-c1: #a855f7; --p-c2: #22d3ee; --p-c3: #ff3cac; --p-c4: #39ff88; --p-c5: #ffb020; --p-c6: #5b8cff; --p-c7: #f7e26b; --p-c8: #ff4d6d;
+  /* forma */
+  --p-r-s: 8px; --p-r-m: 12px; --p-r-l: 16px; --p-r-xl: 22px;
+  --p-shadow: 0 1px 0 rgba(255, 255, 255, .035) inset, 0 10px 30px -12px rgba(0, 0, 0, .55);
+  --p-shadow-pop: 0 24px 60px -12px rgba(0, 0, 0, .7), 0 0 0 1px var(--p-line-2);
+  --p-ring: 0 0 0 3px rgba(139, 92, 246, .32);
+  /* tipografia */
+  --p-font: "Segoe UI Variable Text", "Segoe UI", system-ui, sans-serif;
+  --p-font-display: "Segoe UI Variable Display", "Segoe UI Variable Text", "Segoe UI", system-ui, sans-serif;
+  --p-mono: "Cascadia Code", "Cascadia Mono", Consolas, monospace;
+  --p-ease: cubic-bezier(.2, .8, .2, 1);
+
+  /* nomes antigos (Hub, Macro, InfoHardware e LLM antes do kit) */
+  --bg: var(--p-bg); --bg2: var(--p-bg-2); --panel: var(--p-surface-1); --panel2: var(--p-surface-2); --line: var(--p-line); --line2: var(--p-line-2);
+  --text: var(--p-text); --muted: var(--p-text-2); --dim: var(--p-text-3);
+  --accent: var(--p-accent); --accent2: var(--p-accent-2); --glow: 0 0 0 1px var(--p-accent-line), 0 0 18px rgba(139, 92, 246, .25);
+  --ok: var(--p-ok); --warn: var(--p-warn); --err: var(--p-err); --radius: var(--p-r-m);
+  --purple: var(--p-c1); --cyan: var(--p-c2); --pink: var(--p-c3); --green: var(--p-c4); --orange: var(--p-c5); --blue: var(--p-c6); --yellow: var(--p-c7); --red: var(--p-c8);
+}

@@ -74,6 +74,29 @@ Enquanto um módulo ainda não tem Release (e não está instalado), o Hub conti
 
 Em **Configurações → Iniciar com o Windows**, o Hub abre escondido no ícone perto do relógio quando o PC liga, para os atalhos dos módulos funcionarem desde o início.
 
+## Piphin UI (kit de interface)
+O Hub e os módulos usam o mesmo visual. O kit fica em `web/ui/` e o Hub o serve para as páginas dos módulos pelo endereço `piphin://ui/`:
+
+| Arquivo | Conteúdo |
+|---|---|
+| `piphin://ui/tokens.css` | Cores, camadas, forma e tipografia (variáveis `--p-*`, mais os nomes antigos `--bg`, `--panel`, `--accent`... para CSS já existente) |
+| `piphin://ui/kit.css` | Tokens + componentes: `.btn` (`primary`, `ghost`, `danger`, `sm`, `icon`), `.card`, `.card-title`, `.set`, `.switch`, `.seg`, `.chip`, `.badge`, `.dot`, `kbd`, `table.table`, `.kv`, `.progress`, `.spin`, `.p-empty`, `.p-banner`, `.modal`, `.toast`, `.p-subnav` (abas do módulo), `.p-head` (cabeçalho da página) |
+| `piphin://ui/icons.css` | Ícones Lucide (ISC): `<i class="i i-cpu"></i>`. Lista em `scripts/make-ui-icons.js`; `npm run ui-icons` gera de novo |
+
+Uma página de módulo usa assim (a CSP precisa liberar `piphin:` em `style-src`):
+```html
+<link rel="stylesheet" href="piphin://ui/kit.css">
+<link rel="stylesheet" href="piphin://ui/icons.css">
+<style>:root { --p-module: #e879f9; } /* cor do módulo: realces e abas */</style>
+```
+Módulos com CSS próprio grande (como o Piphin LLM) podem carregar só `tokens.css` para adotar a paleta.
+
+### Atalhos do Hub
+- `Ctrl+K`: paleta de comandos (abrir módulos, instalar, atualizar, ir para telas)
+- `Ctrl+1` … `Ctrl+9`: ir direto para um módulo · `Ctrl+,`: Configurações
+
+Funcionam também com o foco dentro de um módulo. Um módulo pode ficar com alguns desses atalhos para ele: `"reservedKeys": ["ctrl+1", "ctrl+2"]` no `module.json` (o Piphin LLM reserva `Ctrl+1…4` para os modos dele).
+
 ## Adicionar um app novo
 Há dois jeitos:
 

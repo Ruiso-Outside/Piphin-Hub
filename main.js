@@ -1,5 +1,7 @@
 // Piphin Hub: processo principal do Electron.
-const { app, BrowserWindow, ipcMain, shell, dialog, Notification, nativeImage, Tray, Menu } = require("electron");
+const { app, BrowserWindow, ipcMain, shell, dialog, Notification, nativeImage, Tray, Menu, protocol, net } = require("electron");
+const { pathToFileURL } = require("url");
+const os = require("os");
 const fs = require("fs");
 const path = require("path");
 const { Hub } = require("./lib/apps");
@@ -8,6 +10,10 @@ const selfupdate = require("./lib/selfupdate");
 const { ModuleHost } = require("./lib/modules");
 
 app.setAppUserModelId("studio.piphin.hub");
+// piphin://ui/...: o kit de interface (Piphin UI) servido para o Hub e para as páginas dos módulos
+// desenvolvimento: desenha a janela mesmo coberta por outras (para revisar telas automaticamente)
+if (process.env.PIPHIN_DEV === "1") app.commandLine.appendSwitch("disable-features", "CalculateNativeWinOcclusion");
+protocol.registerSchemesAsPrivileged([{ scheme: "piphin", privileges: { standard: true, secure: true, supportFetchAPI: true, corsEnabled: true } }]);
 if (!app.requestSingleInstanceLock()) { app.quit(); process.exit(0); }
 
 const ICON = path.join(__dirname, "icons", "hub.png");
@@ -26,13 +32,13 @@ function createWindow() {
   win = new BrowserWindow({
     width: 1180,
     height: 760,
-    minWidth: 860,
+    minWidth: 900,
     minHeight: 560,
-    backgroundColor: "#0b0a12",
+    backgroundColor: "#08070d",
     title: "Piphin Hub",
     icon: nativeImage.createFromPath(ICON),
     titleBarStyle: "hidden",
-    titleBarOverlay: { color: "#0b0a12", symbolColor: "#c4b5fd", height: 40 },
+    titleBarOverlay: { color: "#08070d", symbolColor: "#a9a6c2", height: 44 },
     show: false,
     webPreferences: { preload: path.join(__dirname, "preload.js"), contextIsolation: true, sandbox: true },
   });
@@ -110,6 +116,24 @@ function handle(name, fn) {
 function registerIpc() {
   handle("hub:snapshot", () => ({ ...hub.snapshot(), hubVersion: app.getVersion(), hubUpdate, modules: modules.status(), visibleModule: modules.visible }));
   handle("hub:openModule", (id) => modules.show(id));
+  handle("hub:layout", (o) => { if (o && typeof o.left === "number") modules.setInsetLeft(o.left); if (o && "covered" in o) modules.setCovered(o.covered); });
+  handle("hub:pulse", () => sysPulse());
+  // só em desenvolvimento (PIPHIN_DEV=1): foto da área de um módulo, para revisar as telas
+  if (process.env.PIPHIN_DEV === "1") handle("hub:devCapture", async (id) => {
+    const m = modules.mods.get(id);
+    if (!m || !m.view) return null;
+    win.show(); win.moveTop();
+    await new Promise((r) => setTimeout(r, 400));
+    return (await m.view.webContents.capturePage()).toPNG().toString("base64");
+  });
+  // só em desenvolvimento: tecla com Ctrl dentro de um módulo, pelo mesmo caminho do teclado de verdade
+  if (process.env.PIPHIN_DEV === "1") handle("hub:devKey", async (id, key) => {
+    const m = modules.mods.get(id);
+    if (!m || !m.view) return false;
+    m.view.webContents.focus();
+    for (const type of ["keyDown", "keyUp"]) m.view.webContents.sendInputEvent({ type, keyCode: key, modifiers: ["control"] });
+    return true;
+  });
   handle("hub:closeModule", () => modules.hide());
   handle("hub:restartModule", async (id) => { const vis = modules.visible === id; await modules.restart(id); if (vis) await modules.show(id); });
   handle("hub:refresh", async (force) => { await hub.refresh({ force: !!force }); return null; });
@@ -249,7 +273,31 @@ function hubShortcuts(force) {
   if (first) { hub.state.hubShortcuts = true; hub.save(); }
 }
 
+function registerUiProtocol() {
+  const root = path.join(__dirname, "web", "ui");
+  protocol.handle("piphin", (req) => {
+    const u = new URL(req.url);
+    const file = path.normalize(path.join(root, decodeURIComponent(u.pathname)));
+    if (u.host !== "ui" || !file.startsWith(root + path.sep) || !fs.existsSync(file)) return new Response("não encontrado", { status: 404 });
+    return net.fetch(pathToFileURL(file).href);
+  });
+}
+
+// pulso do sistema para a tela Início (uso de CPU e RAM, sem precisar de nenhum módulo)
+let lastCpu = null;
+function sysPulse() {
+  const cpus = os.cpus();
+  const t = cpus.reduce((a, c) => { for (const k in c.times) a.total += c.times[k]; a.idle += c.times.idle; return a; }, { total: 0, idle: 0 });
+  let cpu = null;
+  if (lastCpu) { const dt = t.total - lastCpu.total; cpu = dt > 0 ? Math.max(0, Math.min(100, (1 - (t.idle - lastCpu.idle) / dt) * 100)) : null; }
+  lastCpu = t;
+  const total = os.totalmem(), free = os.freemem();
+  return { cpu, cpuName: (cpus[0] && cpus[0].model || "").trim(), cores: cpus.length, ramUsed: total - free, ramTotal: total, uptime: os.uptime(),
+    user: os.userInfo().username, host: os.hostname() };
+}
+
 app.whenReady().then(() => {
+  registerUiProtocol();
   selfupdate.cleanup(app);
   const userData = app.getPath("userData");
   modules = new ModuleHost({
@@ -262,6 +310,7 @@ app.whenReady().then(() => {
   modules.on("changed", () => { send("hub:changed"); updateTray(); });
   modules.on("keepAlive", () => { updateTray(); if (tray && !modules.keepAliveReasons().length && win && win.isVisible()) { tray.destroy(); tray = null; } });
   modules.on("focus", (id) => { showWin(); send("hub:openModule", id); });
+  modules.on("shortcut", (k) => send("hub:shortcut", k));
   modules.on("startWithWindows", (on) => { hub.setSettings({ startWithWindows: on }); applyStartWithWindows(); send("hub:changed"); });
   hub = new Hub({ appDir: __dirname, userDir: userData, shell, desktopDir: app.getPath("desktop"), modules });
   hub.on("openModule", (id) => send("hub:openModule", id));
