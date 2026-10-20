@@ -8,6 +8,7 @@ const { Hub } = require("./lib/apps");
 const U = require("./lib/util");
 const selfupdate = require("./lib/selfupdate");
 const { ModuleHost } = require("./lib/modules");
+const { ToolsServer } = require("./lib/tools-server");
 
 app.setAppUserModelId("studio.piphin.hub");
 // piphin://ui/...: o kit de interface (Piphin UI) servido para o Hub e para as páginas dos módulos
@@ -47,6 +48,7 @@ let hub = null;
 let hubUpdate = null; // atualização do próprio Hub: { version, notes, pct, ready, error }
 let hubChecking = false;
 let modules = null; // módulos que rodam dentro do Hub
+let tools = null; // ferramentas dos módulos para a IA (servidor MCP local)
 let tray = null;
 let quitting = false;
 let modulesStopped = false;
@@ -356,6 +358,9 @@ app.whenReady().then(async () => {
   hub.on("progress", (p) => send("hub:progress", p));
   registerIpc();
   createWindow();
+  // ferramentas dos módulos para a IA (antes de iniciar os módulos: eles recebem o endereço)
+  tools = new ToolsServer({ modules, hubVersion: app.getVersion() });
+  modules.toolsUrl = await tools.start().catch(() => "");
   modules.startAll(); // os motores começam junto com o Hub (atalhos de macro funcionam desde já)
   if (hub.settings.checkOnStart) periodicCheck(true);
   else hub.refresh().catch(() => {});
@@ -367,6 +372,7 @@ app.whenReady().then(async () => {
 
 // "Depois": aplica a versão baixada ao fechar
 app.on("will-quit", () => {
+  if (tools) tools.stop();
   if (hubUpdate && hubUpdate.ready) { try { selfupdate.swap(app); } catch { /* tenta de novo na próxima vez */ } }
 });
 
