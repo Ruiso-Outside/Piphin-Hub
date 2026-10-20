@@ -1,7 +1,7 @@
 {
   "name": "piphin-hub",
   "productName": "Piphin Hub",
-  "version": "1.4.2",
+  "version": "1.5.0",
   "description": "Piphin Hub: baixe, atualize e gerencie os apps da Piphin Studio",
   "main": "main.js",
   "author": "Piphin Studio",
