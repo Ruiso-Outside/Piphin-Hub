@@ -111,6 +111,19 @@
         "repo": "Ruiso-Outside/InfoHardware",
         "asset": "^piphin-module-infohardware-.*\\.zip$"
       }
+    },
+    {
+      "id": "foto",
+      "name": "Piphin Foto",
+      "description": "Editor de imagens completo: camadas, seleções, pincéis, texto, ajustes e filtros com prévia, recorte e exportação PNG, JPG e WebP. A IA do Piphin LLM também edita por aqui. Roda dentro do Hub (cerca de 140 KB).",
+      "category": "Criação",
+      "icon": "https://raw.githubusercontent.com/Ruiso-Outside/Piphin-Foto/main/icons/foto.png",
+      "accent": "#fb923c",
+      "source": {
+        "type": "github",
+        "repo": "Ruiso-Outside/Piphin-Foto",
+        "asset": "^piphin-module-foto-.*.zip$"
+      }
     }
   ]
 }
