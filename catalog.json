@@ -150,6 +150,19 @@
         "repo": "Ruiso-Outside/Piphin-Som",
         "asset": "^piphin-module-som-.*.zip$"
       }
+    },
+    {
+      "id": "turbo",
+      "name": "Piphin Turbo",
+      "description": "Deixa o PC mais rápido para jogos e limpa o lixo de um jeito simples: check-up com nota, limpeza segura, otimizações do Windows com desfazer, inicialização e Modo Turbo. Nada muda sem o seu clique. Roda dentro do Hub (cerca de 120 KB).",
+      "category": "Sistema",
+      "icon": "https://raw.githubusercontent.com/Ruiso-Outside/Piphin-Turbo/main/icons/turbo.png",
+      "accent": "#3b82f6",
+      "source": {
+        "type": "github",
+        "repo": "Ruiso-Outside/Piphin-Turbo",
+        "asset": "^piphin-module-turbo-.*.zip$"
+      }
     }
   ]
 }
