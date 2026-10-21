@@ -227,6 +227,7 @@ function renderHome(main) {
   const date = new Date().toLocaleDateString("pt-BR", { weekday: "long", day: "numeric", month: "long" });
   const p = pulseData;
   main.innerHTML = `<div class="p-page home">
+    ${blockedBanner()}
     <section class="hero">
       <div><div class="hello">${greeting()}${p ? ", " + esc(p.user) : ""}</div><h1>O que vamos fazer hoje?</h1>
         <p>${esc(date.charAt(0).toUpperCase() + date.slice(1))}${p ? ` · ${esc(p.host)}` : ""}</p></div>
@@ -267,6 +268,22 @@ function renderHome(main) {
   </div>`;
   drawPulse();
   startPulse();
+}
+
+// Hub extraído de um .zip baixado: com o Controle Inteligente de Aplicativos, o Windows bloqueia os atalhos
+function blockedBanner() {
+  if (!snap.hubBlocked) return "";
+  return `<div class="p-banner zone-banner"><i class="i i-triangle-alert"></i>
+    <div class="grow"><b>Os atalhos do Hub podem não abrir</b><div class="muted">Os arquivos do Hub vieram de um .zip baixado da internet, e por isso o Windows pode bloquear os atalhos da Área de Trabalho e do Menu Iniciar.
+      Desbloquear tira essa marca só dos arquivos da pasta do Hub (é o mesmo que Propriedades → Desbloquear).</div></div>
+    <button class="btn primary sm" data-unblock="1"><i class="i i-shield-check"></i>Desbloquear arquivos do Hub</button></div>`;
+}
+async function unblockHub(btn) {
+  btn.disabled = true;
+  const r = await hub.unblock();
+  if (!r.ok) { btn.disabled = false; return toast(r.error, "err"); }
+  toast("Arquivos do Hub desbloqueados. Os atalhos já devem abrir.", "ok");
+  load();
 }
 
 function modTile(m, i) {
@@ -661,6 +678,8 @@ document.addEventListener("click", (e) => {
   if (btn) { e.stopPropagation(); act(btn.dataset.act, btn.dataset.id); return; }
   if (e.target.closest("[data-act-all]")) return updateAll();
   if (e.target.closest("[data-check]")) return checkUpdates();
+  const unb = e.target.closest("[data-unblock]");
+  if (unb) return unblockHub(unb);
   const nav = e.target.closest("[data-view]");
   if (nav) return go(nav.dataset.view);
   const goto = e.target.closest("[data-goto]");

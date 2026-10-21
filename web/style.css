@@ -64,6 +64,9 @@ main { flex: 1; min-width: 0; overflow-y: auto; background: var(--p-bg-2); borde
 
 /* ------------------------------------------------------------------ Início */
 .home { max-width: 1240px; margin: 0 auto; }
+.zone-banner { margin-bottom: 14px; }
+.zone-banner .muted { font-size: 12.5px; margin-top: 2px; line-height: 1.45; }
+.zone-banner .btn { flex-shrink: 0; }
 .hero { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 24px; align-items: end; padding: 28px 30px; border-radius: var(--p-r-xl);
   background: radial-gradient(120% 140% at 0% 0%, rgba(139, 92, 246, .22), transparent 55%), radial-gradient(90% 120% at 100% 100%, rgba(34, 211, 238, .10), transparent 60%), var(--p-surface-1);
   border: 1px solid var(--p-line); margin-bottom: 26px; position: relative; overflow: hidden; }

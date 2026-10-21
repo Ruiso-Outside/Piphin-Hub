@@ -16,6 +16,7 @@ contextBridge.exposeInMainWorld("hub", {
   pickFolder: call("hub:pickFolder"),
   setSettings: call("hub:setSettings"),
   hubShortcuts: call("hub:hubShortcuts"),
+  unblock: call("hub:unblock"),
   addCustom: call("hub:addCustom"),
   removeCustom: call("hub:removeCustom"),
   folderSize: call("hub:folderSize"),

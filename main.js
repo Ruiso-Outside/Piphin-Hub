@@ -9,6 +9,7 @@ const U = require("./lib/util");
 const selfupdate = require("./lib/selfupdate");
 const { ModuleHost } = require("./lib/modules");
 const { ToolsServer } = require("./lib/tools-server");
+const zone = require("./lib/zone");
 
 app.setAppUserModelId("studio.piphin.hub");
 // piphin://ui/...: o kit de interface (Piphin UI) servido para o Hub e para as páginas dos módulos
@@ -142,7 +143,8 @@ function handle(name, fn) {
 }
 
 function registerIpc() {
-  handle("hub:snapshot", () => ({ ...hub.snapshot(), hubVersion: app.getVersion(), hubUpdate, modules: modules.status(), visibleModule: modules.visible }));
+  handle("hub:snapshot", () => ({ ...hub.snapshot(), hubVersion: app.getVersion(), hubUpdate, modules: modules.status(), visibleModule: modules.visible, hubBlocked: hubBlocked() }));
+  handle("hub:unblock", () => unblockHub());
   handle("hub:openModule", (id) => modules.show(id));
   handle("hub:layout", (o) => { if (o && typeof o.left === "number") modules.setInsetLeft(o.left); if (o && "covered" in o) modules.setCovered(o.covered); });
   handle("hub:pulse", () => sysPulse());
@@ -307,6 +309,18 @@ function hubShortcuts(force) {
     } catch { /* sem permissão na pasta */ }
   }
   if (first) { hub.state.hubShortcuts = true; hub.save(); }
+}
+
+// Hub extraído de um .zip baixado (marca Zone.Identifier): o Windows pode bloquear os atalhos do Hub.
+// Só verificamos aqui; tirar a marca é decisão do usuário (botão na tela Início).
+const ofs = require("original-fs");
+const hubBlocked = () => app.isPackaged && process.platform === "win32" && zone.isMarked(process.execPath, ofs);
+
+function unblockHub() {
+  if (!app.isPackaged) throw new Error("Só funciona no Hub instalado");
+  const r = zone.unblockDir(path.dirname(process.execPath), ofs);
+  if (r.failed) throw new Error(`Não foi possível desbloquear ${r.failed} arquivo(s). Feche o Hub e tente de novo, ou extraia o .zip outra vez depois de marcar Desbloquear em Propriedades.`);
+  return r;
 }
 
 function registerUiProtocol() {

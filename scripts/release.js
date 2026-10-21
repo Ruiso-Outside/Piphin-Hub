@@ -13,6 +13,8 @@ const ASSETS = [`Piphin-Hub-${V}-win-x64.zip`, `hub-app-${V}.zip`];
 const notesFile = process.argv[2];
 const NOTES = (notesFile ? fs.readFileSync(notesFile, "utf8").trim() + "\n\n" : "") +
   `**Instalar:** baixe \`Piphin-Hub-${V}-win-x64.zip\`, extraia numa pasta fixa e abra o \`Piphin Hub.exe\`.\n` +
+  "**Antes de extrair:** clique com o botão direito no `.zip`, escolha **Propriedades**, marque **Desbloquear** e clique em OK. " +
+  "Sem isso, com o Controle Inteligente de Aplicativos ligado, o Windows bloqueia os atalhos do Hub (dá para desbloquear depois pelo aviso na tela Início).\n" +
   "Quem já tem o Hub recebe esta versão sozinho (atualização automática).";
 
 const env = { ...process.env, GCM_INTERACTIVE: "never", GIT_TERMINAL_PROMPT: "0" };

@@ -3,10 +3,11 @@
 Central dos apps da **Piphin Studio** no PC: baixa, instala, atualiza, abre e desinstala todos os softwares a partir de uma tela só. Os apps vêm dos **Releases do GitHub** e a lista de apps fica num catálogo (`catalog.json`), então dá para adicionar apps novos (AutoClick, Macro...) sem mexer no código.
 
 ## Instalar
-1. Extraia `dist\Piphin-Hub-X.Y.Z-win-x64.zip` numa pasta fixa (ex.: `F:\Softwares\Piphin Hub`).
-2. Abra o **`Piphin Hub.exe`**.
+1. Antes de extrair, clique com o botão direito no `.zip` baixado, escolha **Propriedades**, marque **Desbloquear** e clique em **OK**.
+2. Extraia `Piphin-Hub-X.Y.Z-win-x64.zip` numa pasta fixa (ex.: `F:\Softwares\Piphin Hub`).
+3. Abra o **`Piphin Hub.exe`**.
 
-Igual ao Piphin LLM: o `.exe` é o do Electron oficial, sem modificações, por isso o **Controle Inteligente de Aplicativos** do Windows não bloqueia. Os dados do Hub ficam em `%APPDATA%\Piphin Hub`.
+Igual ao Piphin LLM: o `.exe` é o do Electron oficial, sem modificações, por isso o **Controle Inteligente de Aplicativos** do Windows não bloqueia o `.exe`. Mas, se o `.zip` não for desbloqueado antes de extrair, cada arquivo fica marcado como "baixado da internet" e o Windows bloqueia os **atalhos** do Hub (Área de Trabalho e Menu Iniciar) com a mensagem "Uma política de Controle de Aplicativo bloqueou este arquivo". Nesse caso a tela Início mostra um aviso com o botão **Desbloquear arquivos do Hub**, que tira a marca só dos arquivos da pasta do Hub (o mesmo que Propriedades → Desbloquear). Os dados do Hub ficam em `%APPDATA%\Piphin Hub`.
 
 ## O que ele faz
 - **Biblioteca**: apps instalados, com botão **Abrir**. Instalações feitas antes do Hub são encontradas pelos atalhos do Menu Iniciar/Área de Trabalho (ou pelo botão **Já tenho instalado...**).
