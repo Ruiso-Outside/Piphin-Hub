@@ -124,6 +124,19 @@
         "repo": "Ruiso-Outside/Piphin-Foto",
         "asset": "^piphin-module-foto-.*.zip$"
       }
+    },
+    {
+      "id": "video",
+      "name": "Piphin Vídeo",
+      "description": "Editor de vídeo completo: linha do tempo com várias faixas, cortes, textos e legendas, efeitos, transições, velocidade e exportação MP4 pela placa de vídeo. A IA do Piphin LLM também edita por aqui. Roda dentro do Hub (cerca de 300 KB).",
+      "category": "Criação",
+      "icon": "https://raw.githubusercontent.com/Ruiso-Outside/Piphin-Video/main/icons/video.png",
+      "accent": "#f43f5e",
+      "source": {
+        "type": "github",
+        "repo": "Ruiso-Outside/Piphin-Video",
+        "asset": "^piphin-module-video-.*.zip$"
+      }
     }
   ]
 }
