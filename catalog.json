@@ -163,6 +163,19 @@
         "repo": "Ruiso-Outside/Piphin-Turbo",
         "asset": "^piphin-module-turbo-.*\\.zip$"
       }
+    },
+    {
+      "id": "musica",
+      "name": "Piphin Música",
+      "description": "Baixe músicas livres de graça (Creative Commons e domínio público) do Openverse, ccMixter e Internet Archive e ouça junto com as suas: biblioteca, playlists, curtidas, equalizador e créditos prontos para copiar. Roda dentro do Hub (cerca de 300 KB).",
+      "category": "Mídia",
+      "icon": "https://raw.githubusercontent.com/Ruiso-Outside/Piphin-Musica/main/icons/musica.png",
+      "accent": "#ec4899",
+      "source": {
+        "type": "github",
+        "repo": "Ruiso-Outside/Piphin-Musica",
+        "asset": "^piphin-module-musica-.*\\.zip$"
+      }
     }
   ]
 }
