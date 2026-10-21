@@ -137,6 +137,19 @@
         "repo": "Ruiso-Outside/Piphin-Video",
         "asset": "^piphin-module-video-.*.zip$"
       }
+    },
+    {
+      "id": "som",
+      "name": "Piphin Som",
+      "description": "Estúdio de música e efeitos sonoros: instrumentos e bateria sintetizados, piano roll, acordes e ritmos prontos, gravação, efeitos de mixagem, gerador de efeitos para jogos e exportação MP3/WAV. A IA do Piphin LLM também compõe por aqui. Roda dentro do Hub (cerca de 450 KB).",
+      "category": "Criação",
+      "icon": "https://raw.githubusercontent.com/Ruiso-Outside/Piphin-Som/main/icons/som.png",
+      "accent": "#22c55e",
+      "source": {
+        "type": "github",
+        "repo": "Ruiso-Outside/Piphin-Som",
+        "asset": "^piphin-module-som-.*.zip$"
+      }
     }
   ]
 }
