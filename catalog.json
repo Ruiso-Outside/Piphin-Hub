@@ -122,7 +122,7 @@
       "source": {
         "type": "github",
         "repo": "Ruiso-Outside/Piphin-Foto",
-        "asset": "^piphin-module-foto-.*.zip$"
+        "asset": "^piphin-module-foto-.*\\.zip$"
       }
     },
     {
@@ -135,7 +135,7 @@
       "source": {
         "type": "github",
         "repo": "Ruiso-Outside/Piphin-Video",
-        "asset": "^piphin-module-video-.*.zip$"
+        "asset": "^piphin-module-video-.*\\.zip$"
       }
     },
     {
@@ -148,7 +148,7 @@
       "source": {
         "type": "github",
         "repo": "Ruiso-Outside/Piphin-Som",
-        "asset": "^piphin-module-som-.*.zip$"
+        "asset": "^piphin-module-som-.*\\.zip$"
       }
     },
     {
@@ -161,7 +161,7 @@
       "source": {
         "type": "github",
         "repo": "Ruiso-Outside/Piphin-Turbo",
-        "asset": "^piphin-module-turbo-.*.zip$"
+        "asset": "^piphin-module-turbo-.*\\.zip$"
       }
     }
   ]
