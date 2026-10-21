@@ -176,6 +176,19 @@
         "repo": "Ruiso-Outside/Piphin-Musica",
         "asset": "^piphin-module-musica-.*\\.zip$"
       }
+    },
+    {
+      "id": "jogos",
+      "name": "Piphin Jogos",
+      "description": "Todos os jogos instalados no PC num só lugar (Steam, Epic, Riot, GOG, Ubisoft, EA, Battle.net, Rockstar, Xbox): tempo de jogo de qualquer loja, estatísticas, perfil de jogador, roleta do que jogar e espaço em disco. Roda dentro do Hub (cerca de 110 KB).",
+      "category": "Jogos",
+      "icon": "https://raw.githubusercontent.com/Ruiso-Outside/Piphin-Jogos/main/icons/jogos.png",
+      "accent": "#f97316",
+      "source": {
+        "type": "github",
+        "repo": "Ruiso-Outside/Piphin-Jogos",
+        "asset": "^piphin-module-jogos-.*\\.zip$"
+      }
     }
   ]
 }
