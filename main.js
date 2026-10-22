@@ -9,6 +9,7 @@ const U = require("./lib/util");
 const selfupdate = require("./lib/selfupdate");
 const { ModuleHost } = require("./lib/modules");
 const { ToolsServer } = require("./lib/tools-server");
+const { MediaLibrary } = require("./lib/library");
 const zone = require("./lib/zone");
 
 app.setAppUserModelId("studio.piphin.hub");
@@ -50,6 +51,8 @@ let hubUpdate = null; // atualização do próprio Hub: { version, notes, pct, r
 let hubChecking = false;
 let modules = null; // módulos que rodam dentro do Hub
 let tools = null; // ferramentas dos módulos para a IA (servidor MCP local)
+let library = null; // mídia compartilhada entre os módulos (lib/library.js)
+const picks = new Map(); // janelas "Escolher da mídia" abertas: id -> resolve
 let tray = null;
 let quitting = false;
 let modulesStopped = false;
@@ -164,6 +167,28 @@ function registerIpc() {
     for (const type of ["keyDown", "keyUp"]) m.view.webContents.sendInputEvent({ type, keyCode: key, modifiers: ["control"] });
     return true;
   });
+  // mídia compartilhada (tela Mídia do Hub)
+  handle("hub:library", (filter) => library.list(filter || {}).map((x) => modules.publicItem(x)));
+  handle("hub:libThumb", (id) => library.thumb(String(id)));
+  handle("hub:openers", (kind) => modules.openers(String(kind)));
+  handle("hub:openIn", (target, id) => { const it = library.get(id); if (!it) throw new Error("Item não encontrado"); return modules.openIn(target, it, null); });
+  handle("hub:showMedia", (id) => { const it = library.get(id); if (it && fs.existsSync(it.path)) shell.showItemInFolder(it.path); return true; });
+  handle("hub:pickDone", (id, ids) => {
+    const done = picks.get(id);
+    if (done) { picks.delete(id); done((Array.isArray(ids) ? ids : []).map((x) => library.get(x)).filter(Boolean)); }
+    return true;
+  });
+  // arrastar um item da Mídia para fora (Explorer, WhatsApp, Discord, outro programa)
+  ipcMain.on("hub:dragOut", (e, id) => {
+    const it = library.get(id);
+    if (!it || !fs.existsSync(it.path)) return;
+    let icon = nativeImage.createFromPath(ICON).resize({ width: 48, height: 48 });
+    const t = library.thumbs.get(id);
+    if (t) { const img = nativeImage.createFromDataURL(t); if (!img.isEmpty()) icon = img.resize({ width: 96 }); }
+    e.sender.startDrag({ file: it.path, icon });
+  });
+  // só em desenvolvimento: endereço das ferramentas da IA (para testar módulos pelo mesmo caminho do Piphin LLM)
+  if (process.env.PIPHIN_DEV === "1") handle("hub:devToolsUrl", () => (tools ? tools.url : ""));
   handle("hub:closeModule", () => modules.hide());
   handle("hub:restartModule", async (id) => { const vis = modules.visible === id; await modules.restart(id); if (vis) await modules.show(id); });
   handle("hub:refresh", async (force) => { await hub.refresh({ force: !!force }); return null; });
@@ -360,6 +385,18 @@ app.whenReady().then(async () => {
     getWindow: () => (win && !win.isDestroyed() ? win : null),
   });
   modules.on("changed", () => { send("hub:changed"); updateTray(); });
+  library = new MediaLibrary({ file: path.join(userData, "midia.json"), nativeImage });
+  modules.library = library;
+  library.on("changed", () => { send("hub:libraryChanged"); modules.broadcast("library-changed", {}); });
+  // um módulo pediu para escolher da Mídia: a janela aparece no Hub (por cima da tela do módulo)
+  let pickSeq = 0;
+  modules.picker = (m, opts) => new Promise((resolve) => {
+    if (!win || win.isDestroyed()) return resolve([]);
+    const id = ++pickSeq;
+    picks.set(id, resolve);
+    showWin();
+    send("hub:pick", { id, from: m.manifest.name, kinds: [].concat(opts.kinds || opts.kind || []).filter(Boolean), multi: opts.multi !== false, title: String(opts.title || "") });
+  });
   modules.on("keepAlive", () => { updateTray(); if (tray && !modules.keepAliveReasons().length && win && win.isVisible()) { tray.destroy(); tray = null; } });
   modules.on("focus", (id) => { showWin(); send("hub:openModule", id); });
   modules.on("shortcut", (k) => send("hub:shortcut", k));
@@ -373,7 +410,19 @@ app.whenReady().then(async () => {
   registerIpc();
   createWindow();
   // ferramentas dos módulos para a IA (antes de iniciar os módulos: eles recebem o endereço)
-  tools = new ToolsServer({ modules, hubVersion: app.getVersion() });
+  tools = new ToolsServer({ modules, hubVersion: app.getVersion(), builtins: [{
+    // a IA acha o que os módulos criaram ou baixaram (ex.: "coloque a música que eu baixei no vídeo")
+    def: { name: "hub_media_library", title: "Piphin Hub: Mídia", annotations: { readOnlyHint: true },
+      description: "[Piphin Hub] Lista a mídia dos módulos num lugar só: músicas baixadas no Piphin Música, sons e músicas do Piphin Som, prints e gravações do Piphin Captura, imagens do Piphin Foto e vídeos do Piphin Vídeo. Devolve o caminho de cada arquivo, para usar em outras ferramentas (ex.: video_import_media, som_import_audio, foto_open_image). can_use_in_videos=false: a licença não permite usar a música em vídeos.",
+      inputSchema: { type: "object", properties: { kind: { type: "string", enum: ["audio", "video", "image"] }, query: { type: "string", description: "Palavras do nome, artista ou jogo" },
+        from_module: { type: "string", description: "id do módulo (musica, som, captura, foto, video)" }, limit: { type: "integer", minimum: 1, maximum: 100 } } } },
+    run: (a = {}) => {
+      const list = library.list({ kind: a.kind, query: a.query, by: a.from_module, limit: a.limit || 25 });
+      return { items: list.map((x) => ({ title: x.title, kind: x.kind, path: x.path, from: modules.publicItem(x).byName, type: x.sub, artist: x.artist, game: x.game,
+        seconds: x.duration ? Math.round(x.duration) : undefined, license: x.license, credit: x.credit, can_use_in_videos: x.videoOk, added: x.addedAt.slice(0, 10) })),
+        note: list.length ? undefined : "Nada na Mídia ainda com esse filtro." };
+    },
+  }] });
   modules.toolsUrl = await tools.start().catch(() => "");
   modules.startAll(); // os motores começam junto com o Hub (atalhos de macro funcionam desde já)
   if (hub.settings.checkOnStart) periodicCheck(true);

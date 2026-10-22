@@ -200,3 +200,50 @@ main { flex: 1; min-width: 0; overflow-y: auto; background: var(--p-bg-2); borde
   .pulse { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .home-cols { grid-template-columns: 1fr; }
 }
+
+/* ------------------------------------------------------------------ Mídia (media.js) */
+.m-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 14px; }
+.m-grid.recent { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); }
+.m-grid.recent .m-actions { display: none; }
+.m-grid.pick { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; max-height: 56vh; overflow: auto; padding: 4px 2px; margin-top: 10px; }
+.m-card { display: flex; flex-direction: column; background: var(--p-surface-1); border: 1px solid var(--p-line); border-radius: var(--p-r-l); overflow: hidden;
+  transition: border-color .15s, transform .15s; min-width: 0; }
+.m-card:hover { border-color: var(--p-line-2); }
+.m-card.pick { cursor: pointer; }
+.m-card.pick.sel { border-color: var(--p-accent); box-shadow: 0 0 0 1px var(--p-accent); }
+.m-thumb { position: relative; aspect-ratio: 16 / 10; background: var(--p-surface-2); display: grid; place-items: center; cursor: pointer; overflow: hidden; }
+.m-thumb .ph { font-size: 30px; color: var(--p-text-3); }
+.m-thumb.k-audio { background: linear-gradient(135deg, rgba(168, 85, 247, .22), rgba(14, 165, 233, .14)); }
+.m-thumb.k-audio .ph { color: var(--p-accent-2); }
+.m-thumb img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.m-thumb.k-audio.has img { object-fit: cover; }
+.m-thumb.has .ph { display: none; }
+.m-dur { position: absolute; right: 8px; bottom: 8px; font-size: 11px; font-variant-numeric: tabular-nums; background: rgba(0, 0, 0, .65); color: #fff; padding: 2px 6px; border-radius: 6px; }
+.m-play { position: absolute; left: 50%; top: 50%; translate: -50% -50%; width: 44px; height: 44px; border-radius: 50%; border: 0; display: grid; place-items: center;
+  background: rgba(0, 0, 0, .55); color: #fff; font-size: 18px; opacity: 0; transition: opacity .15s; cursor: pointer; }
+.m-card:hover .m-play, .m-play:focus-visible { opacity: 1; }
+.m-check { position: absolute; right: 8px; top: 8px; width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; font-size: 13px;
+  background: rgba(0, 0, 0, .5); border: 2px solid rgba(255, 255, 255, .7); color: transparent; }
+.m-card.sel .m-check { background: var(--p-accent); border-color: var(--p-accent); color: #fff; }
+.m-body { padding: 10px 12px 8px; display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.m-body b { font-weight: 600; font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.m-info { font-size: 12px; color: var(--p-text-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.m-tags { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; font-size: 11px; margin-top: 2px; min-height: 18px; }
+.m-tags .badge { font-size: 10.5px; }
+.m-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; padding: 0 10px 10px; }
+.m-actions .grow { flex: 1; }
+.m-view { display: grid; place-items: center; background: #000; border-radius: var(--p-r-m); overflow: hidden; }
+.m-view video, .m-view img { max-width: 100%; max-height: 66vh; display: block; }
+.modal-box.wide { width: min(980px, 94vw); }
+.media-empty .list-item:first-of-type { border-top: 1px solid var(--p-line); margin-top: 12px; }
+a.link { cursor: pointer; display: inline-flex; align-items: center; gap: 4px; text-transform: none; letter-spacing: 0; font-weight: 500; font-size: 13px; }
+.m-player { position: fixed; left: 50%; bottom: 18px; translate: -50% 0; z-index: 45; display: flex; align-items: center; gap: 12px; padding: 8px 10px 8px 8px;
+  background: var(--p-surface-2); border: 1px solid var(--p-line-2); border-radius: 14px; box-shadow: var(--p-shadow-pop); width: min(640px, calc(100vw - 32px)); }
+.m-player[hidden] { display: none; }
+.mp-cover { width: 44px; height: 44px; border-radius: 10px; overflow: hidden; display: grid; place-items: center; background: var(--p-surface-3); color: var(--p-accent-2); font-size: 20px; flex: none; }
+.mp-cover img { width: 100%; height: 100%; object-fit: cover; }
+.mp-t { min-width: 0; flex: 1; display: flex; flex-direction: column; }
+.mp-t b { font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.mp-t span { font-size: 12px; color: var(--p-text-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.m-player audio { height: 36px; width: 280px; flex: none; }
+select#mediaBy { height: 34px; }

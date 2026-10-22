@@ -19,6 +19,7 @@ maximize-2 ellipsis grip-vertical flame battery wifi circuit-board server databa
 mic volume-2 brain code terminal arrow-down-to-line arrow-up-from-line keyboard-music record-circle scan-line loader lock lock-open
 rocket heart-pulse layout-dashboard microchip box-select hand gauge-circle chart-no-axes-column calendar-clock history
 globe book-open flask-conical message-square square-terminal palette users library brain-circuit hard-drive-download
+images music film audio-lines square-arrow-out-up-right
 `.split(/\s+/).filter(Boolean);
 
 const css = [`/* Piphin UI · ícones (Lucide ${require("lucide-static/package.json").version}, ISC) · gerado por scripts/make-ui-icons.js */`,

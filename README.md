@@ -16,6 +16,7 @@ Igual ao Piphin LLM: o `.exe` é o do Electron oficial, sem modificações, por 
 - **Detalhes** (clique num card): novidades da versão, pasta, espaço em disco, abrir pasta, reinstalar, desinstalar.
 - Downloads conferidos por **SHA-256** (o GitHub publica o hash de cada arquivo). Se o app estiver aberto, o Hub pergunta antes de fechá-lo.
 - Atualização **sem perder dados**: a versão nova é extraída ao lado, as pastas marcadas em `keep` são mantidas, e se algo falhar a versão anterior volta.
+- **Mídia**: tudo que os módulos criam ou baixam num lugar só, pronto para usar em qualquer módulo (veja abaixo).
 - **O próprio Hub se atualiza sozinho**: ao abrir e a cada hora ele consulta os Releases de `Ruiso-Outside/Piphin-Hub`, baixa a versão nova em segundo plano (conferindo o SHA-256) e pergunta se pode reiniciar. Se você escolher "Depois", ela entra quando o Hub for fechado. Só a pasta `resources\app` é trocada; se algo falhar, a versão atual continua.
 
 ## Módulos
@@ -60,7 +61,27 @@ web/             interface
 | janelas de overlay | `openWindow` com `clickThrough: true` (cliques passam) e `topLevel: "screen-saver"` (acima de jogos); `showWindow` com `placement: "top-left"`, `"top-right"`, `"bottom-left"` ou `"bottom-right"` e `focus: false`; `setWindowOpacity` |
 | `ctx.log(...)` | registro em `%APPDATA%\Piphin Hub\logs\<id>.log` |
 
+| `ctx.host.library.add(itens)` / `sync(itens)` / `remove(caminhos)` | põe na **Mídia** o que o módulo criou ou baixou (Hub 1.7.0); `sync` troca a lista inteira do módulo |
+| `ctx.host.library.list({ kind, kinds, by, query, tag, game, limit })`, `thumb(id)` | o que todos os módulos criaram; miniatura (JPEG em data URL) |
+| `ctx.host.library.pick({ kinds, multi, title })` | janela **Escolher da mídia** do Hub; devolve os itens escolhidos |
+| `ctx.host.openers(kind)`, `ctx.host.openIn(id, { path })` | módulos que abrem o tipo de arquivo e "Abrir no ..." (quem recebe ganha o evento `open-file`) |
+
 Atalhos e janelas extras são liberados sozinhos quando o módulo para.
+
+### Mídia: um módulo usando o que o outro fez (Hub 1.7.0)
+O Hub guarda um índice (`midia.json`) do que os módulos criam ou baixam; os arquivos ficam onde o módulo salvou.
+A tela **Mídia** mostra tudo junto (tocar, ver, abrir em outro módulo, mostrar na pasta, **arrastar para qualquer programa**) e o Início mostra o que foi criado por último.
+
+- **Pôr na Mídia**: `ctx.host.library.add({ path, title, sub: "Efeito sonoro", duration, license, credit, videoOk, cover, game, tags })` (`kind` sai da extensão: `audio`, `video` ou `image`).
+  Quem mantém uma lista própria (Piphin Música, Piphin Captura) usa `sync(lista)` ao abrir e a cada mudança: o que sumiu da lista sai da Mídia. Arquivo apagado sai sozinho.
+- **Usar da Mídia**: `await ctx.host.library.pick({ kinds: ["audio"], multi: true })` abre a janela do Hub por cima do módulo e devolve os itens (`path`, `title`, `credit`, `byName`...).
+- **Abrir no ...**: o módulo declara no `module.json` o que sabe abrir, `"opens": ["image"]`. Outro módulo (ou a tela Mídia) chama `ctx.host.openIn("foto", { path })`: o Hub mostra o módulo e o motor dele recebe `ctx.host.on("open-file", ({ path, kind, title, fromName }) => ...)`.
+- **Mudou**: todos os motores recebem o evento `library-changed`.
+- **IA**: a ferramenta `hub_media_library` (do próprio Hub) lista a Mídia com o caminho de cada arquivo, para a IA usar nas ferramentas dos módulos ("coloque a música que eu baixei no vídeo").
+- Num Hub antigo `ctx.host.library` não existe: teste antes (`const lib = ctx.host.library || null`) e esconda o que depende dela.
+
+Hoje: o **Piphin Música** põe as músicas baixadas (com licença e crédito), o **Piphin Som** as músicas exportadas e os efeitos sonoros, o **Piphin Captura** os prints e gravações (com o jogo aberto, pelo Piphin Jogos), o **Piphin Foto** as imagens exportadas e o **Piphin Vídeo** os vídeos exportados.
+O Vídeo usa tudo isso e, ao exportar, entrega o texto dos créditos das músicas para a descrição; o Som importa áudios; o Foto abre prints; o Música toca o que veio do Som; o Jogos mostra os prints e gravações de cada jogo.
 
 Se a interface vem de um servidor local do próprio módulo (como o Piphin LLM), declare o endereço em `"allowOrigins": ["http://127.0.0.1:8765"]` no `module.json`; qualquer outro endereço abre no navegador.
 

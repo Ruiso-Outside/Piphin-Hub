@@ -1,4 +1,4 @@
-// Interface do Piphin Hub: Início, Loja, Configurações, módulos e paleta de comandos (Ctrl+K).
+// Interface do Piphin Hub: Início, Loja, Configurações, módulos e paleta de comandos (Ctrl+K). A tela Mídia fica em media.js.
 const $ = (s, el = document) => el.querySelector(s);
 const $$ = (s, el = document) => [...el.querySelectorAll(s)];
 const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
@@ -123,6 +123,7 @@ function go(v) {
 }
 
 async function openModule(id) {
+  stopMediaPlayer();
   view = "module:" + id;
   closeDrawer();
   render(true);
@@ -164,6 +165,7 @@ function render(fresh) {
   const scroll = fresh ? 0 : main.scrollTop;
   if (view === "home") renderHome(main);
   else if (view === "store") renderStore(main);
+  else if (view === "media") renderMedia(main);
   else if (view === "settings") renderSettings(main);
   if (fresh) main.firstElementChild?.classList.add("p-enter");
   main.scrollTop = scroll;
@@ -244,6 +246,7 @@ function renderHome(main) {
       : `<div class="card flat" style="display:flex;align-items:center;gap:16px"><i class="i i-puzzle" style="font-size:28px;color:var(--p-accent-2)"></i>
           <div class="grow"><b>Monte o seu Piphin</b><div class="muted" style="font-size:13px">Cada ferramenta é um módulo que roda aqui dentro. Instale só o que você usa.</div></div>
           <button class="btn primary" data-goto="store"><i class="i i-store"></i>Abrir a Loja</button></div>`}
+    ${homeRecent()}
     ${notInstalled.length ? `<div class="p-section">Disponíveis para instalar</div><div class="mod-grid">${notInstalled.map(suggestTile).join("")}</div>` : ""}
 
     <div class="home-cols">
@@ -268,6 +271,7 @@ function renderHome(main) {
   </div>`;
   drawPulse();
   startPulse();
+  watchThumbs(main);
 }
 
 // Hub extraído de um .zip baixado: com o Controle Inteligente de Aplicativos, o Windows bloqueia os atalhos
@@ -603,6 +607,7 @@ function paletteCommands() {
   installedModules().forEach((m, i) => cmds.push({ group: "Módulos", label: m.name, sub: "abrir", icon: iconOf(m.cat, m), hint: i < 9 ? `Ctrl ${i + 1}` : "", run: () => openModule(m.id), keys: "abrir modulo " + m.id }));
   cmds.push({ group: "Ir para", label: "Início", ico: "house", run: () => go("home") });
   cmds.push({ group: "Ir para", label: "Loja", ico: "store", run: () => go("store"), keys: "explorar instalar baixar" });
+  cmds.push({ group: "Ir para", label: "Mídia", ico: "images", run: () => go("media"), keys: "musicas sons prints gravacoes imagens videos arquivos biblioteca" });
   cmds.push({ group: "Ir para", label: "Configurações", ico: "settings", hint: "Ctrl ,", run: () => go("settings"), keys: "preferencias opcoes" });
   const upd = snap.apps.filter((a) => st(a).updateAvailable);
   if (upd.length) cmds.push({ group: "Ações", label: `Atualizar tudo (${upd.length})`, ico: "download", run: updateAll });

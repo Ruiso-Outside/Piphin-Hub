@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
   <meta charset="utf-8">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' file: https: data:; style-src 'self' 'unsafe-inline'; script-src 'self'">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' file: https: data:; media-src file:; style-src 'self' 'unsafe-inline'; script-src 'self'">
   <title>Piphin Hub</title>
   <link rel="stylesheet" href="ui/kit.css">
   <link rel="stylesheet" href="ui/icons.css">
@@ -21,6 +21,7 @@
       <div class="side-group">
         <button class="nav-item" data-view="home" title="Início"><i class="i i-house"></i><span>Início</span></button>
         <button class="nav-item" data-view="store" title="Loja"><i class="i i-store"></i><span>Loja</span><b class="nav-count" id="updCount" hidden></b></button>
+        <button class="nav-item" data-view="media" title="Mídia: o que os módulos criaram e baixaram"><i class="i i-images"></i><span>Mídia</span></button>
         <button class="nav-item" data-view="settings" title="Configurações"><i class="i i-settings"></i><span>Configurações</span></button>
       </div>
       <div class="side-label"><span>Módulos</span></div>
@@ -45,7 +46,10 @@
     </div>
   </div>
   <div id="toasts" class="toasts"></div>
+  <div id="mPlayer" class="m-player" hidden><span class="mp-cover" id="mpCover"></span><div class="mp-t"><b id="mpTitle"></b><span id="mpSub"></span></div>
+    <audio controls></audio><button class="btn icon sm ghost" id="mpClose" title="Fechar"><i class="i i-x"></i></button></div>
 
+  <script src="media.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
