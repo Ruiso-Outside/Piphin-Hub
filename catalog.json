@@ -189,6 +189,19 @@
         "repo": "Ruiso-Outside/Piphin-Jogos",
         "asset": "^piphin-module-jogos-.*\\.zip$"
       }
+    },
+    {
+      "id": "captura",
+      "name": "Piphin Captura",
+      "description": "Print de tela prático (PrtSc para escolher a área) com editor para marcar e esconder informações, e gravador de tela em MP4 com o som do PC e o microfone (Alt+F9). Precisa do Hub 1.6.0. Roda dentro do Hub (cerca de 300 KB).",
+      "category": "Criação",
+      "icon": "https://raw.githubusercontent.com/Ruiso-Outside/Piphin-Captura/main/icons/captura.png",
+      "accent": "#06b6d4",
+      "source": {
+        "type": "github",
+        "repo": "Ruiso-Outside/Piphin-Captura",
+        "asset": "^piphin-module-captura-.*\\.zip$"
+      }
     }
   ]
 }
