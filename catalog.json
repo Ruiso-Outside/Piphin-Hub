@@ -202,6 +202,19 @@
         "repo": "Ruiso-Outside/Piphin-Captura",
         "asset": "^piphin-module-captura-.*\\.zip$"
       }
+    },
+    {
+      "id": "escudo",
+      "name": "Piphin Escudo",
+      "description": "Verifica se o PC tem sinais de invasão ou brechas de segurança (programas escondidos, acesso remoto, hosts e proxy desviados, antivírus, firewall...), corrige com um clique e desfaz, vigia mudanças perigosas e confere se suas senhas vazaram. Roda dentro do Hub (cerca de 120 KB).",
+      "category": "Sistema",
+      "icon": "https://raw.githubusercontent.com/Ruiso-Outside/Piphin-Escudo/main/icons/escudo.png",
+      "accent": "#22c55e",
+      "source": {
+        "type": "github",
+        "repo": "Ruiso-Outside/Piphin-Escudo",
+        "asset": "^piphin-module-escudo-.*\\.zip$"
+      }
     }
   ]
 }
