@@ -215,6 +215,19 @@
         "repo": "Ruiso-Outside/Piphin-Escudo",
         "asset": "^piphin-module-escudo-.*\\.zip$"
       }
+    },
+    {
+      "id": "financas",
+      "name": "Piphin Finanças",
+      "description": "Finanças pessoais e da empresa em carteiras separadas: contas, cartões e faturas, contas a pagar com lembrete, orçamentos, metas, DRE e limite do MEI, importação de extrato, lançamento rápido em português e senha opcional. Roda dentro do Hub (cerca de 130 KB).",
+      "category": "Finanças",
+      "icon": "https://raw.githubusercontent.com/Ruiso-Outside/Piphin-Financas/main/icons/financas.png",
+      "accent": "#eab308",
+      "source": {
+        "type": "github",
+        "repo": "Ruiso-Outside/Piphin-Financas",
+        "asset": "^piphin-module-financas-.*\\.zip$"
+      }
     }
   ]
 }
