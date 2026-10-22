@@ -51,7 +51,10 @@ web/             interface
 | `ctx.host.registerHotkey(atalho)`, `unregisterHotkey` | atalho global; ao apertar, chega o evento `hotkey` |
 | `ctx.host.openWindow(nome, { url ou file, width, height, frame, transparent, alwaysOnTop, ... })` | janela extra (ex.: pergunta rápida do LLM), também com `window.piphin` |
 | `ctx.host.showWindow(nome, { placement: "cursor-top" })`, `hideWindow`, `setWindowBounds`, `windowState`, `sendToWindow` | controle das janelas extras |
-| `ctx.host.captureScreen({ hide })`, `ctx.host.readClipboard()` | print do monitor do mouse; texto e imagem copiados |
+| `ctx.host.captureScreen({ hide, format, maxWidth, display })`, `ctx.host.readClipboard()`, `ctx.host.writeClipboardImage(png)` | print de um monitor (JPEG até 1920 px por padrão; `format: "png", maxWidth: 0` no tamanho real); ler e copiar |
+| `ctx.host.displays()`, `ctx.host.cursorPoint()` | monitores (posição, escala, principal, o do mouse) e a posição do mouse |
+| `ctx.host.listCaptureSources({ types })`, `ctx.host.setCaptureSource({ id, audio })` | monitores e janelas para gravar (com miniatura) e a fonte do próximo `getDisplayMedia` das páginas do módulo, com o som do PC se `audio`; precisa de `"permissions": ["screenCapture"]` no module.json (Hub 1.6.0) |
+| `openWindow` com `contentProtection`, `x`, `y` | janela que não aparece em prints e gravações; posição |
 | `ctx.host.setStartWithWindows(ligado)` | liga "Iniciar com o Windows" do Hub |
 | `ctx.host.on(evento, fn)` | `hotkey`, `window-blur`, `window-show`, `window-hide`, `view-shown` / `view-hidden` (a tela do módulo apareceu / sumiu: bom para ligar e desligar o que só serve enquanto alguém olha) |
 | janelas de overlay | `openWindow` com `clickThrough: true` (cliques passam) e `topLevel: "screen-saver"` (acima de jogos); `showWindow` com `placement: "top-left"`, `"top-right"`, `"bottom-left"` ou `"bottom-right"` e `focus: false`; `setWindowOpacity` |
