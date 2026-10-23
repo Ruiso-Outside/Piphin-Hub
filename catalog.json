@@ -325,7 +325,7 @@
     {
       "id": "foto",
       "name": "Piphin Foto",
-      "description": "Editor de imagens completo: camadas, seleções, pincéis, texto, ajustes e filtros com prévia, recorte e exportação PNG, JPG e WebP. Mude o tamanho e gire arrastando as alças, e reuse imagens do inventário com pastas. A IA do Piphin LLM também edita por aqui. Roda dentro do Hub (cerca de 230 KB).",
+      "description": "Editor de imagens completo: camadas, seleções, pincéis, texto, ajustes e filtros com prévia, recorte e exportação PNG, JPG e WebP. Mude o tamanho e gire arrastando as alças, reuse imagens do inventário com pastas e crie QR codes. A IA do Piphin LLM também edita por aqui. Roda dentro do Hub (cerca de 250 KB).",
       "category": "Criação",
       "icon": "https://raw.githubusercontent.com/Ruiso-Outside/Piphin-Foto/main/icons/foto.png",
       "accent": "#fb923c",
@@ -336,37 +336,37 @@
       },
       "t": {
         "en": {
-          "description": "Full image editor: layers, selections, brushes, text, adjustments and filters with preview, crop and PNG, JPG and WebP export. Resize and rotate by dragging handles, and reuse images from an inventory with folders. Piphin LLM's AI can edit here too."
+          "description": "Full image editor: layers, selections, brushes, text, adjustments and filters with preview, crop and PNG, JPG and WebP export. Resize and rotate by dragging handles, reuse images from an inventory with folders and create QR codes. Piphin LLM's AI can edit here too."
         },
         "es": {
-          "description": "Editor de imágenes completo: capas, selecciones, pinceles, texto, ajustes y filtros con vista previa, recorte y exportación PNG, JPG y WebP. Cambia el tamaño y gira arrastrando los controles, y reutiliza imágenes del inventario con carpetas. La IA de Piphin LLM también edita aquí."
+          "description": "Editor de imágenes completo: capas, selecciones, pinceles, texto, ajustes y filtros con vista previa, recorte y exportación PNG, JPG y WebP. Cambia el tamaño y gira arrastrando los controles, reutiliza imágenes del inventario con carpetas y crea códigos QR. La IA de Piphin LLM también edita aquí."
         },
         "th": {
-          "description": "โปรแกรมแต่งภาพครบชุด: เลเยอร์ การเลือก พู่กัน ข้อความ การปรับแต่งและฟิลเตอร์พร้อมพรีวิว ครอปภาพ และส่งออก PNG, JPG, WebP ปรับขนาดและหมุนด้วยการลากจุดจับ และใช้ภาพซ้ำจากคลังภาพที่จัดเป็นโฟลเดอร์ได้ AI ของ Piphin LLM ก็แก้ไขภาพที่นี่ได้"
+          "description": "โปรแกรมแต่งภาพครบชุด: เลเยอร์ การเลือก พู่กัน ข้อความ การปรับแต่งและฟิลเตอร์พร้อมพรีวิว ครอปภาพ และส่งออก PNG, JPG, WebP ปรับขนาดและหมุนด้วยการลากจุดจับ ใช้ภาพซ้ำจากคลังภาพที่จัดเป็นโฟลเดอร์ และสร้างคิวอาร์โค้ดได้ AI ของ Piphin LLM ก็แก้ไขภาพที่นี่ได้"
         },
         "zh": {
-          "description": "完整的图片编辑器：图层、选区、画笔、文字、调整和带预览的滤镜、裁剪，导出 PNG、JPG 和 WebP。拖动控制点即可调整大小和旋转，还能从带文件夹的素材库重复使用图片。Piphin LLM 的 AI 也能在这里编辑。"
+          "description": "完整的图片编辑器：图层、选区、画笔、文字、调整和带预览的滤镜、裁剪，导出 PNG、JPG 和 WebP。拖动控制点即可调整大小和旋转，还能从带文件夹的素材库重复使用图片并生成二维码。Piphin LLM 的 AI 也能在这里编辑。"
         },
         "ja": {
-          "description": "本格的な画像エディター：レイヤー、選択範囲、ブラシ、テキスト、プレビュー付きの調整とフィルター、切り抜き、PNG・JPG・WebP 書き出し。ハンドルをドラッグしてサイズ変更や回転ができ、フォルダー付きのインベントリから画像を再利用できます。Piphin LLM の AI もここで編集できます。"
+          "description": "本格的な画像エディター：レイヤー、選択範囲、ブラシ、テキスト、プレビュー付きの調整とフィルター、切り抜き、PNG・JPG・WebP 書き出し。ハンドルをドラッグしてサイズ変更や回転ができ、フォルダー付きのインベントリから画像を再利用したり、QRコードを作成したりできます。Piphin LLM の AI もここで編集できます。"
         },
         "ko": {
-          "description": "완전한 이미지 편집기: 레이어, 선택 영역, 브러시, 텍스트, 미리보기가 있는 보정과 필터, 자르기, PNG·JPG·WebP 내보내기. 핸들을 끌어 크기를 바꾸고 회전할 수 있으며, 폴더로 정리하는 인벤토리에서 이미지를 다시 쓸 수 있습니다. Piphin LLM의 AI도 여기서 편집할 수 있습니다."
+          "description": "완전한 이미지 편집기: 레이어, 선택 영역, 브러시, 텍스트, 미리보기가 있는 보정과 필터, 자르기, PNG·JPG·WebP 내보내기. 핸들을 끌어 크기를 바꾸고 회전할 수 있으며, 폴더로 정리하는 인벤토리에서 이미지를 다시 쓰고 QR 코드도 만들 수 있습니다. Piphin LLM의 AI도 여기서 편집할 수 있습니다."
         },
         "id": {
-          "description": "Editor gambar lengkap: lapisan, seleksi, kuas, teks, penyesuaian dan filter dengan pratinjau, potong, serta ekspor PNG, JPG, dan WebP. Ubah ukuran dan putar dengan menyeret pegangan, dan pakai ulang gambar dari inventaris berfolder. AI Piphin LLM juga bisa mengedit di sini."
+          "description": "Editor gambar lengkap: lapisan, seleksi, kuas, teks, penyesuaian dan filter dengan pratinjau, potong, serta ekspor PNG, JPG, dan WebP. Ubah ukuran dan putar dengan menyeret pegangan, pakai ulang gambar dari inventaris berfolder, dan buat kode QR. AI Piphin LLM juga bisa mengedit di sini."
         },
         "vi": {
-          "description": "Trình chỉnh sửa ảnh đầy đủ: lớp, vùng chọn, cọ, chữ, chỉnh màu và bộ lọc có xem trước, cắt ảnh và xuất PNG, JPG, WebP. Đổi kích thước và xoay bằng cách kéo các tay cầm, dùng lại ảnh từ kho ảnh có thư mục. AI của Piphin LLM cũng chỉnh sửa được ở đây."
+          "description": "Trình chỉnh sửa ảnh đầy đủ: lớp, vùng chọn, cọ, chữ, chỉnh màu và bộ lọc có xem trước, cắt ảnh và xuất PNG, JPG, WebP. Đổi kích thước và xoay bằng cách kéo các tay cầm, dùng lại ảnh từ kho ảnh có thư mục và tạo mã QR. AI của Piphin LLM cũng chỉnh sửa được ở đây."
         },
         "fr": {
-          "description": "Éditeur d'images complet : calques, sélections, pinceaux, texte, réglages et filtres avec aperçu, recadrage et export PNG, JPG et WebP. Redimensionnez et faites pivoter en tirant les poignées, et réutilisez les images d'un inventaire avec dossiers. L'IA de Piphin LLM peut aussi retoucher ici."
+          "description": "Éditeur d'images complet : calques, sélections, pinceaux, texte, réglages et filtres avec aperçu, recadrage et export PNG, JPG et WebP. Redimensionnez et faites pivoter en tirant les poignées, réutilisez les images d'un inventaire avec dossiers et créez des QR codes. L'IA de Piphin LLM peut aussi retoucher ici."
         },
         "de": {
-          "description": "Vollständiger Bildeditor: Ebenen, Auswahlen, Pinsel, Text, Anpassungen und Filter mit Vorschau, Zuschneiden und Export als PNG, JPG und WebP. Größe ändern und drehen per Ziehen an den Griffen, Bilder aus einem Inventar mit Ordnern wiederverwenden. Auch die KI von Piphin LLM kann hier bearbeiten."
+          "description": "Vollständiger Bildeditor: Ebenen, Auswahlen, Pinsel, Text, Anpassungen und Filter mit Vorschau, Zuschneiden und Export als PNG, JPG und WebP. Größe ändern und drehen per Ziehen an den Griffen, Bilder aus einem Inventar mit Ordnern wiederverwenden und QR-Codes erstellen. Auch die KI von Piphin LLM kann hier bearbeiten."
         },
         "ru": {
-          "description": "Полноценный редактор изображений: слои, выделения, кисти, текст, коррекция и фильтры с предпросмотром, кадрирование и экспорт в PNG, JPG и WebP. Меняйте размер и поворачивайте, перетаскивая маркеры, и используйте изображения повторно из инвентаря с папками. ИИ Piphin LLM тоже умеет здесь редактировать."
+          "description": "Полноценный редактор изображений: слои, выделения, кисти, текст, коррекция и фильтры с предпросмотром, кадрирование и экспорт в PNG, JPG и WebP. Меняйте размер и поворачивайте, перетаскивая маркеры, используйте изображения повторно из инвентаря с папками и создавайте QR-коды. ИИ Piphin LLM тоже умеет здесь редактировать."
         }
       }
     },
