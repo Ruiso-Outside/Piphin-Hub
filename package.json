@@ -5,6 +5,7 @@
   "description": "Piphin Hub: baixe, atualize e gerencie os apps da Piphin Studio",
   "main": "main.js",
   "author": "Piphin Studio",
+  "license": "PolyForm-Strict-1.0.0",
   "private": true,
   "scripts": {
     "start": "electron .",

@@ -1,215 +1,138 @@
+<div align="center">
+
+<img src="icons/hub.png" width="96" alt="Piphin Hub">
+
 # Piphin Hub
 
-Central dos apps da **Piphin Studio** no PC: baixa, instala, atualiza, abre e desinstala todos os softwares a partir de uma tela só. Os apps vêm dos **Releases do GitHub** e a lista de apps fica num catálogo (`catalog.json`), então dá para adicionar apps novos (AutoClick, Macro...) sem mexer no código.
+**Your all-in-one PC toolkit.** Video, photo, music, gaming, security, finance and local AI in one app that installs and updates everything for you.
 
-## Instalar
-1. Antes de extrair, clique com o botão direito no `.zip` baixado, escolha **Propriedades**, marque **Desbloquear** e clique em **OK**.
-2. Extraia `Piphin-Hub-X.Y.Z-win-x64.zip` numa pasta fixa (ex.: `F:\Softwares\Piphin Hub`).
-3. Abra o **`Piphin Hub.exe`**.
+[![Latest release](https://img.shields.io/github/v/release/Ruiso-Outside/Piphin-Hub?label=download&color=8b5cf6)](https://github.com/Ruiso-Outside/Piphin-Hub/releases/latest)
+[![Downloads](https://img.shields.io/github/downloads/Ruiso-Outside/Piphin-Hub/total?color=22c55e)](https://github.com/Ruiso-Outside/Piphin-Hub/releases)
+![Windows 10/11](https://img.shields.io/badge/Windows-10%20%7C%2011-0078d4)
+[![License: PolyForm Strict](https://img.shields.io/badge/license-PolyForm%20Strict%201.0.0-lightgrey)](LICENSE.md)
 
-Igual ao Piphin LLM: o `.exe` é o do Electron oficial, sem modificações, por isso o **Controle Inteligente de Aplicativos** do Windows não bloqueia o `.exe`. Mas, se o `.zip` não for desbloqueado antes de extrair, cada arquivo fica marcado como "baixado da internet" e o Windows bloqueia os **atalhos** do Hub (Área de Trabalho e Menu Iniciar) com a mensagem "Uma política de Controle de Aplicativo bloqueou este arquivo". Nesse caso a tela Início mostra um aviso com o botão **Desbloquear arquivos do Hub**, que tira a marca só dos arquivos da pasta do Hub (o mesmo que Propriedades → Desbloquear). Os dados do Hub ficam em `%APPDATA%\Piphin Hub`.
+🇧🇷 🇺🇸 🇪🇸 🇹🇭 🇨🇳 🇯🇵 🇰🇷 🇮🇩 🇻🇳 🇫🇷 🇩🇪 🇷🇺
 
-## O que ele faz
-- **Biblioteca**: apps instalados, com botão **Abrir**. Instalações feitas antes do Hub são encontradas pelos atalhos do Menu Iniciar/Área de Trabalho (ou pelo botão **Já tenho instalado...**).
-- **Explorar**: todos os apps do catálogo, com **Instalar**.
-- **Atualizações**: compara a versão instalada com o último Release do GitHub. **Atualizar tudo** de uma vez. Ao abrir e a cada 6 horas o Hub verifica de novo (e avisa com uma notificação).
-- **Detalhes** (clique num card): novidades da versão, pasta, espaço em disco, abrir pasta, reinstalar, desinstalar.
-- Downloads conferidos por **SHA-256** (o GitHub publica o hash de cada arquivo). Se o app estiver aberto, o Hub pergunta antes de fechá-lo.
-- Atualização **sem perder dados**: a versão nova é extraída ao lado, as pastas marcadas em `keep` são mantidas, e se algo falhar a versão anterior volta.
-- **Mídia**: tudo que os módulos criam ou baixam num lugar só, pronto para usar em qualquer módulo (veja abaixo).
-- **12 idiomas**: Português, English, Español, ไทย, 简体中文, 日本語, 한국어, Bahasa Indonesia, Tiếng Việt, Français, Deutsch e Русский. Em **Configurações → Geral → Idioma** ("Automático" segue o Windows). Vale para o Hub, os módulos, as janelas do Windows (avisos, salvar/abrir) e as datas e números.
-- **O próprio Hub se atualiza sozinho**: ao abrir e a cada hora ele consulta os Releases de `Ruiso-Outside/Piphin-Hub`, baixa a versão nova em segundo plano (conferindo o SHA-256) e pergunta se pode reiniciar. Se você escolher "Depois", ela entra quando o Hub for fechado. Só a pasta `resources\app` é trocada; se algo falhar, a versão atual continua.
+[**Download**](https://github.com/Ruiso-Outside/Piphin-Hub/releases/latest) · [Features](#-whats-inside) · [Install](#-install) · [Languages](#-languages) · [License](#-license)
 
-## Módulos
-Módulos são partes do Piphin que rodam **dentro do Hub**, com uma área própria na janela e um item em **Módulos** na barra lateral. Como usam o Electron do próprio Hub, cada um tem poucos KB (o Piphin Macro tem 120 KB como módulo, contra 146 MB como app separado). Instalar, atualizar e remover um módulo não reinicia o Hub.
+<img src="docs/images/hub-home.png" width="820" alt="Piphin Hub home screen">
 
-- O motor de cada módulo roda num **processo separado**: se ele travar, o Hub e os outros módulos continuam funcionando (o card mostra "parou" e há o botão **Reiniciar módulo**).
-- Os motores começam junto com o Hub. Quando um módulo precisa continuar trabalhando (ex.: atalhos de macro ligados), fechar a janela só esconde o Hub no ícone perto do relógio; **Sair** pelo menu do ícone fecha tudo.
-- Ao sair, cada módulo desliga o que abriu (ganchos de teclado, processos auxiliares).
-- Removido um módulo, os dados dele continuam no PC.
+</div>
 
-### Fazer um módulo
-Um módulo é um `.zip` publicado no Release do repositório dele, com:
+## ✨ Why Piphin Hub
 
-```
-module.json      { "id", "name", "version", "main": "backend.js", "ui": "web/index.html", "icon", "accent", "minHub": "1.1.0" }
-backend.js       motor (Node.js), opcional
-web/             interface
-```
+- **One place for everything.** Every tool opens inside the Hub, with its own shortcut (Ctrl + 1, 2, 3...) and a search bar for modules, apps and actions (Ctrl + K).
+- **Tools that work together.** What one tool creates, the others can use. Songs you download show up in the video editor, screenshots open in the photo editor, sound effects go straight to your timeline. The **Media** screen keeps it all in one place, and you can drag any file into other programs.
+- **Always up to date.** The Hub updates itself and every tool in the background, checks each download's SHA-256, and goes back to the previous version if anything fails.
+- **Light.** Tools run inside the Hub, so most of them are only a few hundred KB. If one stops, the Hub and the others keep running.
+- **Private.** No account, no ads, no telemetry. The Hub only talks to GitHub, to check for new versions and download them.
 
-**Motor** (`backend.js`): exporta `activate(ctx)` (e, se quiser, `deactivate()`).
+## 🧩 What's inside
 
-| `ctx` | Para quê |
+| | Tool | What it does |
+|---|---|---|
+| 🎬 | **Piphin Vídeo** | Video editor: multi-track timeline, cuts, text and captions, effects, transitions, speed and MP4 export |
+| 🖼️ | **Piphin Foto** | Image editor: layers, selections, brushes, text, adjustments and filters, PNG/JPG/WebP export |
+| 🎵 | **Piphin Som** | Music and sound effects studio: instruments, drums, piano roll, ready-made chords and rhythms, recording and mixing |
+| 🎧 | **Piphin Música** | Free Creative Commons and public-domain music, with license and credit info, ready for your videos |
+| 📸 | **Piphin Captura** | Screenshots with an editor to mark up and hide information, plus MP4 screen recording with PC audio |
+| 🎮 | **Piphin Jogos** | All your games from every store (Steam, Epic, Riot, GOG, Ubisoft, EA, Battle.net, Xbox...) in one library, with play time |
+| ⚡ | **Piphin Turbo** | Speeds up your PC for gaming: health check-up, safe cleanup and Windows tweaks you can undo |
+| 🛡️ | **Piphin Escudo** | Checks your PC for intrusion signs and security holes. It only looks: nothing changes unless you say so |
+| 💰 | **Piphin Finanças** | Personal and business finances in separate wallets: accounts, cards, bills with reminders, budgets, goals and reports |
+| ⌨️ | **Piphin Macro** | Keyboard and mouse macros, recorder, autoclicker and an anti-macro analyzer to test your own games |
+| 🖥️ | **InfoHardware** | Hardware info, live sensors, a quick benchmark and an in-game FPS overlay |
+| 🤖 | **Piphin LLM** | Local AI on your PC: chat with attachments, a coding agent, image generation and quick questions. Nothing is sent online |
+
+Install the ones you want from the **Store** screen, with one click.
+
+## 🖼️ Screenshots
+
+<table>
+  <tr>
+    <td><img src="docs/images/hub-store.png" alt="Store"><p align="center"><b>Store</b>: install any tool with one click</p></td>
+    <td><img src="docs/images/video.png" alt="Piphin Vídeo"><p align="center"><b>Piphin Vídeo</b></p></td>
+  </tr>
+  <tr>
+    <td><img src="docs/images/foto.png" alt="Piphin Foto"><p align="center"><b>Piphin Foto</b></p></td>
+    <td><img src="docs/images/som.png" alt="Piphin Som"><p align="center"><b>Piphin Som</b></p></td>
+  </tr>
+  <tr>
+    <td><img src="docs/images/turbo.png" alt="Piphin Turbo"><p align="center"><b>Piphin Turbo</b></p></td>
+    <td><img src="docs/images/escudo.png" alt="Piphin Escudo"><p align="center"><b>Piphin Escudo</b></p></td>
+  </tr>
+  <tr>
+    <td><img src="docs/images/llm.png" alt="Piphin LLM"><p align="center"><b>Piphin LLM</b></p></td>
+    <td><img src="docs/images/macro.png" alt="Piphin Macro"><p align="center"><b>Piphin Macro</b></p></td>
+  </tr>
+</table>
+
+## 🌍 Languages
+
+| | | | |
+|---|---|---|---|
+| 🇧🇷 Português | 🇺🇸 English | 🇪🇸 Español | 🇹🇭 ไทย |
+| 🇨🇳 简体中文 | 🇯🇵 日本語 | 🇰🇷 한국어 | 🇮🇩 Bahasa Indonesia |
+| 🇻🇳 Tiếng Việt | 🇫🇷 Français | 🇩🇪 Deutsch | 🇷🇺 Русский |
+
+Choose in **Settings → General → Language**. *Automatic (Windows language)* follows your Windows language. The change applies instantly to the Hub, every tool, Windows dialogs, dates and numbers.
+
+## 📥 Install
+
+1. Download **`Piphin-Hub-X.Y.Z-win-x64.zip`** from the [latest release](https://github.com/Ruiso-Outside/Piphin-Hub/releases/latest).
+2. **Before extracting**, right-click the `.zip` → **Properties** → check **Unblock** → **OK**.
+   This keeps Windows from blocking the Hub's shortcuts. If you forget, the Home screen shows an **Unblock Hub files** button.
+3. Extract it to a permanent folder (for example `C:\Piphin Hub`) and open **`Piphin Hub.exe`**.
+4. Open the **Store** and install the tools you want.
+
+**Requirements:** Windows 10 or 11, 64-bit. Piphin LLM needs Python 3.9+, and a graphics card is recommended for large AI models.
+
+**Your data** lives in `%APPDATA%\Piphin Hub`. Removing a tool keeps its data on your PC.
+
+## ❓ FAQ
+
+<details>
+<summary><b>Is it free?</b></summary>
+
+Yes, for personal and noncommercial use. See the [license](#-license).
+</details>
+
+<details>
+<summary><b>Does it start with Windows?</b></summary>
+
+Only if you turn it on in **Settings → Start with Windows**. The Hub then opens hidden next to the clock, so tool shortcuts (like macros) work right away.
+</details>
+
+<details>
+<summary><b>How do updates work?</b></summary>
+
+The Hub checks for new versions when it opens and regularly while it runs, downloads them in the background and asks before restarting. Tools update without restarting the Hub.
+</details>
+
+<details>
+<summary><b>Some tools need administrator permission. Why?</b></summary>
+
+Reading CPU temperatures (InfoHardware), applying some Windows tweaks (Piphin Turbo) and running a full security scan (Piphin Escudo) need it. Windows always asks first. If you say no, only that action is skipped; everything else keeps working.
+</details>
+
+## 💬 Feedback
+
+Found a bug or have an idea? [Open an issue](https://github.com/Ruiso-Outside/Piphin-Hub/issues). Screenshots and steps to reproduce help a lot.
+
+## 📄 License
+
+Copyright © 2026 Piphin Studio. Released under the **[PolyForm Strict License 1.0.0](LICENSE.md)**.
+
+| ✅ Allowed | ❌ Not allowed |
 |---|---|
-| `ctx.handle(canal, fn)` | responde às chamadas da interface |
-| `ctx.emit(canal, dados)` | envia eventos para a interface |
-| `ctx.onStop(fn)` | limpeza antes de o módulo parar |
-| `ctx.dataDir`, `ctx.dir`, `ctx.version` | pasta de dados do módulo, pasta do módulo, versão |
-| `ctx.host.saveDialog/openDialog(opts)` | janelas de arquivo do Windows |
-| `ctx.host.notify(título, texto)`, `ctx.host.focus()` | notificação; trazer o módulo para a frente |
-| `ctx.host.keepAlive(ligado, motivo)` | manter o Hub rodando escondido ao fechar a janela |
-| `ctx.host.messageBox({ message, detail, buttons })` | pergunta ao usuário (devolve o índice do botão) |
-| `ctx.host.openPath(pasta)`, `ctx.host.showItem(arquivo)` | abrir pasta / mostrar arquivo no Explorer |
-| `ctx.host.registerHotkey(atalho)`, `unregisterHotkey` | atalho global; ao apertar, chega o evento `hotkey` |
-| `ctx.host.openWindow(nome, { url ou file, width, height, frame, transparent, alwaysOnTop, ... })` | janela extra (ex.: pergunta rápida do LLM), também com `window.piphin` |
-| `ctx.host.showWindow(nome, { placement: "cursor-top" })`, `hideWindow`, `setWindowBounds`, `windowState`, `sendToWindow` | controle das janelas extras |
-| `ctx.host.captureScreen({ hide, format, maxWidth, display })`, `ctx.host.readClipboard()`, `ctx.host.writeClipboardImage(png)` | print de um monitor (JPEG até 1920 px por padrão; `format: "png", maxWidth: 0` no tamanho real); ler e copiar |
-| `ctx.host.displays()`, `ctx.host.cursorPoint()` | monitores (posição, escala, principal, o do mouse) e a posição do mouse |
-| `ctx.host.listCaptureSources({ types })`, `ctx.host.setCaptureSource({ id, audio })` | monitores e janelas para gravar (com miniatura) e a fonte do próximo `getDisplayMedia` das páginas do módulo, com o som do PC se `audio`; precisa de `"permissions": ["screenCapture"]` no module.json (Hub 1.6.0) |
-| `openWindow` com `contentProtection`, `x`, `y` | janela que não aparece em prints e gravações; posição |
-| `ctx.host.setStartWithWindows(ligado)` | liga "Iniciar com o Windows" do Hub |
-| `ctx.host.on(evento, fn)` | `hotkey`, `window-blur`, `window-show`, `window-hide`, `view-shown` / `view-hidden` (a tela do módulo apareceu / sumiu: bom para ligar e desligar o que só serve enquanto alguém olha) |
-| janelas de overlay | `openWindow` com `clickThrough: true` (cliques passam) e `topLevel: "screen-saver"` (acima de jogos); `showWindow` com `placement: "top-left"`, `"top-right"`, `"bottom-left"` ou `"bottom-right"` e `focus: false`; `setWindowOpacity` |
-| `ctx.log(...)` | registro em `%APPDATA%\Piphin Hub\logs\<id>.log` |
-| `ctx.lang`, `ctx.t(texto, ...valores)` | idioma escolhido no Hub (`pt`, `en`, `th`...) e tradução pelo dicionário do módulo; ao trocar de idioma chega o evento `language` (Hub 1.8.0) |
+| Downloading and using Piphin Hub and its tools for free, for personal and noncommercial purposes | Modifying the software or creating works based on it |
+| Use by schools, charities, research and public institutions | Redistributing or reselling the software |
+| Reading the source code | Any commercial use or making money from this project |
 
-| `ctx.host.library.add(itens)` / `sync(itens)` / `remove(caminhos)` | põe na **Mídia** o que o módulo criou ou baixou (Hub 1.7.0); `sync` troca a lista inteira do módulo |
-| `ctx.host.library.list({ kind, kinds, by, query, tag, game, limit })`, `thumb(id)` | o que todos os módulos criaram; miniatura (JPEG em data URL) |
-| `ctx.host.library.pick({ kinds, multi, title })` | janela **Escolher da mídia** do Hub; devolve os itens escolhidos |
-| `ctx.host.openers(kind)`, `ctx.host.openIn(id, { path })` | módulos que abrem o tipo de arquivo e "Abrir no ..." (quem recebe ganha o evento `open-file`) |
+For any use not covered by the license, contact Piphin Studio through the [issues page](https://github.com/Ruiso-Outside/Piphin-Hub/issues).
 
-Atalhos e janelas extras são liberados sozinhos quando o módulo para.
+<details>
+<summary>For developers</summary>
 
-### Mídia: um módulo usando o que o outro fez (Hub 1.7.0)
-O Hub guarda um índice (`midia.json`) do que os módulos criam ou baixam; os arquivos ficam onde o módulo salvou.
-A tela **Mídia** mostra tudo junto (tocar, ver, abrir em outro módulo, mostrar na pasta, **arrastar para qualquer programa**) e o Início mostra o que foi criado por último.
-
-- **Pôr na Mídia**: `ctx.host.library.add({ path, title, sub: "Efeito sonoro", duration, license, credit, videoOk, cover, game, tags })` (`kind` sai da extensão: `audio`, `video` ou `image`).
-  Quem mantém uma lista própria (Piphin Música, Piphin Captura) usa `sync(lista)` ao abrir e a cada mudança: o que sumiu da lista sai da Mídia. Arquivo apagado sai sozinho.
-- **Usar da Mídia**: `await ctx.host.library.pick({ kinds: ["audio"], multi: true })` abre a janela do Hub por cima do módulo e devolve os itens (`path`, `title`, `credit`, `byName`...).
-- **Abrir no ...**: o módulo declara no `module.json` o que sabe abrir, `"opens": ["image"]`. Outro módulo (ou a tela Mídia) chama `ctx.host.openIn("foto", { path })`: o Hub mostra o módulo e o motor dele recebe `ctx.host.on("open-file", ({ path, kind, title, fromName }) => ...)`.
-- **Mudou**: todos os motores recebem o evento `library-changed`.
-- **IA**: a ferramenta `hub_media_library` (do próprio Hub) lista a Mídia com o caminho de cada arquivo, para a IA usar nas ferramentas dos módulos ("coloque a música que eu baixei no vídeo").
-- Num Hub antigo `ctx.host.library` não existe: teste antes (`const lib = ctx.host.library || null`) e esconda o que depende dela.
-
-Hoje: o **Piphin Música** põe as músicas baixadas (com licença e crédito), o **Piphin Som** as músicas exportadas e os efeitos sonoros, o **Piphin Captura** os prints e gravações (com o jogo aberto, pelo Piphin Jogos), o **Piphin Foto** as imagens exportadas e o **Piphin Vídeo** os vídeos exportados.
-O Vídeo usa tudo isso e, ao exportar, entrega o texto dos créditos das músicas para a descrição; o Som importa áudios; o Foto abre prints; o Música toca o que veio do Som; o Jogos mostra os prints e gravações de cada jogo.
-
-### Idiomas (Hub 1.8.0)
-O módulo é escrito em português e leva um dicionário por idioma em `i18n/<idioma>.json` (`{ "texto em português": "tradução" }`; valores viram `{0}`, `{1}`: `"Vídeo exportado: {0}"`). O Hub faz o resto:
-
-- **Tela**: o texto da página (e `title`, `placeholder`, `aria-label`) é trocado sozinho, inclusive o que aparece depois. Não precisa mudar o código da interface. Campos de texto, `pre`, `code` e o que tiver `data-noi18n`, `.notranslate` ou `translate="no"` ficam como estão; `"i18nSkip": "seletor CSS"` no `module.json` pula mais partes.
-- **Avisos do Windows**: `messageBox`, `notify`, títulos e filtros de `saveDialog`/`openDialog` e o motivo do `keepAlive` são traduzidos pelo Hub.
-- **Datas e números**: `toLocaleString("pt-BR")`, `Intl.DateTimeFormat("pt-BR")` etc. passam a usar o idioma escolhido (dinheiro continua na moeda pedida).
-- **Motor**: `ctx.t("Pronto: {0}", nome)` para textos montados no motor que vão para a tela; `ctx.lang` e a variável `PIPHIN_LANG` para quem precisa saber o idioma.
-- Para a tradução encontrar o texto, escreva frases inteiras: `n > 1 ? "3 arquivos" : "1 arquivo"` em vez de `"arquivo" + (n > 1 ? "s" : "")`.
-- Quem já traduz sozinho (como o Piphin LLM) usa `piphin.info.lang` e põe `"i18n": "self"` no `module.json` para o Hub não mexer na tela.
-- Num Hub antigo nada disso existe e o módulo continua em português.
-
-A ferramenta `scripts/i18n.js` do Hub acha os textos e monta os dicionários:
-```
-node scripts/i18n.js extract <pasta do módulo>       # acha os textos (i18n/source.jsonl); i18n/config.json: { "src", "skip", "skipFiles", "extra" }
-node scripts/i18n.js todo <pasta>                    # o que falta traduzir
-node scripts/i18n.js merge <pasta> traducoes.jsonl   # junta: uma linha por texto, ["pt","en","es","th","zh","ja","ko","id","vi","fr","de","ru"]
-node scripts/i18n.js build <pasta>                   # gera i18n/<idioma>.json (confere os {0})
-```
-No `.zip` do módulo vão só os `i18n/<idioma>.json`.
-
-Se a interface vem de um servidor local do próprio módulo (como o Piphin LLM), declare o endereço em `"allowOrigins": ["http://127.0.0.1:8765"]` no `module.json`; qualquer outro endereço abre no navegador.
-
-**Interface**: uma página comum (sem barra de título; a barra lateral já é a do Hub) com `window.piphin`:
-`piphin.invoke(canal, ...args)` → `{ ok, data }` ou `{ ok: false, error }`, `piphin.on(canal, fn)` e `piphin.info`.
-
-**No catálogo**, módulos ficam em `"modules"` (o Hub antigo ignora essa lista). Um módulo com o mesmo `id` de um app separado substitui o app no Hub:
-```json
-"modules": [{ "id": "macro", "name": "Piphin Macro", "category": "Jogos", "icon": "icons/macro.png",
-  "source": { "type": "github", "repo": "Ruiso-Outside/Piphin-Macro", "asset": "^piphin-module-macro-.*\\.zip$" } }]
-```
-Exemplos completos: `module/` e `scripts/make-module.js` no repositório do Piphin Macro, `desktop/module/` e `desktop/scripts/make-module.js` no do Piphin LLM, e `module/`, `src/InfoHardware.Engine` e `build-module.ps1` no do InfoHardware (motor .NET que roda dentro do PowerShell do Windows, com administrador pelo UAC: o jeito de usar código .NET sem criar um `.exe` que o Controle Inteligente de Aplicativos bloquearia).
-
-Enquanto um módulo ainda não tem Release (e não está instalado), o Hub continua mostrando o app separado de mesmo `id`, se houver.
-
-Em **Configurações → Iniciar com o Windows**, o Hub abre escondido no ícone perto do relógio quando o PC liga, para os atalhos dos módulos funcionarem desde o início.
-
-## Piphin UI (kit de interface)
-O Hub e os módulos usam o mesmo visual. O kit fica em `web/ui/` e o Hub o serve para as páginas dos módulos pelo endereço `piphin://ui/`:
-
-| Arquivo | Conteúdo |
-|---|---|
-| `piphin://ui/tokens.css` | Cores, camadas, forma e tipografia (variáveis `--p-*`, mais os nomes antigos `--bg`, `--panel`, `--accent`... para CSS já existente) |
-| `piphin://ui/kit.css` | Tokens + componentes: `.btn` (`primary`, `ghost`, `danger`, `sm`, `icon`), `.card`, `.card-title`, `.set`, `.switch`, `.seg`, `.chip`, `.badge`, `.dot`, `kbd`, `table.table`, `.kv`, `.progress`, `.spin`, `.p-empty`, `.p-banner`, `.modal`, `.toast`, `.p-subnav` (abas do módulo), `.p-head` (cabeçalho da página) |
-| `piphin://ui/icons.css` | Ícones Lucide (ISC): `<i class="i i-cpu"></i>`. Lista em `scripts/make-ui-icons.js`; `npm run ui-icons` gera de novo |
-
-Uma página de módulo usa assim (a CSP precisa liberar `piphin:` em `style-src`):
-```html
-<link rel="stylesheet" href="piphin://ui/kit.css">
-<link rel="stylesheet" href="piphin://ui/icons.css">
-<style>:root { --p-module: #e879f9; } /* cor do módulo: realces e abas */</style>
-```
-Módulos com CSS próprio grande (como o Piphin LLM) podem carregar só `tokens.css` para adotar a paleta.
-
-### Atalhos do Hub
-- `Ctrl+K`: paleta de comandos (abrir módulos, instalar, atualizar, ir para telas)
-- `Ctrl+1` … `Ctrl+9`: ir direto para um módulo · `Ctrl+,`: Configurações
-
-Funcionam também com o foco dentro de um módulo. Um módulo pode ficar com alguns desses atalhos para ele: `"reservedKeys": ["ctrl+1", "ctrl+2"]` no `module.json` (o Piphin LLM reserva `Ctrl+1…4` para os modos dele).
-
-## Adicionar um app novo
-Há dois jeitos:
-
-**1. Pela tela (só neste PC):** Explorar → **Adicionar app**. Informe o repositório do GitHub (ou uma pasta local com os `.zip`/`.exe`, útil para testar antes de publicar), o padrão do arquivo do Release e o nome do `.exe`.
-
-**2. No catálogo (para todos os PCs):** acrescente uma entrada em `catalog.json`. Se o catálogo estiver publicado em `Ruiso-Outside/Piphin-Hub` (branch `main`), todos os Hubs recebem o app novo na próxima verificação, sem precisar atualizar o Hub.
-
-```json
-{
-  "id": "autoclick",
-  "name": "AutoClicker Pro",
-  "description": "Cliques automáticos com rotas personalizadas.",
-  "category": "Produtividade",
-  "icon": "icons/autoclick.png",
-  "accent": "#f472b6",
-  "source": { "type": "github", "repo": "Ruiso-Outside/AutoClick", "asset": "win-x64\\.zip$" },
-  "install": { "type": "portable", "folder": "AutoClicker Pro", "exe": "AutoClicker Pro.exe" }
-}
-```
-
-### Campos
-| Campo | Significado |
-|---|---|
-| `id` | Identificador único (minúsculas, sem espaço) |
-| `icon` | Caminho dentro do Hub (`icons/...`) ou URL `https://` |
-| `accent` | Cor do card |
-| `source.type` | `github` (Releases) ou `local` (pasta, com `path`) |
-| `source.asset` | Expressão regular que escolhe o arquivo do Release |
-| `source.prerelease` | `true` para aceitar pré-lançamentos |
-| `install.type` | `portable` (.zip extraído numa pasta) ou `installer` (.exe de instalação) |
-| `install.exe` | Executável do app, relativo à pasta de instalação |
-| `install.folder` | (portable) nome da pasta dentro da *Pasta dos apps* |
-| `install.keep` | (portable) arquivos/pastas mantidos entre versões (ex.: `["config", "data"]`) |
-| `install.versionFile` | JSON com `"version"` para ler a versão real (apps que se atualizam sozinhos) |
-| `install.shortcutName` / `shortcutAliases` | Nome do atalho criado / nomes antigos usados para achar instalações existentes |
-| `install.silentArgs` | (installer) argumentos de instalação silenciosa (ex.: `["/silent"]`, `["/S"]` no NSIS) |
-| `install.dirArg` | (installer) argumento de pasta, com `{dir}` (ex.: `"/dir={dir}"`) |
-| `install.uninstallKey` | (installer) chave em `...\CurrentVersion\Uninstall\` para versão, pasta e desinstalador |
-| `install.selfUpdating` | O app também se atualiza sozinho (só informativo) |
-| `t` | Traduções do card: `{ "en": { "description": "...", "category": "..." }, "th": {...} }` (Hub 1.8.0; sem tradução, fica o português) |
-
-A versão de cada Release vem da **tag** (`v1.2.3`). Para o Hub reconhecer um app novo, basta publicar um Release com o arquivo (`.zip` portátil de preferência: sem instalador, o Controle Inteligente de Aplicativos não atrapalha).
-
-## Desenvolvimento
-```
-npm install
-npm start          # roda o Hub
-npm run check      # teste rápido sem interface: catálogo, detecção e GitHub
-npm run icon       # redesenha icons/hub.png e hub.ico
-npm run dist       # gera dist\Piphin-Hub-X-win-x64.zip e dist\hub-app-X.zip
-```
-
-### Publicar uma versão do Hub
-1. Aumente `"version"` no `package.json`, faça o commit e rode `npm run dist`.
-2. Rode `npm run release -- notas.md` (o arquivo de notas é opcional). Ele envia o código, cria a tag `vX.Y.Z` e o Release com `Piphin-Hub-X.Y.Z-win-x64.zip` (instalação nova) e `hub-app-X.Y.Z.zip` (atualização automática). Usa a variável `GH_TOKEN` ou, sem ela, o login do GitHub salvo no Git.
-
-Em até uma hora, todos os Hubs abertos baixam a versão nova e perguntam se podem reiniciar.
-
-## Estrutura
-| Arquivo | Conteúdo |
-|---|---|
-| `main.js` / `preload.js` | Janela, ponte com a interface, verificação periódica |
-| `lib/apps.js` | Catálogo, detecção e ações (instalar, atualizar, desinstalar, abrir) |
-| `lib/sources.js` | Consulta dos Releases do GitHub / pasta local |
-| `lib/download.js` | Download com progresso, cancelamento e SHA-256 |
-| `lib/selfupdate.js` | Atualização do próprio Hub |
-| `lib/util.js` | Registro, processos, versões, extração de `.zip` |
-| `web/` | Interface |
-| `catalog.json` | Apps que vêm com o Hub |
+How the Hub works, the module system and the catalog are documented (in Portuguese) in [docs/DEVELOPERS.md](docs/DEVELOPERS.md).
+</details>
