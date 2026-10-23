@@ -1,7 +1,7 @@
 {
   "name": "piphin-hub",
   "productName": "Piphin Hub",
-  "version": "1.7.0",
+  "version": "1.8.0",
   "description": "Piphin Hub: baixe, atualize e gerencie os apps da Piphin Studio",
   "main": "main.js",
   "author": "Piphin Studio",
@@ -25,7 +25,9 @@
       "catalog.json",
       "lib/**",
       "web/**",
-      "icons/**"
+      "icons/**",
+      "i18n/*.json",
+      "!i18n/config.json"
     ],
     "directories": {
       "output": "dist"
@@ -46,6 +48,8 @@
     "asar": false
   },
   "devDependencies": {
+    "acorn": "^8.14.0",
+    "acorn-walk": "^8.3.4",
     "electron": "44.4.5",
     "electron-builder": "26.16.1",
     "lucide-static": "^1.59.0"

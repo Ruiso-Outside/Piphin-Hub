@@ -10,6 +10,7 @@ const selfupdate = require("./lib/selfupdate");
 const { ModuleHost } = require("./lib/modules");
 const { ToolsServer } = require("./lib/tools-server");
 const { MediaLibrary } = require("./lib/library");
+const i18n = require("./lib/i18n");
 const zone = require("./lib/zone");
 
 app.setAppUserModelId("studio.piphin.hub");
@@ -53,6 +54,18 @@ let modules = null; // módulos que rodam dentro do Hub
 let tools = null; // ferramentas dos módulos para a IA (servidor MCP local)
 let library = null; // mídia compartilhada entre os módulos (lib/library.js)
 const picks = new Map(); // janelas "Escolher da mídia" abertas: id -> resolve
+// idioma: o escolhido em Configurações ou o do Windows; T traduz os textos do processo principal
+let lang = "pt";
+let hubDict = {};
+let T = i18n.createTranslator({});
+function applyLanguage() {
+  const want = hub && hub.settings.language;
+  lang = want && want !== "auto" && i18n.LANGS[want] ? want : i18n.fromSystem(app.getPreferredSystemLanguages());
+  hubDict = i18n.loadDict(__dirname, lang);
+  T = i18n.createTranslator(hubDict);
+  if (modules) modules.setLanguage(lang);
+  updateTray();
+}
 let tray = null;
 let quitting = false;
 let modulesStopped = false;
@@ -104,20 +117,20 @@ function showTray(hint) {
   updateTray();
   if (hint && !trayHinted) {
     trayHinted = true;
-    tray.displayBalloon({ title: "Piphin Hub", content: `Continua rodando aqui: ${modules.keepAliveReasons().join(", ")}. Clique no ícone para abrir.`, iconType: "info" });
+    tray.displayBalloon({ title: "Piphin Hub", content: T(`Continua rodando aqui: ${modules.keepAliveReasons().join(", ")}. Clique no ícone para abrir.`), iconType: "info" });
   }
 }
 
 function updateTray() {
   if (!tray) return;
   const reasons = modules ? modules.keepAliveReasons() : [];
-  tray.setToolTip("Piphin Hub" + (reasons.length ? " · " + reasons.join(", ") : ""));
+  tray.setToolTip("Piphin Hub" + (reasons.length ? " · " + reasons.map((r) => T(r)).join(", ") : ""));
   const mods = modules ? modules.status() : [];
   tray.setContextMenu(Menu.buildFromTemplate([
-    { label: "Abrir o Piphin Hub", click: showWin },
+    { label: T("Abrir o Piphin Hub"), click: showWin },
     ...(mods.length ? [{ type: "separator" }, ...mods.map((m) => ({ label: m.name, click: () => { showWin(); send("hub:openModule", m.id); } }))] : []),
     { type: "separator" },
-    { label: "Sair", click: () => { quitting = true; app.quit(); } },
+    { label: T("Sair"), click: () => { quitting = true; app.quit(); } },
   ]));
 }
 
@@ -146,7 +159,15 @@ function handle(name, fn) {
 }
 
 function registerIpc() {
-  handle("hub:snapshot", () => ({ ...hub.snapshot(), hubVersion: app.getVersion(), hubUpdate, modules: modules.status(), visibleModule: modules.visible, hubBlocked: hubBlocked() }));
+  handle("hub:snapshot", () => {
+    const s = hub.snapshot();
+    // descrição de cada app/módulo no idioma escolhido (campo "t" do catálogo)
+    for (const a of s.apps) { const tt = a.t && a.t[lang]; if (tt) { if (tt.description) a.description = tt.description; if (tt.category) a.category = tt.category; } }
+    return { ...s, hubVersion: app.getVersion(), hubUpdate, modules: modules.status(), visibleModule: modules.visible, hubBlocked: hubBlocked(),
+      lang, langs: Object.entries(i18n.LANGS).map(([code, l]) => ({ code, name: l.name })) };
+  });
+  // tradução da tela do Hub (preload.js executa o script na página)
+  ipcMain.on("hub:i18n", (e) => { e.returnValue = i18n.domScript(hubDict, lang); });
   handle("hub:unblock", () => unblockHub());
   handle("hub:openModule", (id) => modules.show(id));
   handle("hub:layout", (o) => { if (o && typeof o.left === "number") modules.setInsetLeft(o.left); if (o && "covered" in o) modules.setCovered(o.covered); });
@@ -219,6 +240,7 @@ function registerIpc() {
     if (patch.githubToken === "••••") delete patch.githubToken; // valor mascarado: não mudou
     hub.setSettings(patch);
     if ("startWithWindows" in patch) applyStartWithWindows();
+    if ("language" in patch) { applyLanguage(); if (win && !win.isDestroyed()) setTimeout(() => win.webContents.reload(), 150); }
     return null;
   });
   handle("hub:hubShortcuts", () => hubShortcuts(true));
@@ -271,7 +293,7 @@ async function askRestart() {
   if (!win || win.isDestroyed()) return;
   if (!win.isVisible()) return restartHidden();
   if (!win.isFocused() && Notification.isSupported()) {
-    const n = new Notification({ title: "Piphin Hub", body: `A versão ${hubUpdate.version} do Hub está pronta. Clique para reiniciar.`, icon: ICON });
+    const n = new Notification({ title: "Piphin Hub", body: T(`A versão ${hubUpdate.version} do Hub está pronta. Clique para reiniciar.`), icon: ICON });
     n.on("click", () => { win.show(); win.focus(); });
     n.show();
   }
@@ -279,10 +301,10 @@ async function askRestart() {
   const notes = String(hubUpdate.notes || "").replace(/[*`]/g, "").trim().slice(0, 600);
   const r = await dialog.showMessageBox(win, {
     type: "info",
-    title: "Atualização do Piphin Hub",
-    message: `O Piphin Hub ${hubUpdate.version} foi baixado.`,
-    detail: (notes ? notes + "\n\n" : "") + "Reiniciar agora para usar a versão nova? Se escolher \"Depois\", ela é aplicada quando você fechar o Hub.",
-    buttons: ["Reiniciar agora", "Depois"],
+    title: T("Atualização do Piphin Hub"),
+    message: T(`O Piphin Hub ${hubUpdate.version} foi baixado.`),
+    detail: (notes ? notes + "\n\n" : "") + T("Reiniciar agora para usar a versão nova? Se escolher \"Depois\", ela é aplicada quando você fechar o Hub."),
+    buttons: [T("Reiniciar agora"), T("Depois")],
     defaultId: 0,
     cancelId: 1,
     noLink: true,
@@ -301,7 +323,7 @@ async function periodicCheck(first) {
         try { await hub.install(a.id, { closeIfRunning: false }); } catch { /* aberto ou sem rede: fica para depois */ }
       }
     } else if (pending.length && !first && Notification.isSupported() && !(win && win.isFocused())) {
-      const n = new Notification({ title: "Piphin Hub", body: `Atualização disponível: ${pending.map((a) => a.name).join(", ")}`, icon: ICON });
+      const n = new Notification({ title: "Piphin Hub", body: T(`Atualização disponível: ${pending.map((a) => a.name).join(", ")}`), icon: ICON });
       n.on("click", () => { if (win) { win.show(); win.focus(); } });
       n.show();
     }
@@ -402,6 +424,7 @@ app.whenReady().then(async () => {
   modules.on("shortcut", (k) => send("hub:shortcut", k));
   modules.on("startWithWindows", (on) => { hub.setSettings({ startWithWindows: on }); applyStartWithWindows(); send("hub:changed"); });
   hub = new Hub({ appDir: __dirname, userDir: userData, shell, desktopDir: app.getPath("desktop"), modules });
+  applyLanguage();
   hub.on("openModule", (id) => send("hub:openModule", id));
   applyStartWithWindows();
   hubShortcuts(false);

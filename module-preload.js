@@ -1,8 +1,11 @@
 // Ponte da interface de um módulo com o motor dele (e com o Hub).
 //   piphin.invoke(canal, ...args)  -> { ok, data } | { ok:false, error }
 //   piphin.on(canal, fn)           eventos enviados pelo motor (ctx.emit)
-//   piphin.info                    { id, name, version, hubVersion }
-const { contextBridge, ipcRenderer } = require("electron");
+//   piphin.info                    { id, name, version, hubVersion, lang, locale }
+// A tela é traduzida sozinha pelo Hub com o dicionário do módulo (i18n/<idioma>.json, veja lib/i18n.js).
+const { contextBridge, ipcRenderer, webFrame } = require("electron");
+
+try { const s = ipcRenderer.sendSync("mod:i18n"); if (s) webFrame.executeJavaScript(s); } catch { /* fica em português */ }
 
 const listeners = new Map();
 ipcRenderer.on("mod:event", (_e, ch, data) => {

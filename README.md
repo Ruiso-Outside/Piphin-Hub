@@ -17,6 +17,7 @@ Igual ao Piphin LLM: o `.exe` é o do Electron oficial, sem modificações, por 
 - Downloads conferidos por **SHA-256** (o GitHub publica o hash de cada arquivo). Se o app estiver aberto, o Hub pergunta antes de fechá-lo.
 - Atualização **sem perder dados**: a versão nova é extraída ao lado, as pastas marcadas em `keep` são mantidas, e se algo falhar a versão anterior volta.
 - **Mídia**: tudo que os módulos criam ou baixam num lugar só, pronto para usar em qualquer módulo (veja abaixo).
+- **12 idiomas**: Português, English, Español, ไทย, 简体中文, 日本語, 한국어, Bahasa Indonesia, Tiếng Việt, Français, Deutsch e Русский. Em **Configurações → Geral → Idioma** ("Automático" segue o Windows). Vale para o Hub, os módulos, as janelas do Windows (avisos, salvar/abrir) e as datas e números.
 - **O próprio Hub se atualiza sozinho**: ao abrir e a cada hora ele consulta os Releases de `Ruiso-Outside/Piphin-Hub`, baixa a versão nova em segundo plano (conferindo o SHA-256) e pergunta se pode reiniciar. Se você escolher "Depois", ela entra quando o Hub for fechado. Só a pasta `resources\app` é trocada; se algo falhar, a versão atual continua.
 
 ## Módulos
@@ -60,6 +61,7 @@ web/             interface
 | `ctx.host.on(evento, fn)` | `hotkey`, `window-blur`, `window-show`, `window-hide`, `view-shown` / `view-hidden` (a tela do módulo apareceu / sumiu: bom para ligar e desligar o que só serve enquanto alguém olha) |
 | janelas de overlay | `openWindow` com `clickThrough: true` (cliques passam) e `topLevel: "screen-saver"` (acima de jogos); `showWindow` com `placement: "top-left"`, `"top-right"`, `"bottom-left"` ou `"bottom-right"` e `focus: false`; `setWindowOpacity` |
 | `ctx.log(...)` | registro em `%APPDATA%\Piphin Hub\logs\<id>.log` |
+| `ctx.lang`, `ctx.t(texto, ...valores)` | idioma escolhido no Hub (`pt`, `en`, `th`...) e tradução pelo dicionário do módulo; ao trocar de idioma chega o evento `language` (Hub 1.8.0) |
 
 | `ctx.host.library.add(itens)` / `sync(itens)` / `remove(caminhos)` | põe na **Mídia** o que o módulo criou ou baixou (Hub 1.7.0); `sync` troca a lista inteira do módulo |
 | `ctx.host.library.list({ kind, kinds, by, query, tag, game, limit })`, `thumb(id)` | o que todos os módulos criaram; miniatura (JPEG em data URL) |
@@ -82,6 +84,26 @@ A tela **Mídia** mostra tudo junto (tocar, ver, abrir em outro módulo, mostrar
 
 Hoje: o **Piphin Música** põe as músicas baixadas (com licença e crédito), o **Piphin Som** as músicas exportadas e os efeitos sonoros, o **Piphin Captura** os prints e gravações (com o jogo aberto, pelo Piphin Jogos), o **Piphin Foto** as imagens exportadas e o **Piphin Vídeo** os vídeos exportados.
 O Vídeo usa tudo isso e, ao exportar, entrega o texto dos créditos das músicas para a descrição; o Som importa áudios; o Foto abre prints; o Música toca o que veio do Som; o Jogos mostra os prints e gravações de cada jogo.
+
+### Idiomas (Hub 1.8.0)
+O módulo é escrito em português e leva um dicionário por idioma em `i18n/<idioma>.json` (`{ "texto em português": "tradução" }`; valores viram `{0}`, `{1}`: `"Vídeo exportado: {0}"`). O Hub faz o resto:
+
+- **Tela**: o texto da página (e `title`, `placeholder`, `aria-label`) é trocado sozinho, inclusive o que aparece depois. Não precisa mudar o código da interface. Campos de texto, `pre`, `code` e o que tiver `data-noi18n`, `.notranslate` ou `translate="no"` ficam como estão; `"i18nSkip": "seletor CSS"` no `module.json` pula mais partes.
+- **Avisos do Windows**: `messageBox`, `notify`, títulos e filtros de `saveDialog`/`openDialog` e o motivo do `keepAlive` são traduzidos pelo Hub.
+- **Datas e números**: `toLocaleString("pt-BR")`, `Intl.DateTimeFormat("pt-BR")` etc. passam a usar o idioma escolhido (dinheiro continua na moeda pedida).
+- **Motor**: `ctx.t("Pronto: {0}", nome)` para textos montados no motor que vão para a tela; `ctx.lang` e a variável `PIPHIN_LANG` para quem precisa saber o idioma.
+- Para a tradução encontrar o texto, escreva frases inteiras: `n > 1 ? "3 arquivos" : "1 arquivo"` em vez de `"arquivo" + (n > 1 ? "s" : "")`.
+- Quem já traduz sozinho (como o Piphin LLM) usa `piphin.info.lang` e põe `"i18n": "self"` no `module.json` para o Hub não mexer na tela.
+- Num Hub antigo nada disso existe e o módulo continua em português.
+
+A ferramenta `scripts/i18n.js` do Hub acha os textos e monta os dicionários:
+```
+node scripts/i18n.js extract <pasta do módulo>       # acha os textos (i18n/source.jsonl); i18n/config.json: { "src", "skip", "skipFiles", "extra" }
+node scripts/i18n.js todo <pasta>                    # o que falta traduzir
+node scripts/i18n.js merge <pasta> traducoes.jsonl   # junta: uma linha por texto, ["pt","en","es","th","zh","ja","ko","id","vi","fr","de","ru"]
+node scripts/i18n.js build <pasta>                   # gera i18n/<idioma>.json (confere os {0})
+```
+No `.zip` do módulo vão só os `i18n/<idioma>.json`.
 
 Se a interface vem de um servidor local do próprio módulo (como o Piphin LLM), declare o endereço em `"allowOrigins": ["http://127.0.0.1:8765"]` no `module.json`; qualquer outro endereço abre no navegador.
 
@@ -161,6 +183,7 @@ Há dois jeitos:
 | `install.dirArg` | (installer) argumento de pasta, com `{dir}` (ex.: `"/dir={dir}"`) |
 | `install.uninstallKey` | (installer) chave em `...\CurrentVersion\Uninstall\` para versão, pasta e desinstalador |
 | `install.selfUpdating` | O app também se atualiza sozinho (só informativo) |
+| `t` | Traduções do card: `{ "en": { "description": "...", "category": "..." }, "th": {...} }` (Hub 1.8.0; sem tradução, fica o português) |
 
 A versão de cada Release vem da **tag** (`v1.2.3`). Para o Hub reconhecer um app novo, basta publicar um Release com o arquivo (`.zip` portátil de preferência: sem instalador, o Controle Inteligente de Aplicativos não atrapalha).
 

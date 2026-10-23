@@ -6,7 +6,13 @@ const { execFileSync } = require("child_process");
 
 const root = path.join(__dirname, "..");
 const pkg = require(path.join(root, "package.json"));
-const files = pkg.build.files.map((f) => f.replace(/\/\*\*$/, ""));
+// "pasta/**" vira a pasta; "pasta/*.json" vira os arquivos; "!arquivo" fica de fora
+const skip = new Set(pkg.build.files.filter((f) => f.startsWith("!")).map((f) => f.slice(1)));
+const files = pkg.build.files.filter((f) => !f.startsWith("!")).map((f) => f.replace(/\/\*\*$/, "")).flatMap((f) => {
+  if (!f.includes("*")) return [f];
+  const dir = path.posix.dirname(f), re = new RegExp("^" + path.posix.basename(f).replace(/[.+^${}()|[\]\\]/g, "\\$&").replace(/\*/g, ".*") + "$");
+  return fs.readdirSync(path.join(root, dir)).filter((n) => re.test(n)).map((n) => dir + "/" + n);
+}).filter((f) => !skip.has(f));
 const out = path.join(root, "dist", `hub-app-${pkg.version}.zip`);
 fs.mkdirSync(path.dirname(out), { recursive: true });
 fs.rmSync(out, { force: true });

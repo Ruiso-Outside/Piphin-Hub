@@ -1,4 +1,7 @@
-const { contextBridge, ipcRenderer } = require("electron");
+const { contextBridge, ipcRenderer, webFrame } = require("electron");
+
+// a tela do Hub no idioma escolhido (lib/i18n.js)
+try { webFrame.executeJavaScript(ipcRenderer.sendSync("hub:i18n")); } catch { /* fica em português */ }
 
 const call = (ch) => (...args) => ipcRenderer.invoke(ch, ...args);
 

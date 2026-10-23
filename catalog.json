@@ -21,6 +21,41 @@
         ],
         "dirArg": "/dir={dir}",
         "uninstallKey": "InfoHardware"
+      },
+      "t": {
+        "en": {
+          "description": "Hardware details, sensors and real-time monitoring with an FPS overlay for games."
+        },
+        "es": {
+          "description": "Información del hardware, sensores y monitoreo en tiempo real con overlay de FPS para juegos."
+        },
+        "th": {
+          "description": "ข้อมูลฮาร์ดแวร์ เซ็นเซอร์ และการตรวจสอบแบบเรียลไทม์ พร้อมโอเวอร์เลย์ FPS สำหรับเกม"
+        },
+        "zh": {
+          "description": "硬件信息、传感器和实时监控，并提供游戏 FPS 叠加层。"
+        },
+        "ja": {
+          "description": "ハードウェア情報、センサー、リアルタイム監視。ゲーム用の FPS オーバーレイ付き。"
+        },
+        "ko": {
+          "description": "하드웨어 정보, 센서, 실시간 모니터링과 게임용 FPS 오버레이."
+        },
+        "id": {
+          "description": "Info perangkat keras, sensor, dan pemantauan real-time dengan overlay FPS untuk game."
+        },
+        "vi": {
+          "description": "Thông tin phần cứng, cảm biến và giám sát thời gian thực với lớp phủ FPS cho game."
+        },
+        "fr": {
+          "description": "Infos matériel, capteurs et surveillance en temps réel avec overlay FPS pour les jeux."
+        },
+        "de": {
+          "description": "Hardware-Infos, Sensoren und Echtzeit-Überwachung mit FPS-Overlay für Spiele."
+        },
+        "ru": {
+          "description": "Сведения о железе, датчики и мониторинг в реальном времени с FPS-оверлеем для игр."
+        }
       }
     },
     {
@@ -49,6 +84,41 @@
           "uninstallerIcon.ico"
         ],
         "selfUpdating": true
+      },
+      "t": {
+        "en": {
+          "description": "Local AI on your PC: chat with attachments, Codex, images and quick questions. No account, nothing sent to the internet."
+        },
+        "es": {
+          "description": "IA local en tu PC: chat con adjuntos, Codex, imágenes y pregunta rápida. Sin cuenta y sin enviar nada a internet."
+        },
+        "th": {
+          "description": "AI ในเครื่องของคุณ: แชตพร้อมไฟล์แนบ Codex สร้างรูปภาพ และถามแบบด่วน ไม่ต้องมีบัญชี ไม่ส่งข้อมูลออกอินเทอร์เน็ต"
+        },
+        "zh": {
+          "description": "在你的电脑上运行本地 AI：带附件的聊天、Codex、图片和快速提问。无需账号，数据不上网。"
+        },
+        "ja": {
+          "description": "PC で動くローカル AI：添付ファイル付きチャット、Codex、画像生成、クイック質問。アカウント不要で、データはインターネットに送られません。"
+        },
+        "ko": {
+          "description": "PC에서 돌아가는 로컬 AI: 첨부 파일 채팅, Codex, 이미지, 빠른 질문. 계정이 필요 없고 인터넷으로 아무것도 보내지 않습니다."
+        },
+        "id": {
+          "description": "AI lokal di PC Anda: chat dengan lampiran, Codex, gambar, dan tanya cepat. Tanpa akun, tidak ada yang dikirim ke internet."
+        },
+        "vi": {
+          "description": "AI chạy ngay trên máy bạn: trò chuyện kèm tệp, Codex, tạo ảnh và hỏi nhanh. Không cần tài khoản, không gửi gì lên mạng."
+        },
+        "fr": {
+          "description": "IA locale sur votre PC : chat avec pièces jointes, Codex, images et question rapide. Sans compte, rien n'est envoyé sur Internet."
+        },
+        "de": {
+          "description": "Lokale KI auf deinem PC: Chat mit Anhängen, Codex, Bilder und Schnellfrage. Ohne Konto, nichts geht ins Internet."
+        },
+        "ru": {
+          "description": "Локальный ИИ на вашем ПК: чат с вложениями, Codex, изображения и быстрый вопрос. Без аккаунта, ничего не уходит в интернет."
+        }
       }
     },
     {
@@ -69,6 +139,41 @@
         "exe": "Piphin Macro.exe",
         "versionFile": "resources/app/package.json",
         "shortcutName": "Piphin Macro"
+      },
+      "t": {
+        "en": {
+          "description": "Keyboard and mouse macros, recorder, autoclicker and an anti-macro analyzer to test your games."
+        },
+        "es": {
+          "description": "Macros de teclado y ratón, grabador, autoclicker y analizador anti-macro para probar tus juegos."
+        },
+        "th": {
+          "description": "มาโครคีย์บอร์ดและเมาส์ ตัวบันทึก ออโต้คลิก และตัววิเคราะห์ป้องกันมาโครสำหรับทดสอบเกมของคุณ"
+        },
+        "zh": {
+          "description": "键盘和鼠标宏、录制器、连点器，以及用于测试游戏的反宏分析器。"
+        },
+        "ja": {
+          "description": "キーボードとマウスのマクロ、レコーダー、オートクリッカー、ゲームをテストするアンチマクロ分析。"
+        },
+        "ko": {
+          "description": "키보드·마우스 매크로, 녹화기, 오토클리커, 게임 테스트용 매크로 탐지 분석기."
+        },
+        "id": {
+          "description": "Makro keyboard dan mouse, perekam, autoclicker, dan penganalisis anti-makro untuk menguji game Anda."
+        },
+        "vi": {
+          "description": "Macro bàn phím và chuột, trình ghi, autoclicker và bộ phân tích chống macro để thử game của bạn."
+        },
+        "fr": {
+          "description": "Macros clavier et souris, enregistreur, autoclicker et analyseur anti-macro pour tester vos jeux."
+        },
+        "de": {
+          "description": "Tastatur- und Maus-Makros, Rekorder, Autoclicker und Anti-Makro-Analyse zum Testen deiner Spiele."
+        },
+        "ru": {
+          "description": "Макросы клавиатуры и мыши, запись, автокликер и анализатор антимакросов для проверки ваших игр."
+        }
       }
     }
   ],
@@ -84,6 +189,41 @@
         "type": "github",
         "repo": "Ruiso-Outside/Piphin-Macro",
         "asset": "^piphin-module-macro-.*\\.zip$"
+      },
+      "t": {
+        "en": {
+          "description": "Keyboard and mouse macros, recorder, autoclicker and an anti-macro analyzer to test your games."
+        },
+        "es": {
+          "description": "Macros de teclado y ratón, grabador, autoclicker y analizador anti-macro para probar tus juegos."
+        },
+        "th": {
+          "description": "มาโครคีย์บอร์ดและเมาส์ ตัวบันทึก ออโต้คลิก และตัววิเคราะห์ป้องกันมาโครสำหรับทดสอบเกมของคุณ"
+        },
+        "zh": {
+          "description": "键盘和鼠标宏、录制器、连点器，以及用于测试游戏的反宏分析器。"
+        },
+        "ja": {
+          "description": "キーボードとマウスのマクロ、レコーダー、オートクリッカー、ゲームをテストするアンチマクロ分析。"
+        },
+        "ko": {
+          "description": "키보드·마우스 매크로, 녹화기, 오토클리커, 게임 테스트용 매크로 탐지 분석기."
+        },
+        "id": {
+          "description": "Makro keyboard dan mouse, perekam, autoclicker, dan penganalisis anti-makro untuk menguji game Anda."
+        },
+        "vi": {
+          "description": "Macro bàn phím và chuột, trình ghi, autoclicker và bộ phân tích chống macro để thử game của bạn."
+        },
+        "fr": {
+          "description": "Macros clavier et souris, enregistreur, autoclicker et analyseur anti-macro pour tester vos jeux."
+        },
+        "de": {
+          "description": "Tastatur- und Maus-Makros, Rekorder, Autoclicker und Anti-Makro-Analyse zum Testen deiner Spiele."
+        },
+        "ru": {
+          "description": "Макросы клавиатуры и мыши, запись, автокликер и анализатор антимакросов для проверки ваших игр."
+        }
       }
     },
     {
@@ -97,6 +237,41 @@
         "type": "github",
         "repo": "Ruiso-Outside/LLM",
         "asset": "^piphin-module-llm-.*\\.zip$"
+      },
+      "t": {
+        "en": {
+          "description": "Local AI on your PC: chat with attachments, Codex, images and quick questions. No account, nothing sent to the internet."
+        },
+        "es": {
+          "description": "IA local en tu PC: chat con adjuntos, Codex, imágenes y pregunta rápida. Sin cuenta y sin enviar nada a internet."
+        },
+        "th": {
+          "description": "AI ในเครื่องของคุณ: แชตพร้อมไฟล์แนบ Codex สร้างรูปภาพ และถามแบบด่วน ไม่ต้องมีบัญชี ไม่ส่งข้อมูลออกอินเทอร์เน็ต"
+        },
+        "zh": {
+          "description": "在你的电脑上运行本地 AI：带附件的聊天、Codex、图片和快速提问。无需账号，数据不上网。"
+        },
+        "ja": {
+          "description": "PC で動くローカル AI：添付ファイル付きチャット、Codex、画像生成、クイック質問。アカウント不要で、データはインターネットに送られません。"
+        },
+        "ko": {
+          "description": "PC에서 돌아가는 로컬 AI: 첨부 파일 채팅, Codex, 이미지, 빠른 질문. 계정이 필요 없고 인터넷으로 아무것도 보내지 않습니다."
+        },
+        "id": {
+          "description": "AI lokal di PC Anda: chat dengan lampiran, Codex, gambar, dan tanya cepat. Tanpa akun, tidak ada yang dikirim ke internet."
+        },
+        "vi": {
+          "description": "AI chạy ngay trên máy bạn: trò chuyện kèm tệp, Codex, tạo ảnh và hỏi nhanh. Không cần tài khoản, không gửi gì lên mạng."
+        },
+        "fr": {
+          "description": "IA locale sur votre PC : chat avec pièces jointes, Codex, images et question rapide. Sans compte, rien n'est envoyé sur Internet."
+        },
+        "de": {
+          "description": "Lokale KI auf deinem PC: Chat mit Anhängen, Codex, Bilder und Schnellfrage. Ohne Konto, nichts geht ins Internet."
+        },
+        "ru": {
+          "description": "Локальный ИИ на вашем ПК: чат с вложениями, Codex, изображения и быстрый вопрос. Без аккаунта, ничего не уходит в интернет."
+        }
       }
     },
     {
@@ -110,6 +285,41 @@
         "type": "github",
         "repo": "Ruiso-Outside/InfoHardware",
         "asset": "^piphin-module-infohardware-.*\\.zip$"
+      },
+      "t": {
+        "en": {
+          "description": "Hardware details, sensors and real-time monitoring with an FPS overlay for games."
+        },
+        "es": {
+          "description": "Información del hardware, sensores y monitoreo en tiempo real con overlay de FPS para juegos."
+        },
+        "th": {
+          "description": "ข้อมูลฮาร์ดแวร์ เซ็นเซอร์ และการตรวจสอบแบบเรียลไทม์ พร้อมโอเวอร์เลย์ FPS สำหรับเกม"
+        },
+        "zh": {
+          "description": "硬件信息、传感器和实时监控，并提供游戏 FPS 叠加层。"
+        },
+        "ja": {
+          "description": "ハードウェア情報、センサー、リアルタイム監視。ゲーム用の FPS オーバーレイ付き。"
+        },
+        "ko": {
+          "description": "하드웨어 정보, 센서, 실시간 모니터링과 게임용 FPS 오버레이."
+        },
+        "id": {
+          "description": "Info perangkat keras, sensor, dan pemantauan real-time dengan overlay FPS untuk game."
+        },
+        "vi": {
+          "description": "Thông tin phần cứng, cảm biến và giám sát thời gian thực với lớp phủ FPS cho game."
+        },
+        "fr": {
+          "description": "Infos matériel, capteurs et surveillance en temps réel avec overlay FPS pour les jeux."
+        },
+        "de": {
+          "description": "Hardware-Infos, Sensoren und Echtzeit-Überwachung mit FPS-Overlay für Spiele."
+        },
+        "ru": {
+          "description": "Сведения о железе, датчики и мониторинг в реальном времени с FPS-оверлеем для игр."
+        }
       }
     },
     {
@@ -123,6 +333,41 @@
         "type": "github",
         "repo": "Ruiso-Outside/Piphin-Foto",
         "asset": "^piphin-module-foto-.*\\.zip$"
+      },
+      "t": {
+        "en": {
+          "description": "Full image editor: layers, selections, brushes, text, adjustments and filters with preview, crop and PNG, JPG and WebP export. Piphin LLM's AI can edit here too."
+        },
+        "es": {
+          "description": "Editor de imágenes completo: capas, selecciones, pinceles, texto, ajustes y filtros con vista previa, recorte y exportación PNG, JPG y WebP. La IA de Piphin LLM también edita aquí."
+        },
+        "th": {
+          "description": "โปรแกรมแต่งภาพครบชุด: เลเยอร์ การเลือก พู่กัน ข้อความ การปรับแต่ง และฟิลเตอร์พร้อมพรีวิว ครอป และส่งออก PNG, JPG, WebP AI ของ Piphin LLM ก็แต่งภาพที่นี่ได้"
+        },
+        "zh": {
+          "description": "完整的图片编辑器：图层、选区、画笔、文字、调整和带预览的滤镜、裁剪，导出 PNG、JPG 和 WebP。Piphin LLM 的 AI 也能在这里编辑。"
+        },
+        "ja": {
+          "description": "本格的な画像エディター：レイヤー、選択範囲、ブラシ、テキスト、プレビュー付きの調整とフィルター、切り抜き、PNG・JPG・WebP 書き出し。Piphin LLM の AI もここで編集できます。"
+        },
+        "ko": {
+          "description": "완전한 이미지 편집기: 레이어, 선택 영역, 브러시, 텍스트, 미리보기가 있는 보정과 필터, 자르기, PNG·JPG·WebP 내보내기. Piphin LLM의 AI도 여기서 편집합니다."
+        },
+        "id": {
+          "description": "Editor gambar lengkap: layer, seleksi, kuas, teks, penyesuaian dan filter dengan pratinjau, potong, serta ekspor PNG, JPG, dan WebP. AI Piphin LLM juga bisa mengedit di sini."
+        },
+        "vi": {
+          "description": "Trình chỉnh sửa ảnh đầy đủ: lớp, vùng chọn, cọ, chữ, chỉnh màu và bộ lọc có xem trước, cắt ảnh và xuất PNG, JPG, WebP. AI của Piphin LLM cũng chỉnh được ở đây."
+        },
+        "fr": {
+          "description": "Éditeur d'images complet : calques, sélections, pinceaux, texte, réglages et filtres avec aperçu, recadrage et export PNG, JPG et WebP. L'IA de Piphin LLM peut aussi retoucher ici."
+        },
+        "de": {
+          "description": "Vollständiger Bildeditor: Ebenen, Auswahlen, Pinsel, Text, Anpassungen und Filter mit Vorschau, Zuschneiden und Export als PNG, JPG und WebP. Auch die KI von Piphin LLM kann hier bearbeiten."
+        },
+        "ru": {
+          "description": "Полноценный редактор изображений: слои, выделения, кисти, текст, коррекция и фильтры с предпросмотром, обрезка и экспорт в PNG, JPG и WebP. ИИ Piphin LLM тоже умеет редактировать здесь."
+        }
       }
     },
     {
@@ -136,6 +381,41 @@
         "type": "github",
         "repo": "Ruiso-Outside/Piphin-Video",
         "asset": "^piphin-module-video-.*\\.zip$"
+      },
+      "t": {
+        "en": {
+          "description": "Full video editor: multi-track timeline, cuts, text and captions, effects, transitions, speed and GPU-accelerated MP4 export. Piphin LLM's AI can edit here too."
+        },
+        "es": {
+          "description": "Editor de video completo: línea de tiempo con varias pistas, cortes, textos y subtítulos, efectos, transiciones, velocidad y exportación MP4 con la tarjeta gráfica. La IA de Piphin LLM también edita aquí."
+        },
+        "th": {
+          "description": "โปรแกรมตัดต่อวิดีโอครบชุด: ไทม์ไลน์หลายแทร็ก ตัดต่อ ข้อความและซับไตเติล เอฟเฟกต์ ทรานซิชัน ปรับความเร็ว และส่งออก MP4 ด้วยการ์ดจอ AI ของ Piphin LLM ก็ตัดต่อที่นี่ได้"
+        },
+        "zh": {
+          "description": "完整的视频编辑器：多轨时间线、剪切、文字和字幕、特效、转场、变速，以及用显卡导出 MP4。Piphin LLM 的 AI 也能在这里剪辑。"
+        },
+        "ja": {
+          "description": "本格的な動画エディター：マルチトラックのタイムライン、カット、テキストと字幕、エフェクト、トランジション、速度変更、GPU による MP4 書き出し。Piphin LLM の AI もここで編集できます。"
+        },
+        "ko": {
+          "description": "완전한 영상 편집기: 멀티 트랙 타임라인, 자르기, 텍스트와 자막, 효과, 전환, 속도, 그래픽카드를 쓰는 MP4 내보내기. Piphin LLM의 AI도 여기서 편집합니다."
+        },
+        "id": {
+          "description": "Editor video lengkap: timeline multi-trek, potong, teks dan teks terjemahan, efek, transisi, kecepatan, dan ekspor MP4 dengan kartu grafis. AI Piphin LLM juga bisa mengedit di sini."
+        },
+        "vi": {
+          "description": "Trình dựng video đầy đủ: dòng thời gian nhiều track, cắt, chữ và phụ đề, hiệu ứng, chuyển cảnh, tốc độ và xuất MP4 bằng card đồ họa. AI của Piphin LLM cũng dựng được ở đây."
+        },
+        "fr": {
+          "description": "Éditeur vidéo complet : timeline multipiste, coupes, textes et sous-titres, effets, transitions, vitesse et export MP4 par la carte graphique. L'IA de Piphin LLM peut aussi monter ici."
+        },
+        "de": {
+          "description": "Vollständiger Videoeditor: Mehrspur-Timeline, Schnitte, Texte und Untertitel, Effekte, Übergänge, Tempo und MP4-Export per Grafikkarte. Auch die KI von Piphin LLM kann hier schneiden."
+        },
+        "ru": {
+          "description": "Полноценный видеоредактор: многодорожечная шкала, нарезка, тексты и субтитры, эффекты, переходы, скорость и экспорт MP4 через видеокарту. ИИ Piphin LLM тоже умеет монтировать здесь."
+        }
       }
     },
     {
@@ -149,6 +429,41 @@
         "type": "github",
         "repo": "Ruiso-Outside/Piphin-Som",
         "asset": "^piphin-module-som-.*\\.zip$"
+      },
+      "t": {
+        "en": {
+          "description": "Music and sound effects studio: synth instruments and drums, piano roll, ready chords and rhythms, recording, mixing effects, a game sound effect generator and MP3/WAV export. Piphin LLM's AI can compose here too."
+        },
+        "es": {
+          "description": "Estudio de música y efectos de sonido: instrumentos y batería sintetizados, piano roll, acordes y ritmos listos, grabación, efectos de mezcla, generador de efectos para juegos y exportación MP3/WAV. La IA de Piphin LLM también compone aquí."
+        },
+        "th": {
+          "description": "สตูดิโอเพลงและเอฟเฟกต์เสียง: เครื่องดนตรีและกลองสังเคราะห์ เปียโนโรล คอร์ดและจังหวะสำเร็จรูป บันทึกเสียง เอฟเฟกต์มิกซ์ ตัวสร้างเสียงเอฟเฟกต์สำหรับเกม และส่งออก MP3/WAV AI ของ Piphin LLM ก็แต่งเพลงที่นี่ได้"
+        },
+        "zh": {
+          "description": "音乐和音效工作室：合成乐器和鼓、钢琴卷帘、现成和弦与节奏、录音、混音效果、游戏音效生成器，以及 MP3/WAV 导出。Piphin LLM 的 AI 也能在这里作曲。"
+        },
+        "ja": {
+          "description": "音楽と効果音のスタジオ：シンセ楽器とドラム、ピアノロール、すぐ使えるコードとリズム、録音、ミックス用エフェクト、ゲーム用効果音ジェネレーター、MP3/WAV 書き出し。Piphin LLM の AI もここで作曲できます。"
+        },
+        "ko": {
+          "description": "음악·효과음 스튜디오: 신스 악기와 드럼, 피아노 롤, 바로 쓰는 코드와 리듬, 녹음, 믹싱 효과, 게임용 효과음 생성기, MP3/WAV 내보내기. Piphin LLM의 AI도 여기서 작곡합니다."
+        },
+        "id": {
+          "description": "Studio musik dan efek suara: instrumen dan drum sintetis, piano roll, akord dan ritme siap pakai, rekaman, efek mixing, generator efek suara game, dan ekspor MP3/WAV. AI Piphin LLM juga bisa menggubah di sini."
+        },
+        "vi": {
+          "description": "Phòng thu nhạc và hiệu ứng âm thanh: nhạc cụ và trống tổng hợp, piano roll, hợp âm và nhịp có sẵn, thu âm, hiệu ứng mix, tạo hiệu ứng âm thanh cho game và xuất MP3/WAV. AI của Piphin LLM cũng sáng tác được ở đây."
+        },
+        "fr": {
+          "description": "Studio de musique et d'effets sonores : instruments et batterie synthétisés, piano roll, accords et rythmes prêts, enregistrement, effets de mixage, générateur d'effets pour jeux et export MP3/WAV. L'IA de Piphin LLM peut aussi composer ici."
+        },
+        "de": {
+          "description": "Musik- und Soundeffekt-Studio: Synth-Instrumente und Drums, Piano Roll, fertige Akkorde und Rhythmen, Aufnahme, Mix-Effekte, Soundeffekt-Generator für Spiele und MP3/WAV-Export. Auch die KI von Piphin LLM kann hier komponieren."
+        },
+        "ru": {
+          "description": "Студия музыки и звуковых эффектов: синтезированные инструменты и ударные, пиано-ролл, готовые аккорды и ритмы, запись, эффекты сведения, генератор звуков для игр и экспорт MP3/WAV. ИИ Piphin LLM тоже умеет сочинять здесь."
+        }
       }
     },
     {
@@ -162,6 +477,41 @@
         "type": "github",
         "repo": "Ruiso-Outside/Piphin-Turbo",
         "asset": "^piphin-module-turbo-.*\\.zip$"
+      },
+      "t": {
+        "en": {
+          "description": "Makes the PC faster for games and cleans junk the easy way: scored check-up, safe cleanup, Windows tweaks with undo, startup apps and Turbo Mode. Nothing changes without your click."
+        },
+        "es": {
+          "description": "Deja el PC más rápido para jugar y limpia la basura de forma sencilla: chequeo con nota, limpieza segura, optimizaciones de Windows con deshacer, inicio y Modo Turbo. Nada cambia sin tu clic."
+        },
+        "th": {
+          "description": "ทำให้เครื่องเร็วขึ้นสำหรับเล่นเกมและล้างไฟล์ขยะแบบง่ายๆ: ตรวจเช็กพร้อมคะแนน ล้างข้อมูลอย่างปลอดภัย ปรับแต่ง Windows แบบย้อนกลับได้ โปรแกรมเริ่มต้น และโหมด Turbo ไม่มีอะไรเปลี่ยนถ้าคุณไม่คลิก"
+        },
+        "zh": {
+          "description": "让电脑玩游戏更快，并轻松清理垃圾：带评分的体检、安全清理、可撤销的 Windows 优化、启动项和加速模式。不点击就不会改动任何东西。"
+        },
+        "ja": {
+          "description": "ゲーム向けに PC を速くし、不要ファイルを簡単に掃除：スコア付きのチェック、安全なクリーンアップ、元に戻せる Windows 最適化、スタートアップ、ターボモード。クリックしない限り何も変わりません。"
+        },
+        "ko": {
+          "description": "게임용으로 PC를 더 빠르게 하고 쉽게 정리: 점수가 나오는 점검, 안전한 정리, 되돌릴 수 있는 Windows 최적화, 시작 프로그램, 터보 모드. 클릭하지 않으면 아무것도 바뀌지 않습니다."
+        },
+        "id": {
+          "description": "Membuat PC lebih cepat untuk game dan membersihkan sampah dengan mudah: pemeriksaan dengan skor, pembersihan aman, optimasi Windows yang bisa dibatalkan, program startup, dan Mode Turbo. Tak ada yang berubah tanpa klik Anda."
+        },
+        "vi": {
+          "description": "Giúp máy chạy game nhanh hơn và dọn rác thật dễ: kiểm tra có chấm điểm, dọn dẹp an toàn, tối ưu Windows có hoàn tác, ứng dụng khởi động và Chế độ Turbo. Không gì thay đổi nếu bạn không bấm."
+        },
+        "fr": {
+          "description": "Rend le PC plus rapide pour les jeux et nettoie simplement : bilan noté, nettoyage sûr, optimisations Windows annulables, démarrage et Mode Turbo. Rien ne change sans votre clic."
+        },
+        "de": {
+          "description": "Macht den PC schneller für Spiele und räumt einfach auf: Check-up mit Note, sichere Bereinigung, Windows-Optimierungen mit Rückgängig, Autostart und Turbo-Modus. Nichts ändert sich ohne deinen Klick."
+        },
+        "ru": {
+          "description": "Ускоряет ПК для игр и просто чистит мусор: проверка с оценкой, безопасная очистка, настройки Windows с отменой, автозагрузка и режим «Турбо». Без вашего клика ничего не меняется."
+        }
       }
     },
     {
@@ -175,6 +525,41 @@
         "type": "github",
         "repo": "Ruiso-Outside/Piphin-Musica",
         "asset": "^piphin-module-musica-.*\\.zip$"
+      },
+      "t": {
+        "en": {
+          "description": "Download free music (Creative Commons and public domain) from Openverse, ccMixter and Internet Archive and listen alongside your own: library, playlists, likes, equalizer and ready-to-copy credits."
+        },
+        "es": {
+          "description": "Descarga música libre y gratis (Creative Commons y dominio público) de Openverse, ccMixter e Internet Archive y escúchala junto con la tuya: biblioteca, listas, me gusta, ecualizador y créditos listos para copiar."
+        },
+        "th": {
+          "description": "ดาวน์โหลดเพลงฟรีที่ใช้ได้อย่างถูกต้อง (Creative Commons และสาธารณสมบัติ) จาก Openverse, ccMixter และ Internet Archive แล้วฟังร่วมกับเพลงของคุณ: คลังเพลง เพลย์ลิสต์ เพลงที่ชอบ อีควอไลเซอร์ และเครดิตพร้อมคัดลอก"
+        },
+        "zh": {
+          "description": "从 Openverse、ccMixter 和 Internet Archive 免费下载自由音乐（知识共享和公有领域），与你自己的音乐一起听：音乐库、播放列表、收藏、均衡器和可直接复制的署名。"
+        },
+        "ja": {
+          "description": "Openverse、ccMixter、Internet Archive からフリー音楽（クリエイティブ・コモンズとパブリックドメイン）を無料でダウンロードし、手持ちの曲と一緒に聴けます：ライブラリ、プレイリスト、お気に入り、イコライザー、コピーできるクレジット。"
+        },
+        "ko": {
+          "description": "Openverse, ccMixter, Internet Archive에서 자유 음악(크리에이티브 커먼즈, 퍼블릭 도메인)을 무료로 받아 내 음악과 함께 듣기: 라이브러리, 재생목록, 좋아요, 이퀄라이저, 바로 복사하는 크레딧."
+        },
+        "id": {
+          "description": "Unduh musik bebas gratis (Creative Commons dan domain publik) dari Openverse, ccMixter, dan Internet Archive lalu dengarkan bersama lagu Anda: pustaka, playlist, suka, equalizer, dan kredit siap salin."
+        },
+        "vi": {
+          "description": "Tải nhạc tự do miễn phí (Creative Commons và phạm vi công cộng) từ Openverse, ccMixter và Internet Archive rồi nghe cùng nhạc của bạn: thư viện, danh sách phát, yêu thích, bộ chỉnh âm và ghi công sẵn để sao chép."
+        },
+        "fr": {
+          "description": "Téléchargez gratuitement de la musique libre (Creative Commons et domaine public) depuis Openverse, ccMixter et Internet Archive et écoutez-la avec la vôtre : bibliothèque, playlists, favoris, égaliseur et crédits prêts à copier."
+        },
+        "de": {
+          "description": "Freie Musik (Creative Commons und gemeinfrei) kostenlos von Openverse, ccMixter und Internet Archive laden und zusammen mit deiner eigenen hören: Bibliothek, Playlists, Favoriten, Equalizer und fertige Credits zum Kopieren."
+        },
+        "ru": {
+          "description": "Скачивайте бесплатную свободную музыку (Creative Commons и общественное достояние) из Openverse, ccMixter и Internet Archive и слушайте вместе со своей: библиотека, плейлисты, избранное, эквалайзер и готовые подписи авторов."
+        }
       }
     },
     {
@@ -188,6 +573,41 @@
         "type": "github",
         "repo": "Ruiso-Outside/Piphin-Jogos",
         "asset": "^piphin-module-jogos-.*\\.zip$"
+      },
+      "t": {
+        "en": {
+          "description": "All games installed on the PC in one place (Steam, Epic, Riot, GOG, Ubisoft, EA, Battle.net, Rockstar, Xbox): play time from any store, stats, player profile, a what-to-play wheel and disk space."
+        },
+        "es": {
+          "description": "Todos los juegos instalados en el PC en un solo lugar (Steam, Epic, Riot, GOG, Ubisoft, EA, Battle.net, Rockstar, Xbox): tiempo de juego de cualquier tienda, estadísticas, perfil de jugador, ruleta de qué jugar y espacio en disco."
+        },
+        "th": {
+          "description": "เกมทั้งหมดที่ติดตั้งในเครื่องรวมไว้ที่เดียว (Steam, Epic, Riot, GOG, Ubisoft, EA, Battle.net, Rockstar, Xbox): เวลาเล่นจากทุกร้าน สถิติ โปรไฟล์ผู้เล่น วงล้อสุ่มเกม และพื้นที่ดิสก์"
+        },
+        "zh": {
+          "description": "电脑上安装的所有游戏集中一处（Steam、Epic、Riot、GOG、Ubisoft、EA、Battle.net、Rockstar、Xbox）：各平台游戏时长、统计、玩家档案、玩什么转盘和磁盘空间。"
+        },
+        "ja": {
+          "description": "PC にインストールしたすべてのゲームを 1 か所に（Steam、Epic、Riot、GOG、Ubisoft、EA、Battle.net、Rockstar、Xbox）：どのストアのプレイ時間も、統計、プレイヤープロフィール、遊ぶゲームを決めるルーレット、ディスク容量。"
+        },
+        "ko": {
+          "description": "PC에 설치된 모든 게임을 한곳에(Steam, Epic, Riot, GOG, Ubisoft, EA, Battle.net, Rockstar, Xbox): 모든 스토어의 플레이 시간, 통계, 플레이어 프로필, 뭘 할지 정하는 룰렛, 디스크 공간."
+        },
+        "id": {
+          "description": "Semua game yang terpasang di PC dalam satu tempat (Steam, Epic, Riot, GOG, Ubisoft, EA, Battle.net, Rockstar, Xbox): waktu bermain dari toko mana pun, statistik, profil pemain, roda pilih game, dan ruang disk."
+        },
+        "vi": {
+          "description": "Mọi game đã cài trên máy ở một chỗ (Steam, Epic, Riot, GOG, Ubisoft, EA, Battle.net, Rockstar, Xbox): thời gian chơi từ mọi cửa hàng, thống kê, hồ sơ người chơi, vòng quay chọn game và dung lượng ổ đĩa."
+        },
+        "fr": {
+          "description": "Tous les jeux installés sur le PC au même endroit (Steam, Epic, Riot, GOG, Ubisoft, EA, Battle.net, Rockstar, Xbox) : temps de jeu de toutes les boutiques, statistiques, profil de joueur, roue « à quoi jouer » et espace disque."
+        },
+        "de": {
+          "description": "Alle installierten Spiele an einem Ort (Steam, Epic, Riot, GOG, Ubisoft, EA, Battle.net, Rockstar, Xbox): Spielzeit aus jedem Store, Statistiken, Spielerprofil, ein Was-spiele-ich-Rad und Speicherplatz."
+        },
+        "ru": {
+          "description": "Все установленные игры в одном месте (Steam, Epic, Riot, GOG, Ubisoft, EA, Battle.net, Rockstar, Xbox): время в играх из любого магазина, статистика, профиль игрока, рулетка «во что поиграть» и место на диске."
+        }
       }
     },
     {
@@ -201,6 +621,41 @@
         "type": "github",
         "repo": "Ruiso-Outside/Piphin-Captura",
         "asset": "^piphin-module-captura-.*\\.zip$"
+      },
+      "t": {
+        "en": {
+          "description": "Handy screenshots (PrtSc to pick the area) with an editor to mark up and hide information, plus an MP4 screen recorder with PC sound and microphone (Alt+F9)."
+        },
+        "es": {
+          "description": "Capturas de pantalla prácticas (ImprPant para elegir el área) con editor para marcar y ocultar información, y grabador de pantalla en MP4 con el sonido del PC y el micrófono (Alt+F9)."
+        },
+        "th": {
+          "description": "จับภาพหน้าจอแบบง่าย (กด PrtSc เพื่อเลือกพื้นที่) พร้อมตัวแก้ไขสำหรับทำเครื่องหมายและซ่อนข้อมูล และบันทึกหน้าจอเป็น MP4 พร้อมเสียงเครื่องและไมโครโฟน (Alt+F9)"
+        },
+        "zh": {
+          "description": "便捷截图（按 PrtSc 选择区域），带标注和隐藏信息的编辑器，以及带电脑声音和麦克风的 MP4 录屏（Alt+F9）。"
+        },
+        "ja": {
+          "description": "便利なスクリーンショット（PrtSc で範囲を選択）と、書き込み・情報を隠せるエディター、PC の音とマイク付き MP4 画面録画（Alt+F9）。"
+        },
+        "ko": {
+          "description": "간편한 스크린샷(PrtSc로 영역 선택)과 표시·정보 가리기 편집기, PC 소리와 마이크를 담는 MP4 화면 녹화(Alt+F9)."
+        },
+        "id": {
+          "description": "Tangkapan layar praktis (PrtSc untuk memilih area) dengan editor untuk menandai dan menyembunyikan info, serta perekam layar MP4 dengan suara PC dan mikrofon (Alt+F9)."
+        },
+        "vi": {
+          "description": "Chụp màn hình tiện lợi (PrtSc để chọn vùng) với trình chỉnh để đánh dấu và che thông tin, cùng trình quay màn hình MP4 có âm thanh máy và micro (Alt+F9)."
+        },
+        "fr": {
+          "description": "Captures d'écran pratiques (Impr. écran pour choisir la zone) avec un éditeur pour annoter et masquer des infos, et un enregistreur d'écran MP4 avec le son du PC et le micro (Alt+F9)."
+        },
+        "de": {
+          "description": "Praktische Screenshots (Druck-Taste zum Bereich wählen) mit Editor zum Markieren und Verbergen, dazu MP4-Bildschirmaufnahme mit PC-Ton und Mikrofon (Alt+F9)."
+        },
+        "ru": {
+          "description": "Удобные скриншоты (PrtSc для выбора области) с редактором для пометок и скрытия данных и запись экрана в MP4 со звуком ПК и микрофоном (Alt+F9)."
+        }
       }
     },
     {
@@ -214,6 +669,41 @@
         "type": "github",
         "repo": "Ruiso-Outside/Piphin-Escudo",
         "asset": "^piphin-module-escudo-.*\\.zip$"
+      },
+      "t": {
+        "en": {
+          "description": "Checks the PC for signs of intrusion or security holes (hidden programs, remote access, hijacked hosts and proxy, antivirus, firewall...), fixes them in one click with undo, watches for risky changes and checks whether your passwords leaked."
+        },
+        "es": {
+          "description": "Comprueba si el PC tiene señales de intrusión o brechas de seguridad (programas ocultos, acceso remoto, hosts y proxy desviados, antivirus, firewall...), lo corrige con un clic y se puede deshacer, vigila cambios peligrosos y revisa si tus contraseñas se filtraron."
+        },
+        "th": {
+          "description": "ตรวจว่าเครื่องมีร่องรอยการบุกรุกหรือช่องโหว่ด้านความปลอดภัยหรือไม่ (โปรแกรมซ่อนตัว การเข้าถึงระยะไกล hosts และ proxy ที่ถูกเปลี่ยน แอนติไวรัส ไฟร์วอลล์...) แก้ไขได้ในคลิกเดียวและย้อนกลับได้ เฝ้าดูการเปลี่ยนแปลงที่อันตราย และตรวจว่ารหัสผ่านของคุณรั่วไหลหรือไม่"
+        },
+        "zh": {
+          "description": "检查电脑是否有入侵迹象或安全漏洞（隐藏程序、远程访问、被篡改的 hosts 和代理、杀毒软件、防火墙等），一键修复并可撤销，监视危险变更，并检查你的密码是否泄露。"
+        },
+        "ja": {
+          "description": "PC に侵入の痕跡やセキュリティの穴がないかを確認し（隠れたプログラム、リモートアクセス、改ざんされた hosts やプロキシ、ウイルス対策、ファイアウォールなど）、ワンクリックで修正（元に戻せます）。危険な変更を見張り、パスワード流出も確認します。"
+        },
+        "ko": {
+          "description": "PC에 침입 흔적이나 보안 허점이 있는지 검사하고(숨은 프로그램, 원격 접속, 바뀐 hosts와 프록시, 백신, 방화벽...) 한 번에 고치고 되돌릴 수 있으며, 위험한 변경을 감시하고 비밀번호 유출 여부도 확인합니다."
+        },
+        "id": {
+          "description": "Memeriksa apakah PC punya tanda penyusupan atau celah keamanan (program tersembunyi, akses jarak jauh, hosts dan proxy yang dibelokkan, antivirus, firewall...), memperbaikinya sekali klik dan bisa dibatalkan, mengawasi perubahan berbahaya, serta mengecek apakah kata sandi Anda bocor."
+        },
+        "vi": {
+          "description": "Kiểm tra máy có dấu hiệu xâm nhập hay lỗ hổng bảo mật không (chương trình ẩn, truy cập từ xa, hosts và proxy bị chuyển hướng, diệt virus, tường lửa...), sửa bằng một cú bấm và hoàn tác được, theo dõi thay đổi nguy hiểm và kiểm tra mật khẩu có bị lộ không."
+        },
+        "fr": {
+          "description": "Vérifie si le PC présente des signes d'intrusion ou des failles (programmes cachés, accès à distance, hosts et proxy détournés, antivirus, pare-feu...), corrige en un clic avec annulation, surveille les changements dangereux et vérifie si vos mots de passe ont fuité."
+        },
+        "de": {
+          "description": "Prüft den PC auf Einbruchsspuren und Sicherheitslücken (versteckte Programme, Fernzugriff, umgeleitete Hosts und Proxy, Virenschutz, Firewall...), behebt sie mit einem Klick samt Rückgängig, überwacht riskante Änderungen und prüft, ob deine Passwörter geleakt sind."
+        },
+        "ru": {
+          "description": "Проверяет ПК на следы взлома и дыры в безопасности (скрытые программы, удалённый доступ, подменённые hosts и прокси, антивирус, брандмауэр...), исправляет в один клик с возможностью отмены, следит за опасными изменениями и проверяет, не утекли ли ваши пароли."
+        }
       }
     },
     {
@@ -227,6 +717,41 @@
         "type": "github",
         "repo": "Ruiso-Outside/Piphin-Financas",
         "asset": "^piphin-module-financas-.*\\.zip$"
+      },
+      "t": {
+        "en": {
+          "description": "Personal and business finances in separate wallets: accounts, cards and statements, bills with reminders, budgets, goals, statement import and an optional password. Business reports and the MEI limit follow Brazilian rules; quick entry understands Portuguese."
+        },
+        "es": {
+          "description": "Finanzas personales y de la empresa en carteras separadas: cuentas, tarjetas y facturas, cuentas por pagar con recordatorio, presupuestos, metas, importación de extractos y contraseña opcional. Los informes de empresa y el límite MEI siguen las reglas de Brasil; el registro rápido entiende portugués."
+        },
+        "th": {
+          "description": "การเงินส่วนตัวและธุรกิจแยกเป็นกระเป๋า: บัญชี บัตรและใบแจ้งยอด บิลพร้อมการเตือน งบประมาณ เป้าหมาย นำเข้ารายการเดินบัญชี และรหัสผ่านแบบเลือกได้ รายงานธุรกิจและวงเงิน MEI เป็นไปตามกฎของบราซิล การบันทึกด่วนเข้าใจภาษาโปรตุเกส"
+        },
+        "zh": {
+          "description": "个人和公司财务分钱包管理：账户、信用卡和账单、带提醒的待付款、预算、目标、导入对账单和可选密码。公司报表和 MEI 限额按巴西规则；快速记账支持葡萄牙语。"
+        },
+        "ja": {
+          "description": "個人と会社のお金を別々のウォレットで管理：口座、カードと請求、リマインダー付きの支払い、予算、目標、明細の取り込み、任意のパスワード。会社向けレポートと MEI 上限はブラジルの制度に基づき、クイック入力はポルトガル語に対応します。"
+        },
+        "ko": {
+          "description": "개인과 회사 재정을 지갑별로 관리: 계좌, 카드와 청구서, 알림이 있는 지출 예정, 예산, 목표, 거래 내역 가져오기, 선택형 비밀번호. 회사 보고서와 MEI 한도는 브라질 기준이며, 빠른 입력은 포르투갈어를 이해합니다."
+        },
+        "id": {
+          "description": "Keuangan pribadi dan bisnis dalam dompet terpisah: rekening, kartu dan tagihan, tagihan dengan pengingat, anggaran, target, impor mutasi, dan kata sandi opsional. Laporan bisnis dan batas MEI mengikuti aturan Brasil; input cepat memahami bahasa Portugis."
+        },
+        "vi": {
+          "description": "Tài chính cá nhân và doanh nghiệp trong các ví riêng: tài khoản, thẻ và sao kê, hóa đơn có nhắc nhở, ngân sách, mục tiêu, nhập sao kê và mật khẩu tùy chọn. Báo cáo doanh nghiệp và hạn mức MEI theo quy định của Brazil; nhập nhanh hiểu tiếng Bồ Đào Nha."
+        },
+        "fr": {
+          "description": "Finances personnelles et d'entreprise dans des portefeuilles séparés : comptes, cartes et relevés, factures avec rappel, budgets, objectifs, import de relevés et mot de passe facultatif. Les rapports d'entreprise et le plafond MEI suivent les règles brésiliennes ; la saisie rapide comprend le portugais."
+        },
+        "de": {
+          "description": "Private und geschäftliche Finanzen in getrennten Wallets: Konten, Karten und Abrechnungen, Rechnungen mit Erinnerung, Budgets, Ziele, Kontoauszug-Import und optionales Passwort. Geschäftsberichte und das MEI-Limit folgen brasilianischen Regeln; die Schnelleingabe versteht Portugiesisch."
+        },
+        "ru": {
+          "description": "Личные и бизнес-финансы в отдельных кошельках: счета, карты и выписки, счета к оплате с напоминаниями, бюджеты, цели, импорт выписок и необязательный пароль. Отчёты для бизнеса и лимит MEI — по правилам Бразилии; быстрый ввод понимает португальский."
+        }
       }
     }
   ]

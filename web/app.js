@@ -2,7 +2,8 @@
 const $ = (s, el = document) => el.querySelector(s);
 const $$ = (s, el = document) => [...el.querySelectorAll(s)];
 const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
-const mb = (n) => (n >= 1073741824 ? (n / 1073741824).toFixed(1).replace(".", ",") + " GB" : (n / 1048576).toFixed(1).replace(".", ",") + " MB");
+const dec1 = (v) => v.toLocaleString("pt-BR", { minimumFractionDigits: 1, maximumFractionDigits: 1 }); // vírgula ou ponto, conforme o idioma
+const mb = (n) => (n >= 1073741824 ? dec1(n / 1073741824) + " GB" : dec1(n / 1048576) + " MB");
 const fmtDate = (d) => (d ? new Date(d).toLocaleDateString("pt-BR", { day: "2-digit", month: "short", year: "numeric" }) : "");
 const norm = (s) => String(s || "").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
 const ls = { get: (k, d) => { try { const v = localStorage.getItem(k); return v == null ? d : JSON.parse(v); } catch { return d; } },
@@ -109,7 +110,7 @@ async function checkUpdates() {
   if (!r.ok) return toast(r.error, "err");
   await load();
   const n = snap.apps.filter((a) => st(a).updateAvailable).length;
-  toast(n ? `${n} atualização${n > 1 ? "ões" : ""} disponível${n > 1 ? "is" : ""}` : "Tudo atualizado", n ? "" : "ok");
+  toast(n === 1 ? "1 atualização disponível" : n ? `${n} atualizações disponíveis` : "Tudo atualizado", n ? "" : "ok");
 }
 
 // ------------------------------------------------------------------ navegação
@@ -231,13 +232,13 @@ function renderHome(main) {
   main.innerHTML = `<div class="p-page home">
     ${blockedBanner()}
     <section class="hero">
-      <div><div class="hello">${greeting()}${p ? ", " + esc(p.user) : ""}</div><h1>O que vamos fazer hoje?</h1>
+      <div><div class="hello"><span>${greeting()}</span>${p ? `, <span data-noi18n>${esc(p.user)}</span>` : ""}</div><h1>O que vamos fazer hoje?</h1>
         <p>${esc(date.charAt(0).toUpperCase() + date.slice(1))}${p ? ` · ${esc(p.host)}` : ""}</p></div>
       <div class="pulse">
         <div class="pulse-tile"><div class="k"><i class="i i-cpu"></i>CPU</div><div class="v" id="pCpu">${p && p.cpu != null ? Math.round(p.cpu) : "--"}<small>%</small></div><canvas id="pCpuChart"></canvas></div>
         <div class="pulse-tile"><div class="k"><i class="i i-memory-stick"></i>Memória</div><div class="v" id="pRam">${p ? mb(p.ramUsed).replace(" GB", "") : "--"}<small>de ${p ? mb(p.ramTotal) : "--"}</small></div>
           <div class="bar"><i id="pRamBar" style="width:${p ? Math.round((p.ramUsed / p.ramTotal) * 100) : 0}%"></i></div></div>
-        <div class="pulse-tile"><div class="k"><i class="i i-clock"></i>Ligado há</div><div class="v" id="pUp">${p ? uptime(p.uptime) : "--"}</div><div class="faint" style="font-size:12px">${p ? p.cores + " threads" : ""}</div></div>
+        <div class="pulse-tile"><div class="k"><i class="i i-clock"></i>Ligado há</div><div class="v" id="pUp">${p ? uptime(p.uptime) : "--"}</div><div class="faint" style="font-size:12px">${p ? `${p.cores} threads` : ""}</div></div>
       </div>
     </section>
 
@@ -498,6 +499,7 @@ function renderSettings(main) {
   main.innerHTML = `<div class="p-page"><div class="p-head"><div><h1>Configurações</h1><p>Preferências do Piphin Hub.</p></div></div>
     <div class="p-settings">
       <div class="p-section">Geral</div>
+      ${row("globe", "Idioma", "O Hub e os módulos aparecem neste idioma.", `<select id="sLang"><option value="auto">Automático (idioma do Windows)</option>${(snap.langs || []).map((l) => `<option value="${esc(l.code)}" data-noi18n>${esc(l.name)}</option>`).join("")}</select>`)}
       ${row("power", "Iniciar com o Windows", "Abre o Hub escondido perto do relógio quando o PC liga, para os atalhos dos módulos funcionarem desde o início.", sw("sBoot", s.startWithWindows))}
       ${row("app-window", "Atalhos do Piphin Hub", "Cria ou recria os atalhos do Hub na Área de Trabalho e no Menu Iniciar.", `<button class="btn" id="sHubLnk">Criar atalhos</button>`)}
       ${row("monitor", "Atalho dos apps na Área de Trabalho", "Ao instalar um app portátil, cria também um atalho na Área de Trabalho.", sw("sDesk", s.desktopShortcuts))}
@@ -519,6 +521,8 @@ function renderSettings(main) {
     </div></div>`;
   const save = async (patch, msg = "Configuração salva") => { const r = await hub.setSettings(patch); if (!r.ok) toast(r.error, "err"); else { toast(msg, "ok"); load(); } };
   $("#sBoot").onchange = (e) => save({ startWithWindows: e.target.checked });
+  $("#sLang").value = s.language || "auto";
+  $("#sLang").onchange = (e) => save({ language: e.target.value }, "Idioma alterado");
   $("#sHubLnk").onclick = async () => { const r = await hub.hubShortcuts(); toast(r.ok ? "Atalhos do Hub criados" : r.error, r.ok ? "ok" : "err"); };
   $("#sDesk").onchange = (e) => save({ desktopShortcuts: e.target.checked });
   $("#sSelf").onclick = async (e) => {
