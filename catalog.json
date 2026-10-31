@@ -515,6 +515,54 @@
       }
     },
     {
+      "id": "rede",
+      "name": "Piphin Rede",
+      "description": "Vê tudo da sua rede: sinal e frequências do Wi-Fi, canais, uso ao vivo, aparelhos conectados e testes de ping, DNS e velocidade. Explica o que está deixando a internet lenta. Roda dentro do Hub (cerca de 200 KB).",
+      "category": "Sistema",
+      "icon": "https://raw.githubusercontent.com/Ruiso-Outside/Piphin-Rede/main/icons/rede.png",
+      "accent": "#14b8a6",
+      "source": {
+        "type": "github",
+        "repo": "Ruiso-Outside/Piphin-Rede",
+        "asset": "^piphin-module-rede-.*.zip$"
+      },
+      "t": {
+        "en": {
+          "description": "See everything about your network: Wi-Fi signal and frequencies, channels, live usage, connected devices and ping, DNS and speed tests. It explains what is slowing your internet."
+        },
+        "es": {
+          "description": "Ve todo sobre tu red: señal y frecuencias del Wi-Fi, canales, uso en vivo, dispositivos conectados y pruebas de ping, DNS y velocidad. Explica qué está haciendo lenta tu internet."
+        },
+        "th": {
+          "description": "ดูทุกอย่างของเครือข่าย: สัญญาณและความถี่ Wi-Fi ช่อง การใช้งานสด อุปกรณ์ที่เชื่อมต่อ และทดสอบปิง DNS และความเร็ว บอกว่าอะไรทำให้อินเทอร์เน็ตช้า"
+        },
+        "zh": {
+          "description": "查看网络的一切：WLAN 信号和频率、信道、实时用量、已连接设备，以及延迟、DNS 和网速测试。告诉你是什么拖慢了网络。"
+        },
+        "ja": {
+          "description": "ネットワークのすべてを確認：Wi-Fi の信号と周波数、チャネル、リアルタイムの使用量、接続中のデバイス、ping・DNS・速度テスト。インターネットが遅い原因を説明します。"
+        },
+        "ko": {
+          "description": "네트워크의 모든 것: Wi-Fi 신호와 주파수, 채널, 실시간 사용량, 연결된 장치, 핑·DNS·속도 테스트. 인터넷이 느린 이유를 알려 줍니다."
+        },
+        "id": {
+          "description": "Lihat semua tentang jaringan Anda: sinyal dan frekuensi Wi-Fi, kanal, penggunaan langsung, perangkat terhubung, serta tes ping, DNS, dan kecepatan. Menjelaskan apa yang membuat internet lambat."
+        },
+        "vi": {
+          "description": "Xem mọi thứ về mạng: sóng và tần số Wi-Fi, kênh, mức dùng trực tiếp, thiết bị đang kết nối và kiểm tra ping, DNS, tốc độ. Giải thích điều gì làm internet chậm."
+        },
+        "fr": {
+          "description": "Voyez tout sur votre réseau : signal et fréquences du Wi-Fi, canaux, utilisation en direct, appareils connectés et tests de ping, DNS et vitesse. Il explique ce qui ralentit votre Internet."
+        },
+        "de": {
+          "description": "Alles über Ihr Netzwerk: WLAN-Signal und Frequenzen, Kanäle, Live-Nutzung, verbundene Geräte sowie Ping-, DNS- und Geschwindigkeitstests. Erklärt, was Ihr Internet bremst."
+        },
+        "ru": {
+          "description": "Всё о вашей сети: сигнал и частоты Wi-Fi, каналы, трафик в реальном времени, подключённые устройства и тесты пинга, DNS и скорости. Объясняет, что замедляет интернет."
+        }
+      }
+    },
+    {
       "id": "musica",
       "name": "Piphin Música",
       "description": "Baixe músicas livres de graça (Creative Commons e domínio público) do Openverse, ccMixter e Internet Archive e ouça junto com as suas: biblioteca, playlists, curtidas, equalizador e créditos prontos para copiar. Roda dentro do Hub (cerca de 300 KB).",
