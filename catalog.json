@@ -563,6 +563,54 @@
       }
     },
     {
+      "id": "server",
+      "name": "Piphin Server",
+      "description": "Hospede seus próprios servidores num PC com Ubuntu Server da sua rede: Minecraft, Terraria, Valheim, bots do Discord, sites, apps e bancos de dados, cada um isolado no Docker. Console, arquivos, backups e agendamentos aqui no Hub. Roda dentro do Hub (cerca de 200 KB).",
+      "category": "Sistema",
+      "icon": "https://raw.githubusercontent.com/Ruiso-Outside/Piphin-Server/main/icons/server.png",
+      "accent": "#6366f1",
+      "source": {
+        "type": "github",
+        "repo": "Ruiso-Outside/Piphin-Server",
+        "asset": "^piphin-module-server-.*\\.zip$"
+      },
+      "t": {
+        "en": {
+          "description": "Host your own servers on an Ubuntu Server PC on your network: Minecraft, Terraria, Valheim, Discord bots, sites, apps and databases, each isolated in Docker. Console, files, backups and schedules right in the Hub."
+        },
+        "es": {
+          "description": "Aloja tus propios servidores en un PC con Ubuntu Server de tu red: Minecraft, Terraria, Valheim, bots de Discord, sitios, apps y bases de datos, cada uno aislado en Docker. Consola, archivos, backups y programaciones en el Hub."
+        },
+        "th": {
+          "description": "โฮสต์เซิร์ฟเวอร์ของคุณเองบนพีซี Ubuntu Server ในเครือข่าย: Minecraft, Terraria, Valheim บอท Discord เว็บ แอป และฐานข้อมูล แยกกันใน Docker พร้อมคอนโซล ไฟล์ ข้อมูลสำรอง และกำหนดเวลาใน Hub"
+        },
+        "zh": {
+          "description": "在网络中的 Ubuntu Server 电脑上托管你自己的服务器：Minecraft、Terraria、Valheim、Discord 机器人、网站、应用和数据库，各自隔离在 Docker 中。控制台、文件、备份和计划任务都在 Hub 中。"
+        },
+        "ja": {
+          "description": "ネットワーク上の Ubuntu Server の PC で自分のサーバーを運用：Minecraft、Terraria、Valheim、Discord ボット、サイト、アプリ、データベースをそれぞれ Docker で隔離。コンソール、ファイル、バックアップ、スケジュールを Hub で管理。"
+        },
+        "ko": {
+          "description": "네트워크의 Ubuntu Server PC에서 나만의 서버를 호스팅: Minecraft, Terraria, Valheim, Discord 봇, 사이트, 앱, 데이터베이스를 각각 Docker로 격리. 콘솔, 파일, 백업, 예약을 Hub에서 관리합니다."
+        },
+        "id": {
+          "description": "Jalankan server sendiri di PC Ubuntu Server di jaringan Anda: Minecraft, Terraria, Valheim, bot Discord, situs, aplikasi, dan basis data, masing-masing terisolasi di Docker. Konsol, file, cadangan, dan jadwal langsung di Hub."
+        },
+        "vi": {
+          "description": "Tự chạy máy chủ trên máy Ubuntu Server trong mạng: Minecraft, Terraria, Valheim, bot Discord, web, ứng dụng và cơ sở dữ liệu, mỗi cái tách biệt trong Docker. Bảng điều khiển, tệp, sao lưu và lịch ngay trong Hub."
+        },
+        "fr": {
+          "description": "Hébergez vos propres serveurs sur un PC Ubuntu Server de votre réseau : Minecraft, Terraria, Valheim, bots Discord, sites, apps et bases de données, chacun isolé dans Docker. Console, fichiers, sauvegardes et planifications dans le Hub."
+        },
+        "de": {
+          "description": "Eigene Server auf einem Ubuntu-Server-PC im Netzwerk: Minecraft, Terraria, Valheim, Discord-Bots, Websites, Apps und Datenbanken, jeweils isoliert in Docker. Konsole, Dateien, Backups und Zeitpläne direkt im Hub."
+        },
+        "ru": {
+          "description": "Свои серверы на ПК с Ubuntu Server в вашей сети: Minecraft, Terraria, Valheim, боты Discord, сайты, приложения и базы данных, каждый изолирован в Docker. Консоль, файлы, копии и расписания прямо в Hub."
+        }
+      }
+    },
+    {
       "id": "musica",
       "name": "Piphin Música",
       "description": "Baixe músicas livres de graça (Creative Commons e domínio público) do Openverse, ccMixter e Internet Archive e ouça junto com as suas: biblioteca, playlists, curtidas, equalizador e créditos prontos para copiar. Roda dentro do Hub (cerca de 300 KB).",
