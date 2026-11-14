@@ -1,7 +1,7 @@
 {
   "name": "piphin-hub",
   "productName": "Piphin Hub",
-  "version": "1.8.0",
+  "version": "1.9.0",
   "description": "Piphin Hub: baixe, atualize e gerencie os apps da Piphin Studio",
   "main": "main.js",
   "author": "Piphin Studio",
@@ -13,7 +13,8 @@
     "check": "node scripts/check.js",
     "dist": "electron-builder --win --publish never && node scripts/make-patch.js",
     "release": "node scripts/release.js",
-    "ui-icons": "node scripts/make-ui-icons.js"
+    "ui-icons": "node scripts/make-ui-icons.js",
+    "dist:linux": "electron-builder --linux --x64 --publish never && node scripts/fix-linux-tar.js && node scripts/make-patch.js"
   },
   "build": {
     "appId": "studio.piphin.hub",
@@ -46,7 +47,33 @@
       "signAndEditExecutable": false,
       "artifactName": "Piphin-Hub-${version}-win-x64.${ext}"
     },
-    "asar": false
+    "asar": false,
+    "linux": {
+      "target": [
+        {
+          "target": "tar.gz",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "icons/hub.png",
+      "executableName": "piphin-hub",
+      "category": "Utility",
+      "artifactName": "Piphin-Hub-${version}-linux-x64.${ext}",
+      "extraFiles": [
+        {
+          "from": "linux/instalar.sh",
+          "to": "instalar.sh"
+        }
+      ],
+      "desktop": {
+        "entry": {
+          "Name": "Piphin Hub",
+          "StartupWMClass": "piphin-hub"
+        }
+      }
+    }
   },
   "devDependencies": {
     "acorn": "^8.14.0",

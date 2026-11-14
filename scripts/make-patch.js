@@ -25,7 +25,13 @@ for (const f of files) fs.cpSync(path.join(root, f), path.join(stage, f), { recu
 const slim = { name: pkg.name, productName: pkg.productName, version: pkg.version, description: pkg.description, main: pkg.main, author: pkg.author };
 fs.writeFileSync(path.join(stage, "package.json"), JSON.stringify(slim, null, 2));
 
-const tar = path.join(process.env.SystemRoot || "C:\\Windows", "System32", "tar.exe");
-execFileSync(tar, ["-a", "-c", "-f", out, "-C", stage, "."], { stdio: "inherit" });
+// .zip: no Windows pelo tar do sistema; no Linux pelo Python (vem em toda distribuição)
+if (process.platform === "win32") {
+  const tar = path.join(process.env.SystemRoot || "C:\\Windows", "System32", "tar.exe");
+  execFileSync(tar, ["-a", "-c", "-f", out, "-C", stage, "."], { stdio: "inherit" });
+} else {
+  const py = "import os,sys,zipfile\nr,o=sys.argv[1],sys.argv[2]\nwith zipfile.ZipFile(o,'w',zipfile.ZIP_DEFLATED) as z:\n for d,_,fs in os.walk(r):\n  for f in fs:\n   p=os.path.join(d,f);z.write(p,os.path.relpath(p,r))";
+  execFileSync("python3", ["-c", py, stage, out], { stdio: "inherit" });
+}
 fs.rmSync(stage, { recursive: true, force: true });
 console.log("pacote de atualização:", out);

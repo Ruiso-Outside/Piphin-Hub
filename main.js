@@ -13,7 +13,16 @@ const { MediaLibrary } = require("./lib/library");
 const i18n = require("./lib/i18n");
 const zone = require("./lib/zone");
 
-app.setAppUserModelId("studio.piphin.hub");
+const SC = require("./lib/shortcuts");
+
+const IS_WIN = process.platform === "win32";
+if (IS_WIN) app.setAppUserModelId("studio.piphin.hub");
+// Linux: roda pelo X11 (também no Wayland, pelo XWayland) para os atalhos globais, as janelas por cima (overlay)
+// e as posições de janela funcionarem como no Windows. PIPHIN_WAYLAND=1 usa o Wayland direto.
+if (process.platform === "linux" && process.env.PIPHIN_WAYLAND !== "1") app.commandLine.appendSwitch("ozone-platform", "x11");
+if (process.platform === "linux") app.commandLine.appendSwitch("enable-features", "GlobalShortcutsPortal");
+// executável que os atalhos abrem (no AppImage, o próprio .AppImage)
+const LAUNCHER = process.env.APPIMAGE || process.execPath;
 // piphin://ui/...: o kit de interface (Piphin UI) servido para o Hub e para as páginas dos módulos
 // desenvolvimento: desenha a janela mesmo coberta por outras (para revisar telas automaticamente)
 if (process.env.PIPHIN_DEV === "1") app.commandLine.appendSwitch("disable-features", "CalculateNativeWinOcclusion");
@@ -117,6 +126,10 @@ function showTray(hint) {
   updateTray();
   if (hint && !trayHinted) {
     trayHinted = true;
+    if (!IS_WIN) { // balão do ícone só existe no Windows
+      if (Notification.isSupported()) new Notification({ title: "Piphin Hub", body: T(`Continua rodando aqui: ${modules.keepAliveReasons().join(", ")}. Clique no ícone para abrir.`), icon: ICON }).show();
+      return;
+    }
     tray.displayBalloon({ title: "Piphin Hub", content: T(`Continua rodando aqui: ${modules.keepAliveReasons().join(", ")}. Clique no ícone para abrir.`), iconType: "info" });
   }
 }
@@ -138,7 +151,11 @@ function updateTray() {
 function applyStartWithWindows() {
   const on = !!hub.settings.startWithWindows;
   if (modules) modules.startWithWindows = on;
-  if (app.isPackaged) app.setLoginItemSettings({ openAtLogin: on, args: ["--hidden"] });
+  if (!app.isPackaged) return;
+  if (IS_WIN) app.setLoginItemSettings({ openAtLogin: on, args: ["--hidden"] });
+  else try {
+    SC.setLinuxAutostart("piphin-hub", on, { name: "Piphin Hub", target: LAUNCHER, args: ["--hidden"], icon: ICON, wmClass: "piphin-hub" });
+  } catch { /* sem permissão na pasta */ }
 }
 
 // Para os módulos com calma (eles desligam ganchos de teclado, processos auxiliares...)
@@ -163,7 +180,7 @@ function registerIpc() {
     const s = hub.snapshot();
     // descrição de cada app/módulo no idioma escolhido (campo "t" do catálogo)
     for (const a of s.apps) { const tt = a.t && a.t[lang]; if (tt) { if (tt.description) a.description = tt.description; if (tt.category) a.category = tt.category; } }
-    return { ...s, hubVersion: app.getVersion(), hubUpdate, modules: modules.status(), visibleModule: modules.visible, hubBlocked: hubBlocked(),
+    return { ...s, platform: process.platform, hubVersion: app.getVersion(), hubUpdate, modules: modules.status(), visibleModule: modules.visible, hubBlocked: hubBlocked(),
       lang, langs: Object.entries(i18n.LANGS).map(([code, l]) => ({ code, name: l.name })) };
   });
   // tradução da tela do Hub (preload.js executa o script na página)
@@ -334,6 +351,7 @@ async function periodicCheck(first) {
 // depois só são corrigidos se a pasta do Hub mudar, para não voltarem se o usuário apagar.
 function hubShortcuts(force) {
   if (!app.isPackaged && !force) return;
+  if (!IS_WIN) return hubShortcutsLinux(force);
   const links = [
     path.join(app.getPath("desktop"), "Piphin Hub.lnk"),
     path.join(app.getPath("appData"), "Microsoft", "Windows", "Start Menu", "Programs", "Piphin Hub.lnk"),
@@ -353,6 +371,22 @@ function hubShortcuts(force) {
       if (first || force) shell.writeShortcutLink(lnk, exists ? "replace" : "create", opts);
       else if (exists && shell.readShortcutLink(lnk).target.toLowerCase() !== process.execPath.toLowerCase())
         shell.writeShortcutLink(lnk, "replace", opts);
+    } catch { /* sem permissão na pasta */ }
+  }
+  if (first) { hub.state.hubShortcuts = true; hub.save(); }
+}
+
+// Linux: entrada no menu de aplicativos (e na Área de Trabalho), com a mesma regra de só corrigir depois
+function hubShortcutsLinux(force) {
+  const name = "Piphin Hub";
+  const links = [path.join(SC.menuDir(), "piphin-hub.desktop"), path.join(SC.linuxDesktopDir(), "piphin-hub.desktop")];
+  const opts = { name, target: LAUNCHER, cwd: path.dirname(LAUNCHER), description: "Baixe, atualize e gerencie os apps da Piphin Studio", icon: ICON, wmClass: "piphin-hub" };
+  const first = !hub.state.hubShortcuts;
+  for (const f of links) {
+    const exists = fs.existsSync(f);
+    try {
+      if (first || force) SC.write(shell, f, opts);
+      else if (exists && SC.readTarget(shell, f) !== LAUNCHER) SC.write(shell, f, opts);
     } catch { /* sem permissão na pasta */ }
   }
   if (first) { hub.state.hubShortcuts = true; hub.save(); }

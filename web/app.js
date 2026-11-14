@@ -10,6 +10,8 @@ const ls = { get: (k, d) => { try { const v = localStorage.getItem(k); return v 
   set: (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch { /* sem armazenamento */ } } };
 
 let snap = { apps: [], settings: {}, modules: [] };
+// Hub no Linux: textos e opções do sistema (a versão Linux fica em português)
+let LINUX = /Linux/.test(navigator.userAgent) && !/Android/.test(navigator.userAgent);
 let view = "home";
 let storeFilter = "all";
 let storeQuery = "";
@@ -499,9 +501,11 @@ function renderSettings(main) {
   main.innerHTML = `<div class="p-page"><div class="p-head"><div><h1>Configurações</h1><p>Preferências do Piphin Hub.</p></div></div>
     <div class="p-settings">
       <div class="p-section">Geral</div>
-      ${row("globe", "Idioma", "O Hub e os módulos aparecem neste idioma.", `<select id="sLang"><option value="auto">Automático (idioma do Windows)</option>${(snap.langs || []).map((l) => `<option value="${esc(l.code)}" data-noi18n>${esc(l.name)}</option>`).join("")}</select>`)}
-      ${row("power", "Iniciar com o Windows", "Abre o Hub escondido perto do relógio quando o PC liga, para os atalhos dos módulos funcionarem desde o início.", sw("sBoot", s.startWithWindows))}
-      ${row("app-window", "Atalhos do Piphin Hub", "Cria ou recria os atalhos do Hub na Área de Trabalho e no Menu Iniciar.", `<button class="btn" id="sHubLnk">Criar atalhos</button>`)}
+      ${row("globe", "Idioma", "O Hub e os módulos aparecem neste idioma.", `<select id="sLang"><option value="auto">${LINUX ? "Automático (idioma do sistema)" : "Automático (idioma do Windows)"}</option>${(snap.langs || []).map((l) => `<option value="${esc(l.code)}" data-noi18n>${esc(l.name)}</option>`).join("")}</select>`)}
+      ${LINUX ? row("power", "Iniciar ao entrar no Linux", "Abre o Hub escondido no ícone da barra quando você entra na sessão, para os atalhos dos módulos funcionarem desde o início.", sw("sBoot", s.startWithWindows))
+        : row("power", "Iniciar com o Windows", "Abre o Hub escondido perto do relógio quando o PC liga, para os atalhos dos módulos funcionarem desde o início.", sw("sBoot", s.startWithWindows))}
+      ${LINUX ? row("app-window", "Atalhos do Piphin Hub", "Cria ou recria o Hub no menu de aplicativos e na Área de Trabalho.", `<button class="btn" id="sHubLnk">Criar atalhos</button>`)
+        : row("app-window", "Atalhos do Piphin Hub", "Cria ou recria os atalhos do Hub na Área de Trabalho e no Menu Iniciar.", `<button class="btn" id="sHubLnk">Criar atalhos</button>`)}
       ${row("monitor", "Atalho dos apps na Área de Trabalho", "Ao instalar um app portátil, cria também um atalho na Área de Trabalho.", sw("sDesk", s.desktopShortcuts))}
 
       <div class="p-section">Atualizações</div>
@@ -549,9 +553,9 @@ function openAddForm() {
       <label>Descrição<input type="text" id="fDesc" placeholder="O que o app faz"></label>
       <label>Origem<div class="seg" id="fSrc"><button data-v="github" class="on">Release do GitHub</button><button data-v="local">Pasta local</button></div></label>
       <label id="lRepo">Repositório<input type="text" id="fRepo" placeholder="Ruiso-Outside/AutoClick"></label>
-      <label id="lLocal" hidden>Pasta com os arquivos (.zip/.exe)<div class="row"><input type="text" id="fLocal" style="flex:1"><button class="btn" id="fLocalPick">...</button></div></label>
-      <label>Tipo de pacote<div class="seg" id="fType"><button data-v="portable" class="on">.zip portátil</button><button data-v="installer">Instalador .exe</button></div></label>
-      <div class="two"><label>Arquivo do Release (regex)<input type="text" id="fAsset" placeholder="win-x64\\.zip$"></label><label>Executável do app<input type="text" id="fExe" placeholder="AutoClick.exe"></label></div>
+      <label id="lLocal" hidden>${LINUX ? "Pasta com os arquivos (.zip/.tar.gz)" : "Pasta com os arquivos (.zip/.exe)"}<div class="row"><input type="text" id="fLocal" style="flex:1"><button class="btn" id="fLocalPick">...</button></div></label>
+      <label>Tipo de pacote<div class="seg" id="fType"><button data-v="portable" class="on">${LINUX ? "Pacote portátil" : ".zip portátil"}</button>${LINUX ? "" : `<button data-v="installer">Instalador .exe</button>`}</div></label>
+      <div class="two"><label>Arquivo do Release (regex)<input type="text" id="fAsset" placeholder="${LINUX ? "linux-x64\\.tar\\.gz$" : "win-x64\\.zip$"}"></label><label>Executável do app<input type="text" id="fExe" placeholder="${LINUX ? "autoclick" : "AutoClick.exe"}"></label></div>
       <div class="two" id="lInst" hidden><label>Argumentos silenciosos<input type="text" id="fSilent" placeholder="/S"></label><label>Chave de desinstalação<input type="text" id="fKey" placeholder="(opcional)"></label></div>
     </div>
     <div class="modal-actions"><button class="btn ghost" id="fCancel">Cancelar</button><button class="btn primary" id="fSave"><i class="i i-plus"></i>Adicionar</button></div>`;
