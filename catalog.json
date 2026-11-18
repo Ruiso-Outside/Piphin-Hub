@@ -189,11 +189,11 @@
   "modules": [
     {
       "id": "macro",
-      "name": "Piphin Macro",
-      "description": "Macros de teclado e mouse, gravador, autoclicker e analisador anti-macro para testar seus jogos. Roda dentro do Hub (120 KB em vez de um app de 146 MB).",
+      "name": "Arasaka Daemon",
+      "description": "Macros de teclado e mouse, gravador, autoclicker e analisador anti-macro para testar seus jogos. Roda dentro da Central (120 KB em vez de um app de 146 MB).",
       "category": "Jogos",
       "icon": "icons/macro.png",
-      "accent": "#e879f9",
+      "accent": "#ff0000",
       "source": {
         "type": "github",
         "repo": "Ruiso-Outside/Piphin-Macro",
@@ -237,11 +237,11 @@
     },
     {
       "id": "llm-local",
-      "name": "Piphin LLM",
-      "description": "IA local no seu PC: chat com anexos, Codex, imagens e pergunta rápida. Roda dentro do Hub (cerca de 1 MB em vez de um app de 147 MB). Precisa do Python 3.9+.",
+      "name": "Arasaka Mikoshi",
+      "description": "IA local no seu PC: chat com anexos, Codex, imagens e pergunta rápida. Roda dentro da Central (cerca de 1 MB em vez de um app de 147 MB). Precisa do Python 3.9+.",
       "category": "IA",
       "icon": "icons/llm-local.png",
-      "accent": "#22d3ee",
+      "accent": "#ff0000",
       "source": {
         "type": "github",
         "repo": "Ruiso-Outside/LLM",
@@ -285,11 +285,11 @@
     },
     {
       "id": "infohardware",
-      "name": "InfoHardware",
-      "description": "Informações do hardware, sensores e monitoramento em tempo real com overlay de FPS para jogos. Roda dentro do Hub (4,5 MB em vez de um instalador de 63 MB).",
+      "name": "Arasaka Biomonitor",
+      "description": "Informações do hardware, sensores e monitoramento em tempo real com overlay de FPS para jogos. Roda dentro da Central (4,5 MB em vez de um instalador de 63 MB).",
       "category": "Sistema",
       "icon": "icons/infohardware.png",
-      "accent": "#a855f7",
+      "accent": "#ff0000",
       "source": {
         "type": "github",
         "repo": "Ruiso-Outside/InfoHardware",
@@ -333,11 +333,11 @@
     },
     {
       "id": "foto",
-      "name": "Piphin Foto",
-      "description": "Editor de imagens completo: camadas, seleções, pincéis, texto, ajustes e filtros com prévia, recorte e exportação PNG, JPG e WebP. Mude o tamanho e gire arrastando as alças, reuse imagens do inventário com pastas e crie QR codes. A IA do Piphin LLM também edita por aqui. Roda dentro do Hub (cerca de 250 KB).",
+      "name": "Arasaka Holo",
+      "description": "Editor de imagens completo: camadas, seleções, pincéis, texto, ajustes e filtros com prévia, recorte e exportação PNG, JPG e WebP. Mude o tamanho e gire arrastando as alças, reuse imagens do inventário com pastas e crie QR codes. A IA do Arasaka Mikoshi também edita por aqui. Roda dentro da Central (cerca de 250 KB).",
       "category": "Criação",
       "icon": "https://raw.githubusercontent.com/Ruiso-Outside/Piphin-Foto/main/icons/foto.png",
-      "accent": "#fb923c",
+      "accent": "#ff0000",
       "source": {
         "type": "github",
         "repo": "Ruiso-Outside/Piphin-Foto",
@@ -345,47 +345,47 @@
       },
       "t": {
         "en": {
-          "description": "Full image editor: layers, selections, brushes, text, adjustments and filters with preview, crop and PNG, JPG and WebP export. Resize and rotate by dragging handles, reuse images from an inventory with folders and create QR codes. Piphin LLM's AI can edit here too."
+          "description": "Full image editor: layers, selections, brushes, text, adjustments and filters with preview, crop and PNG, JPG and WebP export. Resize and rotate by dragging handles, reuse images from an inventory with folders and create QR codes. Arasaka Mikoshi's AI can edit here too."
         },
         "es": {
-          "description": "Editor de imágenes completo: capas, selecciones, pinceles, texto, ajustes y filtros con vista previa, recorte y exportación PNG, JPG y WebP. Cambia el tamaño y gira arrastrando los controles, reutiliza imágenes del inventario con carpetas y crea códigos QR. La IA de Piphin LLM también edita aquí."
+          "description": "Editor de imágenes completo: capas, selecciones, pinceles, texto, ajustes y filtros con vista previa, recorte y exportación PNG, JPG y WebP. Cambia el tamaño y gira arrastrando los controles, reutiliza imágenes del inventario con carpetas y crea códigos QR. La IA de Arasaka Mikoshi también edita aquí."
         },
         "th": {
-          "description": "โปรแกรมแต่งภาพครบชุด: เลเยอร์ การเลือก พู่กัน ข้อความ การปรับแต่งและฟิลเตอร์พร้อมพรีวิว ครอปภาพ และส่งออก PNG, JPG, WebP ปรับขนาดและหมุนด้วยการลากจุดจับ ใช้ภาพซ้ำจากคลังภาพที่จัดเป็นโฟลเดอร์ และสร้างคิวอาร์โค้ดได้ AI ของ Piphin LLM ก็แก้ไขภาพที่นี่ได้"
+          "description": "โปรแกรมแต่งภาพครบชุด: เลเยอร์ การเลือก พู่กัน ข้อความ การปรับแต่งและฟิลเตอร์พร้อมพรีวิว ครอปภาพ และส่งออก PNG, JPG, WebP ปรับขนาดและหมุนด้วยการลากจุดจับ ใช้ภาพซ้ำจากคลังภาพที่จัดเป็นโฟลเดอร์ และสร้างคิวอาร์โค้ดได้ AI ของ Arasaka Mikoshi ก็แก้ไขภาพที่นี่ได้"
         },
         "zh": {
-          "description": "完整的图片编辑器：图层、选区、画笔、文字、调整和带预览的滤镜、裁剪，导出 PNG、JPG 和 WebP。拖动控制点即可调整大小和旋转，还能从带文件夹的素材库重复使用图片并生成二维码。Piphin LLM 的 AI 也能在这里编辑。"
+          "description": "完整的图片编辑器：图层、选区、画笔、文字、调整和带预览的滤镜、裁剪，导出 PNG、JPG 和 WebP。拖动控制点即可调整大小和旋转，还能从带文件夹的素材库重复使用图片并生成二维码。Arasaka Mikoshi 的 AI 也能在这里编辑。"
         },
         "ja": {
-          "description": "本格的な画像エディター：レイヤー、選択範囲、ブラシ、テキスト、プレビュー付きの調整とフィルター、切り抜き、PNG・JPG・WebP 書き出し。ハンドルをドラッグしてサイズ変更や回転ができ、フォルダー付きのインベントリから画像を再利用したり、QRコードを作成したりできます。Piphin LLM の AI もここで編集できます。"
+          "description": "本格的な画像エディター：レイヤー、選択範囲、ブラシ、テキスト、プレビュー付きの調整とフィルター、切り抜き、PNG・JPG・WebP 書き出し。ハンドルをドラッグしてサイズ変更や回転ができ、フォルダー付きのインベントリから画像を再利用したり、QRコードを作成したりできます。Arasaka Mikoshi の AI もここで編集できます。"
         },
         "ko": {
           "description": "완전한 이미지 편집기: 레이어, 선택 영역, 브러시, 텍스트, 미리보기가 있는 보정과 필터, 자르기, PNG·JPG·WebP 내보내기. 핸들을 끌어 크기를 바꾸고 회전할 수 있으며, 폴더로 정리하는 인벤토리에서 이미지를 다시 쓰고 QR 코드도 만들 수 있습니다. Piphin LLM의 AI도 여기서 편집할 수 있습니다."
         },
         "id": {
-          "description": "Editor gambar lengkap: lapisan, seleksi, kuas, teks, penyesuaian dan filter dengan pratinjau, potong, serta ekspor PNG, JPG, dan WebP. Ubah ukuran dan putar dengan menyeret pegangan, pakai ulang gambar dari inventaris berfolder, dan buat kode QR. AI Piphin LLM juga bisa mengedit di sini."
+          "description": "Editor gambar lengkap: lapisan, seleksi, kuas, teks, penyesuaian dan filter dengan pratinjau, potong, serta ekspor PNG, JPG, dan WebP. Ubah ukuran dan putar dengan menyeret pegangan, pakai ulang gambar dari inventaris berfolder, dan buat kode QR. AI Arasaka Mikoshi juga bisa mengedit di sini."
         },
         "vi": {
-          "description": "Trình chỉnh sửa ảnh đầy đủ: lớp, vùng chọn, cọ, chữ, chỉnh màu và bộ lọc có xem trước, cắt ảnh và xuất PNG, JPG, WebP. Đổi kích thước và xoay bằng cách kéo các tay cầm, dùng lại ảnh từ kho ảnh có thư mục và tạo mã QR. AI của Piphin LLM cũng chỉnh sửa được ở đây."
+          "description": "Trình chỉnh sửa ảnh đầy đủ: lớp, vùng chọn, cọ, chữ, chỉnh màu và bộ lọc có xem trước, cắt ảnh và xuất PNG, JPG, WebP. Đổi kích thước và xoay bằng cách kéo các tay cầm, dùng lại ảnh từ kho ảnh có thư mục và tạo mã QR. AI của Arasaka Mikoshi cũng chỉnh sửa được ở đây."
         },
         "fr": {
-          "description": "Éditeur d'images complet : calques, sélections, pinceaux, texte, réglages et filtres avec aperçu, recadrage et export PNG, JPG et WebP. Redimensionnez et faites pivoter en tirant les poignées, réutilisez les images d'un inventaire avec dossiers et créez des QR codes. L'IA de Piphin LLM peut aussi retoucher ici."
+          "description": "Éditeur d'images complet : calques, sélections, pinceaux, texte, réglages et filtres avec aperçu, recadrage et export PNG, JPG et WebP. Redimensionnez et faites pivoter en tirant les poignées, réutilisez les images d'un inventaire avec dossiers et créez des QR codes. L'IA de Arasaka Mikoshi peut aussi retoucher ici."
         },
         "de": {
-          "description": "Vollständiger Bildeditor: Ebenen, Auswahlen, Pinsel, Text, Anpassungen und Filter mit Vorschau, Zuschneiden und Export als PNG, JPG und WebP. Größe ändern und drehen per Ziehen an den Griffen, Bilder aus einem Inventar mit Ordnern wiederverwenden und QR-Codes erstellen. Auch die KI von Piphin LLM kann hier bearbeiten."
+          "description": "Vollständiger Bildeditor: Ebenen, Auswahlen, Pinsel, Text, Anpassungen und Filter mit Vorschau, Zuschneiden und Export als PNG, JPG und WebP. Größe ändern und drehen per Ziehen an den Griffen, Bilder aus einem Inventar mit Ordnern wiederverwenden und QR-Codes erstellen. Auch die KI von Arasaka Mikoshi kann hier bearbeiten."
         },
         "ru": {
-          "description": "Полноценный редактор изображений: слои, выделения, кисти, текст, коррекция и фильтры с предпросмотром, кадрирование и экспорт в PNG, JPG и WebP. Меняйте размер и поворачивайте, перетаскивая маркеры, используйте изображения повторно из инвентаря с папками и создавайте QR-коды. ИИ Piphin LLM тоже умеет здесь редактировать."
+          "description": "Полноценный редактор изображений: слои, выделения, кисти, текст, коррекция и фильтры с предпросмотром, кадрирование и экспорт в PNG, JPG и WebP. Меняйте размер и поворачивайте, перетаскивая маркеры, используйте изображения повторно из инвентаря с папками и создавайте QR-коды. ИИ Arasaka Mikoshi тоже умеет здесь редактировать."
         }
       }
     },
     {
       "id": "video",
-      "name": "Piphin Vídeo",
-      "description": "Editor de vídeo completo: linha do tempo com várias faixas, cortes, textos e legendas, efeitos, transições, velocidade e exportação MP4 pela placa de vídeo. A IA do Piphin LLM também edita por aqui. Roda dentro do Hub (cerca de 300 KB).",
+      "name": "Arasaka Braindance",
+      "description": "Editor de vídeo completo: linha do tempo com várias faixas, cortes, textos e legendas, efeitos, transições, velocidade e exportação MP4 pela placa de vídeo. A IA do Arasaka Mikoshi também edita por aqui. Roda dentro da Central (cerca de 300 KB).",
       "category": "Criação",
       "icon": "https://raw.githubusercontent.com/Ruiso-Outside/Piphin-Video/main/icons/video.png",
-      "accent": "#f43f5e",
+      "accent": "#ff0000",
       "source": {
         "type": "github",
         "repo": "Ruiso-Outside/Piphin-Video",
@@ -393,47 +393,47 @@
       },
       "t": {
         "en": {
-          "description": "Full video editor: multi-track timeline, cuts, text and captions, effects, transitions, speed and GPU-accelerated MP4 export. Piphin LLM's AI can edit here too."
+          "description": "Full video editor: multi-track timeline, cuts, text and captions, effects, transitions, speed and GPU-accelerated MP4 export. Arasaka Mikoshi's AI can edit here too."
         },
         "es": {
-          "description": "Editor de video completo: línea de tiempo con varias pistas, cortes, textos y subtítulos, efectos, transiciones, velocidad y exportación MP4 con la tarjeta gráfica. La IA de Piphin LLM también edita aquí."
+          "description": "Editor de video completo: línea de tiempo con varias pistas, cortes, textos y subtítulos, efectos, transiciones, velocidad y exportación MP4 con la tarjeta gráfica. La IA de Arasaka Mikoshi también edita aquí."
         },
         "th": {
-          "description": "โปรแกรมตัดต่อวิดีโอครบชุด: ไทม์ไลน์หลายแทร็ก ตัดต่อ ข้อความและซับไตเติล เอฟเฟกต์ ทรานซิชัน ปรับความเร็ว และส่งออก MP4 ด้วยการ์ดจอ AI ของ Piphin LLM ก็ตัดต่อที่นี่ได้"
+          "description": "โปรแกรมตัดต่อวิดีโอครบชุด: ไทม์ไลน์หลายแทร็ก ตัดต่อ ข้อความและซับไตเติล เอฟเฟกต์ ทรานซิชัน ปรับความเร็ว และส่งออก MP4 ด้วยการ์ดจอ AI ของ Arasaka Mikoshi ก็ตัดต่อที่นี่ได้"
         },
         "zh": {
-          "description": "完整的视频编辑器：多轨时间线、剪切、文字和字幕、特效、转场、变速，以及用显卡导出 MP4。Piphin LLM 的 AI 也能在这里剪辑。"
+          "description": "完整的视频编辑器：多轨时间线、剪切、文字和字幕、特效、转场、变速，以及用显卡导出 MP4。Arasaka Mikoshi 的 AI 也能在这里剪辑。"
         },
         "ja": {
-          "description": "本格的な動画エディター：マルチトラックのタイムライン、カット、テキストと字幕、エフェクト、トランジション、速度変更、GPU による MP4 書き出し。Piphin LLM の AI もここで編集できます。"
+          "description": "本格的な動画エディター：マルチトラックのタイムライン、カット、テキストと字幕、エフェクト、トランジション、速度変更、GPU による MP4 書き出し。Arasaka Mikoshi の AI もここで編集できます。"
         },
         "ko": {
           "description": "완전한 영상 편집기: 멀티 트랙 타임라인, 자르기, 텍스트와 자막, 효과, 전환, 속도, 그래픽카드를 쓰는 MP4 내보내기. Piphin LLM의 AI도 여기서 편집합니다."
         },
         "id": {
-          "description": "Editor video lengkap: timeline multi-trek, potong, teks dan teks terjemahan, efek, transisi, kecepatan, dan ekspor MP4 dengan kartu grafis. AI Piphin LLM juga bisa mengedit di sini."
+          "description": "Editor video lengkap: timeline multi-trek, potong, teks dan teks terjemahan, efek, transisi, kecepatan, dan ekspor MP4 dengan kartu grafis. AI Arasaka Mikoshi juga bisa mengedit di sini."
         },
         "vi": {
-          "description": "Trình dựng video đầy đủ: dòng thời gian nhiều track, cắt, chữ và phụ đề, hiệu ứng, chuyển cảnh, tốc độ và xuất MP4 bằng card đồ họa. AI của Piphin LLM cũng dựng được ở đây."
+          "description": "Trình dựng video đầy đủ: dòng thời gian nhiều track, cắt, chữ và phụ đề, hiệu ứng, chuyển cảnh, tốc độ và xuất MP4 bằng card đồ họa. AI của Arasaka Mikoshi cũng dựng được ở đây."
         },
         "fr": {
-          "description": "Éditeur vidéo complet : timeline multipiste, coupes, textes et sous-titres, effets, transitions, vitesse et export MP4 par la carte graphique. L'IA de Piphin LLM peut aussi monter ici."
+          "description": "Éditeur vidéo complet : timeline multipiste, coupes, textes et sous-titres, effets, transitions, vitesse et export MP4 par la carte graphique. L'IA de Arasaka Mikoshi peut aussi monter ici."
         },
         "de": {
-          "description": "Vollständiger Videoeditor: Mehrspur-Timeline, Schnitte, Texte und Untertitel, Effekte, Übergänge, Tempo und MP4-Export per Grafikkarte. Auch die KI von Piphin LLM kann hier schneiden."
+          "description": "Vollständiger Videoeditor: Mehrspur-Timeline, Schnitte, Texte und Untertitel, Effekte, Übergänge, Tempo und MP4-Export per Grafikkarte. Auch die KI von Arasaka Mikoshi kann hier schneiden."
         },
         "ru": {
-          "description": "Полноценный видеоредактор: многодорожечная шкала, нарезка, тексты и субтитры, эффекты, переходы, скорость и экспорт MP4 через видеокарту. ИИ Piphin LLM тоже умеет монтировать здесь."
+          "description": "Полноценный видеоредактор: многодорожечная шкала, нарезка, тексты и субтитры, эффекты, переходы, скорость и экспорт MP4 через видеокарту. ИИ Arasaka Mikoshi тоже умеет монтировать здесь."
         }
       }
     },
     {
       "id": "som",
-      "name": "Piphin Som",
-      "description": "Estúdio de música e efeitos sonoros: instrumentos e bateria sintetizados, piano roll, acordes e ritmos prontos, gravação, efeitos de mixagem, gerador de efeitos para jogos e exportação MP3/WAV. A IA do Piphin LLM também compõe por aqui. Roda dentro do Hub (cerca de 450 KB).",
+      "name": "Arasaka Synth",
+      "description": "Estúdio de música e efeitos sonoros: instrumentos e bateria sintetizados, piano roll, acordes e ritmos prontos, gravação, efeitos de mixagem, gerador de efeitos para jogos e exportação MP3/WAV. A IA do Arasaka Mikoshi também compõe por aqui. Roda dentro da Central (cerca de 450 KB).",
       "category": "Criação",
       "icon": "https://raw.githubusercontent.com/Ruiso-Outside/Piphin-Som/main/icons/som.png",
-      "accent": "#22c55e",
+      "accent": "#ff0000",
       "source": {
         "type": "github",
         "repo": "Ruiso-Outside/Piphin-Som",
@@ -441,47 +441,47 @@
       },
       "t": {
         "en": {
-          "description": "Music and sound effects studio: synth instruments and drums, piano roll, ready chords and rhythms, recording, mixing effects, a game sound effect generator and MP3/WAV export. Piphin LLM's AI can compose here too."
+          "description": "Music and sound effects studio: synth instruments and drums, piano roll, ready chords and rhythms, recording, mixing effects, a game sound effect generator and MP3/WAV export. Arasaka Mikoshi's AI can compose here too."
         },
         "es": {
-          "description": "Estudio de música y efectos de sonido: instrumentos y batería sintetizados, piano roll, acordes y ritmos listos, grabación, efectos de mezcla, generador de efectos para juegos y exportación MP3/WAV. La IA de Piphin LLM también compone aquí."
+          "description": "Estudio de música y efectos de sonido: instrumentos y batería sintetizados, piano roll, acordes y ritmos listos, grabación, efectos de mezcla, generador de efectos para juegos y exportación MP3/WAV. La IA de Arasaka Mikoshi también compone aquí."
         },
         "th": {
-          "description": "สตูดิโอเพลงและเอฟเฟกต์เสียง: เครื่องดนตรีและกลองสังเคราะห์ เปียโนโรล คอร์ดและจังหวะสำเร็จรูป บันทึกเสียง เอฟเฟกต์มิกซ์ ตัวสร้างเสียงเอฟเฟกต์สำหรับเกม และส่งออก MP3/WAV AI ของ Piphin LLM ก็แต่งเพลงที่นี่ได้"
+          "description": "สตูดิโอเพลงและเอฟเฟกต์เสียง: เครื่องดนตรีและกลองสังเคราะห์ เปียโนโรล คอร์ดและจังหวะสำเร็จรูป บันทึกเสียง เอฟเฟกต์มิกซ์ ตัวสร้างเสียงเอฟเฟกต์สำหรับเกม และส่งออก MP3/WAV AI ของ Arasaka Mikoshi ก็แต่งเพลงที่นี่ได้"
         },
         "zh": {
-          "description": "音乐和音效工作室：合成乐器和鼓、钢琴卷帘、现成和弦与节奏、录音、混音效果、游戏音效生成器，以及 MP3/WAV 导出。Piphin LLM 的 AI 也能在这里作曲。"
+          "description": "音乐和音效工作室：合成乐器和鼓、钢琴卷帘、现成和弦与节奏、录音、混音效果、游戏音效生成器，以及 MP3/WAV 导出。Arasaka Mikoshi 的 AI 也能在这里作曲。"
         },
         "ja": {
-          "description": "音楽と効果音のスタジオ：シンセ楽器とドラム、ピアノロール、すぐ使えるコードとリズム、録音、ミックス用エフェクト、ゲーム用効果音ジェネレーター、MP3/WAV 書き出し。Piphin LLM の AI もここで作曲できます。"
+          "description": "音楽と効果音のスタジオ：シンセ楽器とドラム、ピアノロール、すぐ使えるコードとリズム、録音、ミックス用エフェクト、ゲーム用効果音ジェネレーター、MP3/WAV 書き出し。Arasaka Mikoshi の AI もここで作曲できます。"
         },
         "ko": {
           "description": "음악·효과음 스튜디오: 신스 악기와 드럼, 피아노 롤, 바로 쓰는 코드와 리듬, 녹음, 믹싱 효과, 게임용 효과음 생성기, MP3/WAV 내보내기. Piphin LLM의 AI도 여기서 작곡합니다."
         },
         "id": {
-          "description": "Studio musik dan efek suara: instrumen dan drum sintetis, piano roll, akord dan ritme siap pakai, rekaman, efek mixing, generator efek suara game, dan ekspor MP3/WAV. AI Piphin LLM juga bisa menggubah di sini."
+          "description": "Studio musik dan efek suara: instrumen dan drum sintetis, piano roll, akord dan ritme siap pakai, rekaman, efek mixing, generator efek suara game, dan ekspor MP3/WAV. AI Arasaka Mikoshi juga bisa menggubah di sini."
         },
         "vi": {
-          "description": "Phòng thu nhạc và hiệu ứng âm thanh: nhạc cụ và trống tổng hợp, piano roll, hợp âm và nhịp có sẵn, thu âm, hiệu ứng mix, tạo hiệu ứng âm thanh cho game và xuất MP3/WAV. AI của Piphin LLM cũng sáng tác được ở đây."
+          "description": "Phòng thu nhạc và hiệu ứng âm thanh: nhạc cụ và trống tổng hợp, piano roll, hợp âm và nhịp có sẵn, thu âm, hiệu ứng mix, tạo hiệu ứng âm thanh cho game và xuất MP3/WAV. AI của Arasaka Mikoshi cũng sáng tác được ở đây."
         },
         "fr": {
-          "description": "Studio de musique et d'effets sonores : instruments et batterie synthétisés, piano roll, accords et rythmes prêts, enregistrement, effets de mixage, générateur d'effets pour jeux et export MP3/WAV. L'IA de Piphin LLM peut aussi composer ici."
+          "description": "Studio de musique et d'effets sonores : instruments et batterie synthétisés, piano roll, accords et rythmes prêts, enregistrement, effets de mixage, générateur d'effets pour jeux et export MP3/WAV. L'IA de Arasaka Mikoshi peut aussi composer ici."
         },
         "de": {
-          "description": "Musik- und Soundeffekt-Studio: Synth-Instrumente und Drums, Piano Roll, fertige Akkorde und Rhythmen, Aufnahme, Mix-Effekte, Soundeffekt-Generator für Spiele und MP3/WAV-Export. Auch die KI von Piphin LLM kann hier komponieren."
+          "description": "Musik- und Soundeffekt-Studio: Synth-Instrumente und Drums, Piano Roll, fertige Akkorde und Rhythmen, Aufnahme, Mix-Effekte, Soundeffekt-Generator für Spiele und MP3/WAV-Export. Auch die KI von Arasaka Mikoshi kann hier komponieren."
         },
         "ru": {
-          "description": "Студия музыки и звуковых эффектов: синтезированные инструменты и ударные, пиано-ролл, готовые аккорды и ритмы, запись, эффекты сведения, генератор звуков для игр и экспорт MP3/WAV. ИИ Piphin LLM тоже умеет сочинять здесь."
+          "description": "Студия музыки и звуковых эффектов: синтезированные инструменты и ударные, пиано-ролл, готовые аккорды и ритмы, запись, эффекты сведения, генератор звуков для игр и экспорт MP3/WAV. ИИ Arasaka Mikoshi тоже умеет сочинять здесь."
         }
       }
     },
     {
       "id": "turbo",
-      "name": "Piphin Turbo",
-      "description": "Deixa o PC mais rápido para jogos e limpa o lixo de um jeito simples: check-up com nota, limpeza segura, otimizações do Windows com desfazer, inicialização e Modo Turbo. Nada muda sem o seu clique. Roda dentro do Hub (cerca de 120 KB).",
+      "name": "Arasaka Overclock",
+      "description": "Deixa o PC mais rápido para jogos e limpa o lixo de um jeito simples: check-up com nota, limpeza segura, otimizações do Windows com desfazer, inicialização e Modo Turbo. Nada muda sem o seu clique. Roda dentro da Central (cerca de 120 KB).",
       "category": "Sistema",
       "icon": "https://raw.githubusercontent.com/Ruiso-Outside/Piphin-Turbo/main/icons/turbo.png",
-      "accent": "#3b82f6",
+      "accent": "#ff0000",
       "source": {
         "type": "github",
         "repo": "Ruiso-Outside/Piphin-Turbo",
@@ -525,11 +525,11 @@
     },
     {
       "id": "rede",
-      "name": "Piphin Rede",
-      "description": "Vê tudo da sua rede: sinal e frequências do Wi-Fi, canais, uso ao vivo, aparelhos conectados e testes de ping, DNS e velocidade. Explica o que está deixando a internet lenta. Roda dentro do Hub (cerca de 200 KB).",
+      "name": "Arasaka Netrunner",
+      "description": "Vê tudo da sua rede: sinal e frequências do Wi-Fi, canais, uso ao vivo, aparelhos conectados e testes de ping, DNS e velocidade. Explica o que está deixando a internet lenta. Roda dentro da Central (cerca de 200 KB).",
       "category": "Sistema",
       "icon": "https://raw.githubusercontent.com/Ruiso-Outside/Piphin-Rede/main/icons/rede.png",
-      "accent": "#14b8a6",
+      "accent": "#ff0000",
       "source": {
         "type": "github",
         "repo": "Ruiso-Outside/Piphin-Rede",
@@ -573,11 +573,11 @@
     },
     {
       "id": "server",
-      "name": "Piphin Server",
-      "description": "Hospede seus próprios servidores num PC com Ubuntu Server da sua rede: Minecraft, Terraria, Valheim, bots do Discord, sites, apps e bancos de dados, cada um isolado no Docker. Console, arquivos, backups e agendamentos aqui no Hub. Roda dentro do Hub (cerca de 200 KB).",
+      "name": "Arasaka Datafort",
+      "description": "Hospede seus próprios servidores num PC com Ubuntu Server da sua rede: Minecraft, Terraria, Valheim, bots do Discord, sites, apps e bancos de dados, cada um isolado no Docker. Console, arquivos, backups e agendamentos aqui na Central. Roda dentro da Central (cerca de 200 KB).",
       "category": "Sistema",
       "icon": "https://raw.githubusercontent.com/Ruiso-Outside/Piphin-Server/main/icons/server.png",
-      "accent": "#6366f1",
+      "accent": "#ff0000",
       "source": {
         "type": "github",
         "repo": "Ruiso-Outside/Piphin-Server",
@@ -585,47 +585,47 @@
       },
       "t": {
         "en": {
-          "description": "Host your own servers on an Ubuntu Server PC on your network: Minecraft, Terraria, Valheim, Discord bots, sites, apps and databases, each isolated in Docker. Console, files, backups and schedules right in the Hub."
+          "description": "Host your own servers on an Ubuntu Server PC on your network: Minecraft, Terraria, Valheim, Discord bots, sites, apps and databases, each isolated in Docker. Console, files, backups and schedules right in Arasaka Central."
         },
         "es": {
-          "description": "Aloja tus propios servidores en un PC con Ubuntu Server de tu red: Minecraft, Terraria, Valheim, bots de Discord, sitios, apps y bases de datos, cada uno aislado en Docker. Consola, archivos, backups y programaciones en el Hub."
+          "description": "Aloja tus propios servidores en un PC con Ubuntu Server de tu red: Minecraft, Terraria, Valheim, bots de Discord, sitios, apps y bases de datos, cada uno aislado en Docker. Consola, archivos, backups y programaciones en el Arasaka Central."
         },
         "th": {
-          "description": "โฮสต์เซิร์ฟเวอร์ของคุณเองบนพีซี Ubuntu Server ในเครือข่าย: Minecraft, Terraria, Valheim บอท Discord เว็บ แอป และฐานข้อมูล แยกกันใน Docker พร้อมคอนโซล ไฟล์ ข้อมูลสำรอง และกำหนดเวลาใน Hub"
+          "description": "โฮสต์เซิร์ฟเวอร์ของคุณเองบนพีซี Ubuntu Server ในเครือข่าย: Minecraft, Terraria, Valheim บอท Discord เว็บ แอป และฐานข้อมูล แยกกันใน Docker พร้อมคอนโซล ไฟล์ ข้อมูลสำรอง และกำหนดเวลาใน Arasaka Central"
         },
         "zh": {
-          "description": "在网络中的 Ubuntu Server 电脑上托管你自己的服务器：Minecraft、Terraria、Valheim、Discord 机器人、网站、应用和数据库，各自隔离在 Docker 中。控制台、文件、备份和计划任务都在 Hub 中。"
+          "description": "在网络中的 Ubuntu Server 电脑上托管你自己的服务器：Minecraft、Terraria、Valheim、Discord 机器人、网站、应用和数据库，各自隔离在 Docker 中。控制台、文件、备份和计划任务都在 Arasaka Central 中。"
         },
         "ja": {
-          "description": "ネットワーク上の Ubuntu Server の PC で自分のサーバーを運用：Minecraft、Terraria、Valheim、Discord ボット、サイト、アプリ、データベースをそれぞれ Docker で隔離。コンソール、ファイル、バックアップ、スケジュールを Hub で管理。"
+          "description": "ネットワーク上の Ubuntu Server の PC で自分のサーバーを運用：Minecraft、Terraria、Valheim、Discord ボット、サイト、アプリ、データベースをそれぞれ Docker で隔離。コンソール、ファイル、バックアップ、スケジュールを Arasaka Central で管理。"
         },
         "ko": {
-          "description": "네트워크의 Ubuntu Server PC에서 나만의 서버를 호스팅: Minecraft, Terraria, Valheim, Discord 봇, 사이트, 앱, 데이터베이스를 각각 Docker로 격리. 콘솔, 파일, 백업, 예약을 Hub에서 관리합니다."
+          "description": "네트워크의 Ubuntu Server PC에서 나만의 서버를 호스팅: Minecraft, Terraria, Valheim, Discord 봇, 사이트, 앱, 데이터베이스를 각각 Docker로 격리. 콘솔, 파일, 백업, 예약을 Arasaka Central에서 관리합니다."
         },
         "id": {
-          "description": "Jalankan server sendiri di PC Ubuntu Server di jaringan Anda: Minecraft, Terraria, Valheim, bot Discord, situs, aplikasi, dan basis data, masing-masing terisolasi di Docker. Konsol, file, cadangan, dan jadwal langsung di Hub."
+          "description": "Jalankan server sendiri di PC Ubuntu Server di jaringan Anda: Minecraft, Terraria, Valheim, bot Discord, situs, aplikasi, dan basis data, masing-masing terisolasi di Docker. Konsol, file, cadangan, dan jadwal langsung di Arasaka Central."
         },
         "vi": {
-          "description": "Tự chạy máy chủ trên máy Ubuntu Server trong mạng: Minecraft, Terraria, Valheim, bot Discord, web, ứng dụng và cơ sở dữ liệu, mỗi cái tách biệt trong Docker. Bảng điều khiển, tệp, sao lưu và lịch ngay trong Hub."
+          "description": "Tự chạy máy chủ trên máy Ubuntu Server trong mạng: Minecraft, Terraria, Valheim, bot Discord, web, ứng dụng và cơ sở dữ liệu, mỗi cái tách biệt trong Docker. Bảng điều khiển, tệp, sao lưu và lịch ngay trong Arasaka Central."
         },
         "fr": {
-          "description": "Hébergez vos propres serveurs sur un PC Ubuntu Server de votre réseau : Minecraft, Terraria, Valheim, bots Discord, sites, apps et bases de données, chacun isolé dans Docker. Console, fichiers, sauvegardes et planifications dans le Hub."
+          "description": "Hébergez vos propres serveurs sur un PC Ubuntu Server de votre réseau : Minecraft, Terraria, Valheim, bots Discord, sites, apps et bases de données, chacun isolé dans Docker. Console, fichiers, sauvegardes et planifications dans le Arasaka Central."
         },
         "de": {
-          "description": "Eigene Server auf einem Ubuntu-Server-PC im Netzwerk: Minecraft, Terraria, Valheim, Discord-Bots, Websites, Apps und Datenbanken, jeweils isoliert in Docker. Konsole, Dateien, Backups und Zeitpläne direkt im Hub."
+          "description": "Eigene Server auf einem Ubuntu-Server-PC im Netzwerk: Minecraft, Terraria, Valheim, Discord-Bots, Websites, Apps und Datenbanken, jeweils isoliert in Docker. Konsole, Dateien, Backups und Zeitpläne direkt im Arasaka Central."
         },
         "ru": {
-          "description": "Свои серверы на ПК с Ubuntu Server в вашей сети: Minecraft, Terraria, Valheim, боты Discord, сайты, приложения и базы данных, каждый изолирован в Docker. Консоль, файлы, копии и расписания прямо в Hub."
+          "description": "Свои серверы на ПК с Ubuntu Server в вашей сети: Minecraft, Terraria, Valheim, боты Discord, сайты, приложения и базы данных, каждый изолирован в Docker. Консоль, файлы, копии и расписания прямо в Arasaka Central."
         }
       }
     },
     {
       "id": "musica",
-      "name": "Piphin Música",
-      "description": "Baixe músicas livres de graça (Creative Commons e domínio público) do Openverse, ccMixter e Internet Archive e ouça junto com as suas: biblioteca, playlists, curtidas, equalizador e créditos prontos para copiar. Roda dentro do Hub (cerca de 300 KB).",
+      "name": "Arasaka Radioport",
+      "description": "Baixe músicas livres de graça (Creative Commons e domínio público) do Openverse, ccMixter e Internet Archive e ouça junto com as suas: biblioteca, playlists, curtidas, equalizador e créditos prontos para copiar. Roda dentro da Central (cerca de 300 KB).",
       "category": "Mídia",
       "icon": "https://raw.githubusercontent.com/Ruiso-Outside/Piphin-Musica/main/icons/musica.png",
-      "accent": "#ec4899",
+      "accent": "#ff0000",
       "source": {
         "type": "github",
         "repo": "Ruiso-Outside/Piphin-Musica",
@@ -669,11 +669,11 @@
     },
     {
       "id": "jogos",
-      "name": "Piphin Jogos",
-      "description": "Todos os jogos instalados no PC num só lugar (Steam, Epic, Riot, GOG, Ubisoft, EA, Battle.net, Rockstar, Xbox): tempo de jogo de qualquer loja, estatísticas, perfil de jogador, roleta do que jogar e espaço em disco. Roda dentro do Hub (cerca de 110 KB).",
+      "name": "Arasaka Arcade",
+      "description": "Todos os jogos instalados no PC num só lugar (Steam, Epic, Riot, GOG, Ubisoft, EA, Battle.net, Rockstar, Xbox): tempo de jogo de qualquer loja, estatísticas, perfil de jogador, roleta do que jogar e espaço em disco. Roda dentro da Central (cerca de 110 KB).",
       "category": "Jogos",
       "icon": "https://raw.githubusercontent.com/Ruiso-Outside/Piphin-Jogos/main/icons/jogos.png",
-      "accent": "#f97316",
+      "accent": "#ff0000",
       "source": {
         "type": "github",
         "repo": "Ruiso-Outside/Piphin-Jogos",
@@ -717,11 +717,11 @@
     },
     {
       "id": "captura",
-      "name": "Piphin Captura",
-      "description": "Print de tela prático (PrtSc para escolher a área) com editor para marcar e esconder informações, e gravador de tela em MP4 com o som do PC e o microfone (Alt+F9). Precisa do Hub 1.6.0. Roda dentro do Hub (cerca de 300 KB).",
+      "name": "Arasaka Scanner",
+      "description": "Print de tela prático (PrtSc para escolher a área) com editor para marcar e esconder informações, e gravador de tela em MP4 com o som do PC e o microfone (Alt+F9). Precisa da Central 1.6.0. Roda dentro da Central (cerca de 300 KB).",
       "category": "Criação",
       "icon": "https://raw.githubusercontent.com/Ruiso-Outside/Piphin-Captura/main/icons/captura.png",
-      "accent": "#06b6d4",
+      "accent": "#ff0000",
       "source": {
         "type": "github",
         "repo": "Ruiso-Outside/Piphin-Captura",
@@ -765,11 +765,11 @@
     },
     {
       "id": "escudo",
-      "name": "Piphin Escudo",
-      "description": "Verifica se o PC tem sinais de invasão ou brechas de segurança (programas escondidos, acesso remoto, hosts e proxy desviados, antivírus, firewall...), corrige com um clique e desfaz, vigia mudanças perigosas e confere se suas senhas vazaram. Roda dentro do Hub (cerca de 120 KB).",
+      "name": "Arasaka ICE",
+      "description": "Verifica se o PC tem sinais de invasão ou brechas de segurança (programas escondidos, acesso remoto, hosts e proxy desviados, antivírus, firewall...), corrige com um clique e desfaz, vigia mudanças perigosas e confere se suas senhas vazaram. Roda dentro da Central (cerca de 120 KB).",
       "category": "Sistema",
       "icon": "https://raw.githubusercontent.com/Ruiso-Outside/Piphin-Escudo/main/icons/escudo.png",
-      "accent": "#22c55e",
+      "accent": "#ff0000",
       "source": {
         "type": "github",
         "repo": "Ruiso-Outside/Piphin-Escudo",
@@ -813,11 +813,11 @@
     },
     {
       "id": "financas",
-      "name": "Piphin Finanças",
-      "description": "Finanças pessoais e da empresa em carteiras separadas: contas, cartões e faturas, contas a pagar com lembrete, orçamentos, metas, DRE e limite do MEI, importação de extrato, lançamento rápido em português e senha opcional. Roda dentro do Hub (cerca de 130 KB).",
+      "name": "Arasaka Eurodólar",
+      "description": "Finanças pessoais e da empresa em carteiras separadas: contas, cartões e faturas, contas a pagar com lembrete, orçamentos, metas, DRE e limite do MEI, importação de extrato, lançamento rápido em português e senha opcional. Roda dentro da Central (cerca de 130 KB).",
       "category": "Finanças",
       "icon": "https://raw.githubusercontent.com/Ruiso-Outside/Piphin-Financas/main/icons/financas.png",
-      "accent": "#eab308",
+      "accent": "#ff0000",
       "source": {
         "type": "github",
         "repo": "Ruiso-Outside/Piphin-Financas",

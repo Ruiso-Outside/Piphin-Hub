@@ -1,50 +1,50 @@
-/* Piphin UI · tokens (cores, forma, tipografia). Também usado sozinho por módulos que já têm o próprio CSS
+/* Tema Arasaka · tokens (cores, forma, tipografia). Também usado sozinho por módulos que já têm o próprio CSS
    (ex.: Piphin LLM), para adotarem a paleta do Hub sem trocar os componentes. */
 :root {
   color-scheme: dark;
   /* camadas: do fundo para a frente */
-  --p-bg: #08070d;
-  --p-bg-2: #0d0c14;
-  --p-surface-1: #12111b;
-  --p-surface-2: #181623;
-  --p-surface-3: #201d2e;
-  --p-hover: rgba(255, 255, 255, .045);
-  --p-active: rgba(255, 255, 255, .075);
-  --p-line: rgba(255, 255, 255, .07);
-  --p-line-2: rgba(255, 255, 255, .12);
+  --p-bg: #050505;
+  --p-bg-2: #09090a;
+  --p-surface-1: #0f0f11;
+  --p-surface-2: #161618;
+  --p-surface-3: #212124;
+  --p-hover: rgba(255, 0, 0, .08);
+  --p-active: rgba(255, 0, 0, .15);
+  --p-line: rgba(255, 60, 60, .16);
+  --p-line-2: rgba(255, 60, 60, .32);
   /* texto */
-  --p-text: #eeedf6;
-  --p-text-2: #a9a6c2;
-  --p-text-3: #6f6b8b;
+  --p-text: #f4f0f0;
+  --p-text-2: #b9adad;
+  --p-text-3: #8d8080;
   /* destaque */
-  --p-accent: #8b5cf6;
-  --p-accent-2: #b197fc;
-  --p-accent-soft: rgba(139, 92, 246, .14);
-  --p-accent-line: rgba(139, 92, 246, .45);
-  --p-grad: linear-gradient(135deg, #7c3aed 0%, #9f5cf7 55%, #c084fc 100%);
+  --p-accent: #ff0000;
+  --p-accent-2: #ff5252;
+  --p-accent-soft: rgba(255, 0, 0, .13);
+  --p-accent-line: rgba(255, 0, 0, .55);
+  --p-grad: linear-gradient(100deg, #e00000 0%, #ff0000 100%);
   --p-module: var(--p-accent);
   /* estados */
-  --p-ok: #34d399;   --p-ok-soft: rgba(52, 211, 153, .12);
-  --p-warn: #fbbf24; --p-warn-soft: rgba(251, 191, 36, .12);
-  --p-err: #f87171;  --p-err-soft: rgba(248, 113, 113, .12);
-  --p-info: #38bdf8; --p-info-soft: rgba(56, 189, 248, .12);
+  --p-ok: #19e6a4;   --p-ok-soft: rgba(25, 230, 164, .12);
+  --p-warn: #ffc21a; --p-warn-soft: rgba(255, 194, 26, .12);
+  --p-err: #ff4fa0;  --p-err-soft: rgba(255, 79, 160, .13);
+  --p-info: #29d9ff; --p-info-soft: rgba(41, 217, 255, .12);
   /* paleta de dados (gráficos e sensores) */
-  --p-c1: #a855f7; --p-c2: #22d3ee; --p-c3: #ff3cac; --p-c4: #39ff88; --p-c5: #ffb020; --p-c6: #5b8cff; --p-c7: #f7e26b; --p-c8: #ff4d6d;
+  --p-c1: #ff2a2a; --p-c2: #29d9ff; --p-c3: #ff4fa0; --p-c4: #19e6a4; --p-c5: #ffc21a; --p-c6: #7d8cff; --p-c7: #f4f0f0; --p-c8: #ff8a3d;
   /* forma */
-  --p-r-s: 8px; --p-r-m: 12px; --p-r-l: 16px; --p-r-xl: 22px;
-  --p-shadow: 0 1px 0 rgba(255, 255, 255, .035) inset, 0 10px 30px -12px rgba(0, 0, 0, .55);
-  --p-shadow-pop: 0 24px 60px -12px rgba(0, 0, 0, .7), 0 0 0 1px var(--p-line-2);
-  --p-ring: 0 0 0 3px rgba(139, 92, 246, .32);
+  --p-r-s: 0; --p-r-m: 2px; --p-r-l: 2px; --p-r-xl: 3px;
+  --p-shadow: 0 12px 30px -16px rgba(0, 0, 0, .9);
+  --p-shadow-pop: 0 24px 60px -12px rgba(0, 0, 0, .85), 0 0 0 1px var(--p-accent-line), 0 0 34px -10px rgba(255, 0, 0, .4);
+  --p-ring: 0 0 0 1px #050505, 0 0 0 2px var(--p-accent);
   /* tipografia */
-  --p-font: "Segoe UI Variable Text", "Segoe UI", system-ui, sans-serif;
-  --p-font-display: "Segoe UI Variable Display", "Segoe UI Variable Text", "Segoe UI", system-ui, sans-serif;
-  --p-mono: "Cascadia Code", "Cascadia Mono", Consolas, monospace;
+  --p-font: "Bahnschrift", "Ubuntu", "Segoe UI", system-ui, sans-serif;
+  --p-font-display: "Bahnschrift", "Ubuntu Condensed", "Ubuntu", "Segoe UI", system-ui, sans-serif;
+  --p-mono: "Cascadia Mono", "Ubuntu Mono", Consolas, monospace;
   --p-ease: cubic-bezier(.2, .8, .2, 1);
 
   /* nomes antigos (Hub, Macro, InfoHardware e LLM antes do kit) */
   --bg: var(--p-bg); --bg2: var(--p-bg-2); --panel: var(--p-surface-1); --panel2: var(--p-surface-2); --line: var(--p-line); --line2: var(--p-line-2);
   --text: var(--p-text); --muted: var(--p-text-2); --dim: var(--p-text-3);
-  --accent: var(--p-accent); --accent2: var(--p-accent-2); --glow: 0 0 0 1px var(--p-accent-line), 0 0 18px rgba(139, 92, 246, .25);
+  --accent: var(--p-accent); --accent2: var(--p-accent-2); --glow: 0 0 0 1px var(--p-accent-line), 0 0 18px rgba(255, 0, 0, .28);
   --ok: var(--p-ok); --warn: var(--p-warn); --err: var(--p-err); --radius: var(--p-r-m);
   --purple: var(--p-c1); --cyan: var(--p-c2); --pink: var(--p-c3); --green: var(--p-c4); --orange: var(--p-c5); --blue: var(--p-c6); --yellow: var(--p-c7); --red: var(--p-c8);
 }

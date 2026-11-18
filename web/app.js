@@ -1,4 +1,4 @@
-// Interface do Piphin Hub: Início, Loja, Configurações, módulos e paleta de comandos (Ctrl+K). A tela Mídia fica em media.js.
+// Interface da Arasaka Central: Início, Loja, Configurações, módulos e paleta de comandos (Ctrl+K). A tela Mídia fica em media.js.
 const $ = (s, el = document) => el.querySelector(s);
 const $$ = (s, el = document) => [...el.querySelectorAll(s)];
 const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
@@ -37,8 +37,8 @@ hub.onShortcut((k) => shortcut(k));
 const app = (id) => snap.apps.find((a) => a.id === id);
 const st = (a) => a.status || {};
 const installedModules = () => (snap.modules || []).map((m) => ({ ...m, cat: app(m.id) })).filter((m) => m.cat || m.name);
-const accentOf = (a) => (a && a.accent) || "#8b5cf6";
-const iconOf = (a, m) => (a && a.iconUrl) || (m && m.icon) || null;
+const accentOf = (a) => (a && a.accent) || "#ff0000";
+const iconOf = (a, m) => { const inst = m || (a && (snap.modules || []).find((x) => x.id === a.id)); return (inst && inst.icon) || (a && a.iconUrl) || null; };
 
 function stateOf(a) {
   const s = st(a);
@@ -94,7 +94,7 @@ async function act(kind, id, opts = {}) {
     return load();
   }
   const simple = { cancel: hub.cancel, folder: hub.openFolder, locate: hub.locate, forget: hub.forget, removeCustom: hub.removeCustom, restartModule: hub.restartModule };
-  if (kind === "removeCustom" && !(await confirmBox(`Remover ${a.name} da Loja?`, "O app sai da lista do Hub. Se estiver instalado, os arquivos continuam no PC.", "Remover", true))) return;
+  if (kind === "removeCustom" && !(await confirmBox(`Remover ${a.name} da Loja?`, "O app sai da lista da Central. Se estiver instalado, os arquivos continuam no PC.", "Remover", true))) return;
   const r = await simple[kind](id);
   if (!r.ok) toast(r.error, "err");
   if (kind === "removeCustom") closeDrawer();
@@ -187,7 +187,7 @@ function renderSide() {
     const icon = iconOf(m.cat, m);
     const stDot = { running: "ok", starting: "warn", crashed: "err" }[m.state] || "";
     return `<button class="nav-item ${m.id === cur ? "active" : ""}" data-mod="${esc(m.id)}" style="--accent-c:${esc(accentOf(m.cat || m))}" title="${esc(m.name)}${i < 9 ? ` (Ctrl+${i + 1})` : ""}">
-      ${icon ? `<img class="mod-ico" src="${esc(icon)}" alt="">` : `<span class="mod-ico ph">${esc(m.name[0])}</span>`}<span>${esc(m.name)}</span>
+      ${icon ? `<img class="mod-ico" src="${esc(icon)}" alt="">` : `<span class="mod-ico ph">${esc(m.name[0])}</span>`}<span data-noi18n>${esc(m.name.replace(/^Arasaka /, ""))}</span>
       ${i < 9 ? `<span class="hk">^${i + 1}</span>` : ""}<i class="dot ${stDot}" title="${esc(m.error || m.state)}"></i></button>`;
   }).join("") : `<div class="side-empty">Nenhum módulo ainda. <a data-goto="store">Abra a Loja</a> para instalar.</div>`;
   renderHubUpdate();
@@ -201,15 +201,15 @@ function renderHubUpdate() {
   if (box.dataset.k === key) return;
   box.dataset.k = key;
   if (u.ready) {
-    box.innerHTML = `<div class="hub-update"><div class="row"><i class="i i-sparkles"></i><span class="hu-text"><b>Hub v${esc(u.version)}</b> pronto</span></div>
+    box.innerHTML = `<div class="hub-update"><div class="row"><i class="i i-sparkles"></i><span class="hu-text"><b>Central v${esc(u.version)}</b> pronto</span></div>
       <button class="btn primary sm" id="btnSelf" title="Reiniciar e atualizar"><i class="i i-refresh-cw"></i><span>Reiniciar agora</span></button></div>`;
     $("#btnSelf").onclick = async () => { const r = await hub.selfRestart(); if (!r.ok) toast(r.error, "err"); };
   } else if (u.error) {
-    box.innerHTML = `<div class="hub-update"><div class="row"><i class="i i-triangle-alert"></i><span class="hu-text">Falha ao baixar o Hub v${esc(u.version)}</span></div>
+    box.innerHTML = `<div class="hub-update"><div class="row"><i class="i i-triangle-alert"></i><span class="hu-text">Falha ao baixar a Central v${esc(u.version)}</span></div>
       <button class="btn sm" id="btnSelf"><i class="i i-rotate-ccw"></i><span>Tentar de novo</span></button></div>`;
     $("#btnSelf").onclick = () => { box.dataset.k = ""; hub.selfCheck().then(load); };
   } else {
-    box.innerHTML = `<div class="hub-update"><div class="row"><i class="i i-download"></i><span class="hu-text">Baixando o Hub v${esc(u.version)}...</span></div>
+    box.innerHTML = `<div class="hub-update"><div class="row"><i class="i i-download"></i><span class="hu-text">Baixando a Central v${esc(u.version)}...</span></div>
       <div class="progress"><i style="width:${Math.round((u.pct || 0) * 100)}%"></i></div></div>`;
   }
 }
@@ -247,7 +247,7 @@ function renderHome(main) {
     <div class="p-section">Seus módulos</div>
     ${mods.length ? `<div class="mod-grid">${mods.map((m, i) => modTile(m, i)).join("")}</div>`
       : `<div class="card flat" style="display:flex;align-items:center;gap:16px"><i class="i i-puzzle" style="font-size:28px;color:var(--p-accent-2)"></i>
-          <div class="grow"><b>Monte o seu Piphin</b><div class="muted" style="font-size:13px">Cada ferramenta é um módulo que roda aqui dentro. Instale só o que você usa.</div></div>
+          <div class="grow"><b>Monte a sua Central</b><div class="muted" style="font-size:13px">Cada ferramenta é um módulo que roda aqui dentro. Instale só o que você usa.</div></div>
           <button class="btn primary" data-goto="store"><i class="i i-store"></i>Abrir a Loja</button></div>`}
     ${homeRecent()}
     ${notInstalled.length ? `<div class="p-section">Disponíveis para instalar</div><div class="mod-grid">${notInstalled.map(suggestTile).join("")}</div>` : ""}
@@ -259,7 +259,7 @@ function renderHome(main) {
           <span>v${esc(st(a).version)} → v${esc(st(a).latest.version)}</span></div>${primaryButton(a, true)}</div>`).join("")
           : `<div class="row muted" style="font-size:13px"><i class="i i-circle-check" style="color:var(--p-ok)"></i>Tudo em dia.${apps.length ? "" : ""}</div>`}
         ${apps.length ? `<div class="p-section" style="margin-top:18px">Apps separados</div>${apps.map((a) => `<div class="list-item">${iconOf(a) ? `<img src="${esc(iconOf(a))}" alt="">` : ""}
-          <div class="t"><b>${esc(a.name)}</b><span>v${esc(st(a).version || "?")} · fora do Hub</span></div><button class="btn sm" data-act="launch" data-id="${esc(a.id)}"><i class="i i-external-link"></i>Abrir</button></div>`).join("")}` : ""}
+          <div class="t"><b>${esc(a.name)}</b><span>v${esc(st(a).version || "?")} · fora da Central</span></div><button class="btn sm" data-act="launch" data-id="${esc(a.id)}"><i class="i i-external-link"></i>Abrir</button></div>`).join("")}` : ""}
       </div>
       <div class="card"><div class="card-title"><span><i class="i i-keyboard"></i> Atalhos</span></div>
         <div class="tips">
@@ -281,15 +281,15 @@ function renderHome(main) {
 function blockedBanner() {
   if (!snap.hubBlocked) return "";
   return `<div class="p-banner zone-banner"><i class="i i-triangle-alert"></i>
-    <div class="grow"><b>Os atalhos do Hub podem não abrir</b><div class="muted">Os arquivos do Hub vieram de um .zip baixado da internet, e por isso o Windows pode bloquear os atalhos da Área de Trabalho e do Menu Iniciar.
-      Desbloquear tira essa marca só dos arquivos da pasta do Hub (é o mesmo que Propriedades → Desbloquear).</div></div>
-    <button class="btn primary sm" data-unblock="1"><i class="i i-shield-check"></i>Desbloquear arquivos do Hub</button></div>`;
+    <div class="grow"><b>Os atalhos da Central podem não abrir</b><div class="muted">Os arquivos da Central vieram de um .zip baixado da internet, e por isso o Windows pode bloquear os atalhos da Área de Trabalho e do Menu Iniciar.
+      Desbloquear tira essa marca só dos arquivos da pasta da Central (é o mesmo que Propriedades → Desbloquear).</div></div>
+    <button class="btn primary sm" data-unblock="1"><i class="i i-shield-check"></i>Desbloquear arquivos da Central</button></div>`;
 }
 async function unblockHub(btn) {
   btn.disabled = true;
   const r = await hub.unblock();
   if (!r.ok) { btn.disabled = false; return toast(r.error, "err"); }
-  toast("Arquivos do Hub desbloqueados. Os atalhos já devem abrir.", "ok");
+  toast("Arquivos da Central desbloqueados. Os atalhos já devem abrir.", "ok");
   load();
 }
 
@@ -309,7 +309,7 @@ function suggestTile(a) {
     <div><h3>${esc(a.name)}</h3><p>${esc(shortDesc(a.description))}</p></div>
     <div class="foot"><span class="faint" style="font-size:12px">${st(a).latest ? "v" + esc(st(a).latest.version) + (st(a).latest.size ? " · " + mb(st(a).latest.size) : "") : ""}</span>${primaryButton(a, true)}</div></div>`;
 }
-const shortDesc = (d) => String(d || "").replace(/\s*Roda dentro do Hub.*$/, "");
+const shortDesc = (d) => String(d || "").replace(/\s*Roda dentro (do Hub|da Central).*$/, "");
 const uptime = (s) => { const d = Math.floor(s / 86400), h = Math.floor((s % 86400) / 3600), m = Math.floor((s % 3600) / 60); return d ? `${d}d ${h}h` : h ? `${h}h ${m}min` : `${m} min`; };
 
 async function pulseTick() {
@@ -344,10 +344,10 @@ function drawPulse() {
   const off = 40 - d.length;
   g.beginPath();
   d.forEach((v, i) => (i ? g.lineTo(x(i + off), y(v)) : g.moveTo(x(i + off), y(v))));
-  const grad = g.createLinearGradient(0, 0, w, 0); grad.addColorStop(0, "#7c3aed"); grad.addColorStop(1, "#c084fc");
+  const grad = g.createLinearGradient(0, 0, w, 0); grad.addColorStop(0, "#7a0000"); grad.addColorStop(1, "#ff0000");
   g.strokeStyle = grad; g.lineWidth = 2; g.lineJoin = "round"; g.stroke();
   g.lineTo(x(39), h); g.lineTo(x(off), h); g.closePath();
-  const fill = g.createLinearGradient(0, 0, 0, h); fill.addColorStop(0, "rgba(168,85,247,.35)"); fill.addColorStop(1, "rgba(168,85,247,0)");
+  const fill = g.createLinearGradient(0, 0, 0, h); fill.addColorStop(0, "rgba(255,0,0,.3)"); fill.addColorStop(1, "rgba(255,0,0,0)");
   g.fillStyle = fill; g.fill();
 }
 
@@ -369,7 +369,7 @@ function renderStore(main) {
   const focused = document.activeElement && document.activeElement.id === "storeSearch";
   const list = storeList();
   main.innerHTML = `<div class="p-page">
-    <div class="p-head"><div><h1>Loja</h1><p>Módulos rodam dentro do Hub; apps abrem separados. Tudo vem dos Releases do GitHub.</p></div>
+    <div class="p-head"><div><h1>Loja</h1><p>Módulos rodam dentro da Central; apps abrem separados. Tudo vem dos Releases do GitHub.</p></div>
       <div class="actions"><label class="search"><i class="i i-search"></i><input id="storeSearch" type="search" placeholder="Buscar" value="${esc(storeQuery)}" style="width:220px"></label>
         <button class="btn" data-check="1"><i class="i i-refresh-cw"></i>Verificar</button>
         ${snap.apps.some((a) => st(a).updateAvailable) ? `<button class="btn primary" data-act-all="1"><i class="i i-download"></i>Atualizar tudo</button>` : ""}</div></div>
@@ -485,7 +485,7 @@ async function renderDrawer() {
         ${s.latest && s.latest.size ? `<dt>Download</dt><dd>${mb(s.latest.size)}</dd>` : ""}
         ${s.installed ? `<dt>Pasta</dt><dd class="mono" style="font-size:12px">${esc(s.dir)}</dd><dt>Espaço em disco</dt><dd id="dsize">calculando...</dd>` : ""}
         <dt>Origem</dt><dd>${src}</dd>
-        <dt>Tipo</dt><dd>${a.kind === "module" ? "Módulo (roda dentro do Hub)" : a.install.type === "portable" ? "App portátil (pasta)" : "App com instalador"}${a.install.selfUpdating ? " · também se atualiza sozinho" : ""}</dd>
+        <dt>Tipo</dt><dd>${a.kind === "module" ? "Módulo (roda dentro da Central)" : a.install.type === "portable" ? "App portátil (pasta)" : "App com instalador"}${a.install.selfUpdating ? " · também se atualiza sozinho" : ""}</dd>
       </dl>
       ${s.latest && s.latest.notes ? `<div class="p-section">Novidades da v${esc(s.latest.version)}</div><div class="notes">${esc(s.latest.notes)}</div>` : ""}
     </div>`;
@@ -498,23 +498,23 @@ function renderSettings(main) {
   const s = snap.settings;
   const sw = (id, on) => `<label class="switch"><input type="checkbox" id="${id}" ${on ? "checked" : ""}><span></span></label>`;
   const row = (icon, title, text, ctrl) => `<div class="set"><div class="ico-left"><i class="i i-${icon}"></i><div><h4>${title}</h4><p>${text}</p></div></div><div class="ctrl">${ctrl}</div></div>`;
-  main.innerHTML = `<div class="p-page"><div class="p-head"><div><h1>Configurações</h1><p>Preferências do Piphin Hub.</p></div></div>
+  main.innerHTML = `<div class="p-page"><div class="p-head"><div><h1>Configurações</h1><p>Preferências da Arasaka Central.</p></div></div>
     <div class="p-settings">
       <div class="p-section">Geral</div>
-      ${row("globe", "Idioma", "O Hub e os módulos aparecem neste idioma.", `<select id="sLang"><option value="auto">${LINUX ? "Automático (idioma do sistema)" : "Automático (idioma do Windows)"}</option>${(snap.langs || []).map((l) => `<option value="${esc(l.code)}" data-noi18n>${esc(l.name)}</option>`).join("")}</select>`)}
-      ${LINUX ? row("power", "Iniciar ao entrar no Linux", "Abre o Hub escondido no ícone da barra quando você entra na sessão, para os atalhos dos módulos funcionarem desde o início.", sw("sBoot", s.startWithWindows))
-        : row("power", "Iniciar com o Windows", "Abre o Hub escondido perto do relógio quando o PC liga, para os atalhos dos módulos funcionarem desde o início.", sw("sBoot", s.startWithWindows))}
-      ${LINUX ? row("app-window", "Atalhos do Piphin Hub", "Cria ou recria o Hub no menu de aplicativos e na Área de Trabalho.", `<button class="btn" id="sHubLnk">Criar atalhos</button>`)
-        : row("app-window", "Atalhos do Piphin Hub", "Cria ou recria os atalhos do Hub na Área de Trabalho e no Menu Iniciar.", `<button class="btn" id="sHubLnk">Criar atalhos</button>`)}
+      ${row("globe", "Idioma", "A Central e os módulos aparecem neste idioma.", `<select id="sLang"><option value="auto">${LINUX ? "Automático (idioma do sistema)" : "Automático (idioma do Windows)"}</option>${(snap.langs || []).map((l) => `<option value="${esc(l.code)}" data-noi18n>${esc(l.name)}</option>`).join("")}</select>`)}
+      ${LINUX ? row("power", "Iniciar ao entrar no Linux", "Abre a Central escondida no ícone da barra quando você entra na sessão, para os atalhos dos módulos funcionarem desde o início.", sw("sBoot", s.startWithWindows))
+        : row("power", "Iniciar com o Windows", "Abre a Central escondida perto do relógio quando o PC liga, para os atalhos dos módulos funcionarem desde o início.", sw("sBoot", s.startWithWindows))}
+      ${LINUX ? row("app-window", "Atalhos da Arasaka Central", "Cria ou recria a Central no menu de aplicativos e na Área de Trabalho.", `<button class="btn" id="sHubLnk">Criar atalhos</button>`)
+        : row("app-window", "Atalhos da Arasaka Central", "Cria ou recria os atalhos da Central na Área de Trabalho e no Menu Iniciar.", `<button class="btn" id="sHubLnk">Criar atalhos</button>`)}
       ${row("monitor", "Atalho dos apps na Área de Trabalho", "Ao instalar um app portátil, cria também um atalho na Área de Trabalho.", sw("sDesk", s.desktopShortcuts))}
 
       <div class="p-section">Atualizações</div>
-      ${row("sparkles", `Piphin Hub v${esc(snap.hubVersion)}`, "O Hub se atualiza sozinho: consulta o GitHub ao abrir e a cada hora e pergunta se pode reiniciar.", `<button class="btn" id="sSelf"><i class="i i-refresh-cw"></i>Verificar agora</button>`)}
-      ${row("bell", "Verificar módulos e apps ao abrir", "Consulta o GitHub ao abrir o Hub e a cada 6 horas.", sw("sCheck", s.checkOnStart))}
+      ${row("sparkles", `Arasaka Central v${esc(snap.hubVersion)}`, "A Central se atualiza sozinha: consulta o GitHub ao abrir e a cada hora e pergunta se pode reiniciar.", `<button class="btn" id="sSelf"><i class="i i-refresh-cw"></i>Verificar agora</button>`)}
+      ${row("bell", "Verificar módulos e apps ao abrir", "Consulta o GitHub ao abrir a Central e a cada 6 horas.", sw("sCheck", s.checkOnStart))}
       ${row("download", "Atualizar automaticamente", "Instala as versões novas sozinho. Apps abertos ficam para a próxima verificação.", sw("sAuto", s.autoUpdate))}
 
       <div class="p-section">Apps</div>
-      <div class="set"><div class="ico-left"><i class="i i-folder-open"></i><div><h4>Pasta dos apps portáteis</h4><p>Onde o Hub instala apps que vêm em .zip. Módulos ficam na pasta do Hub.</p></div></div>
+      <div class="set"><div class="ico-left"><i class="i i-folder-open"></i><div><h4>Pasta dos apps portáteis</h4><p>Onde a Central instala apps que vêm em .zip. Módulos ficam na pasta da Central.</p></div></div>
         <div class="wide"><input type="text" id="sLib" value="${esc(s.libraryDir)}"><button class="btn" id="sLibPick">Escolher</button></div></div>
 
       <div class="p-section">Avançado</div>
@@ -527,12 +527,12 @@ function renderSettings(main) {
   $("#sBoot").onchange = (e) => save({ startWithWindows: e.target.checked });
   $("#sLang").value = s.language || "auto";
   $("#sLang").onchange = (e) => save({ language: e.target.value }, "Idioma alterado");
-  $("#sHubLnk").onclick = async () => { const r = await hub.hubShortcuts(); toast(r.ok ? "Atalhos do Hub criados" : r.error, r.ok ? "ok" : "err"); };
+  $("#sHubLnk").onclick = async () => { const r = await hub.hubShortcuts(); toast(r.ok ? "Atalhos da Central criados" : r.error, r.ok ? "ok" : "err"); };
   $("#sDesk").onchange = (e) => save({ desktopShortcuts: e.target.checked });
   $("#sSelf").onclick = async (e) => {
     const b = e.currentTarget; b.disabled = true;
     const r = await hub.selfCheck(); b.disabled = false;
-    if (!r.ok) toast(r.error, "err"); else if (!r.data) toast("O Hub já está na versão mais recente", "ok");
+    if (!r.ok) toast(r.error, "err"); else if (!r.data) toast("A Central já está na versão mais recente", "ok");
     load();
   };
   $("#sCheck").onchange = (e) => save({ checkOnStart: e.target.checked });
@@ -547,7 +547,7 @@ function renderSettings(main) {
 function openAddForm() {
   const f = { sourceType: "github", installType: "portable" };
   const box = $("#modalBox");
-  box.innerHTML = `<h3>Adicionar app</h3><p style="font-size:13px">O Hub baixa a versão mais recente do Release do GitHub (ou da pasta) e cuida das atualizações.</p>
+  box.innerHTML = `<h3>Adicionar app</h3><p style="font-size:13px">A Central baixa a versão mais recente do Release do GitHub (ou da pasta) e cuida das atualizações.</p>
     <div class="form">
       <div class="two"><label>Nome<input type="text" id="fName" placeholder="AutoClick"></label><label>Categoria<input type="text" id="fCat" placeholder="Produtividade"></label></div>
       <label>Descrição<input type="text" id="fDesc" placeholder="O que o app faz"></label>
@@ -622,7 +622,7 @@ function paletteCommands() {
   cmds.push({ group: "Ações", label: "Verificar atualizações", ico: "refresh-cw", run: checkUpdates, keys: "update" });
   cmds.push({ group: "Ações", label: collapsed ? "Expandir a barra lateral" : "Recolher a barra lateral", ico: collapsed ? "panel-left-open" : "panel-left-close", run: () => setCollapsed(!collapsed) });
   cmds.push({ group: "Ações", label: "Adicionar app à Loja", ico: "plus", run: () => { go("store"); openAddForm(); } });
-  if (snap.hubUpdate && snap.hubUpdate.ready) cmds.push({ group: "Ações", label: `Reiniciar e atualizar o Hub (v${snap.hubUpdate.version})`, ico: "sparkles", run: () => hub.selfRestart() });
+  if (snap.hubUpdate && snap.hubUpdate.ready) cmds.push({ group: "Ações", label: `Reiniciar e atualizar a Central (v${snap.hubUpdate.version})`, ico: "sparkles", run: () => hub.selfRestart() });
   for (const a of snap.apps) {
     const s = st(a);
     if (a.kind !== "module" && s.installed) cmds.push({ group: "Apps", label: a.name, sub: "abrir", icon: iconOf(a), run: () => act("launch", a.id) });

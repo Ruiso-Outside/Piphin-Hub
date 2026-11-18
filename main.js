@@ -1,4 +1,4 @@
-// Piphin Hub: processo principal do Electron.
+// Arasaka Central (antigo Piphin Hub): processo principal do Electron.
 const { app, BrowserWindow, ipcMain, shell, dialog, Notification, nativeImage, Tray, Menu, protocol, net } = require("electron");
 const { pathToFileURL } = require("url");
 const os = require("os");
@@ -16,6 +16,10 @@ const zone = require("./lib/zone");
 const SC = require("./lib/shortcuts");
 
 const IS_WIN = process.platform === "win32";
+// Os dados continuam na pasta de antes da troca de nome: módulos, configurações e mídia não se perdem.
+// (só na pasta padrão: quem já definiu outra, como os testes, fica com a sua)
+const OLD_NAME = "Arasaka Central";
+if (app.getPath("userData") === path.join(app.getPath("appData"), app.getName())) app.setPath("userData", path.join(app.getPath("appData"), OLD_NAME));
 if (IS_WIN) app.setAppUserModelId("studio.piphin.hub");
 // Linux: roda pelo X11 (também no Wayland, pelo XWayland) para os atalhos globais, as janelas por cima (overlay)
 // e as posições de janela funcionarem como no Windows. PIPHIN_WAYLAND=1 usa o Wayland direto.
@@ -44,9 +48,9 @@ async function acquireInstance() {
       hasLock = app.requestSingleInstanceLock(INSTANCE);
     }
     if (!hasLock) {
-      await dialog.showMessageBox({ type: "warning", title: "Piphin Hub", noLink: true, buttons: ["OK"],
-        message: "Outra cópia do Piphin Hub está aberta",
-        detail: `Uma versão mais antiga do Hub continua rodando (talvez escondida perto do relógio). Clique com o botão direito no ícone dela, escolha "Sair" e abra esta versão (${app.getVersion()}) de novo.` });
+      await dialog.showMessageBox({ type: "warning", title: "Arasaka Central", noLink: true, buttons: ["OK"],
+        message: "Outra cópia da Arasaka Central está aberta",
+        detail: `Uma versão mais antiga da Central continua rodando (talvez escondida perto do relógio). Clique com o botão direito no ícone dela, escolha "Sair" e abra esta versão (${app.getVersion()}) de novo.` });
       return false;
     }
   }
@@ -54,12 +58,13 @@ async function acquireInstance() {
   return true;
 }
 
+const APP_NAME = "Arasaka Central";
 const ICON = path.join(__dirname, "icons", "hub.png");
 let win = null;
 let hub = null;
 let hubUpdate = null; // atualização do próprio Hub: { version, notes, pct, ready, error }
 let hubChecking = false;
-let modules = null; // módulos que rodam dentro do Hub
+let modules = null; // módulos que rodam dentro da Central
 let tools = null; // ferramentas dos módulos para a IA (servidor MCP local)
 let library = null; // mídia compartilhada entre os módulos (lib/library.js)
 const picks = new Map(); // janelas "Escolher da mídia" abertas: id -> resolve
@@ -87,11 +92,11 @@ function createWindow() {
     height: 760,
     minWidth: 900,
     minHeight: 560,
-    backgroundColor: "#08070d",
-    title: "Piphin Hub",
+    backgroundColor: "#050505",
+    title: "Arasaka Central",
     icon: nativeImage.createFromPath(ICON),
     titleBarStyle: "hidden",
-    titleBarOverlay: { color: "#08070d", symbolColor: "#a9a6c2", height: 44 },
+    titleBarOverlay: { color: "#050505", symbolColor: "#ff2a2a", height: 44 },
     show: false,
     webPreferences: { preload: path.join(__dirname, "preload.js"), contextIsolation: true, sandbox: true },
   });
@@ -127,20 +132,20 @@ function showTray(hint) {
   if (hint && !trayHinted) {
     trayHinted = true;
     if (!IS_WIN) { // balão do ícone só existe no Windows
-      if (Notification.isSupported()) new Notification({ title: "Piphin Hub", body: T(`Continua rodando aqui: ${modules.keepAliveReasons().join(", ")}. Clique no ícone para abrir.`), icon: ICON }).show();
+      if (Notification.isSupported()) new Notification({ title: "Arasaka Central", body: T(`Continua rodando aqui: ${modules.keepAliveReasons().join(", ")}. Clique no ícone para abrir.`), icon: ICON }).show();
       return;
     }
-    tray.displayBalloon({ title: "Piphin Hub", content: T(`Continua rodando aqui: ${modules.keepAliveReasons().join(", ")}. Clique no ícone para abrir.`), iconType: "info" });
+    tray.displayBalloon({ title: "Arasaka Central", content: T(`Continua rodando aqui: ${modules.keepAliveReasons().join(", ")}. Clique no ícone para abrir.`), iconType: "info" });
   }
 }
 
 function updateTray() {
   if (!tray) return;
   const reasons = modules ? modules.keepAliveReasons() : [];
-  tray.setToolTip("Piphin Hub" + (reasons.length ? " · " + reasons.map((r) => T(r)).join(", ") : ""));
+  tray.setToolTip("Arasaka Central" + (reasons.length ? " · " + reasons.map((r) => T(r)).join(", ") : ""));
   const mods = modules ? modules.status() : [];
   tray.setContextMenu(Menu.buildFromTemplate([
-    { label: T("Abrir o Piphin Hub"), click: showWin },
+    { label: T("Abrir a Arasaka Central"), click: showWin },
     ...(mods.length ? [{ type: "separator" }, ...mods.map((m) => ({ label: m.name, click: () => { showWin(); send("hub:openModule", m.id); } }))] : []),
     { type: "separator" },
     { label: T("Sair"), click: () => { quitting = true; app.quit(); } },
@@ -154,7 +159,7 @@ function applyStartWithWindows() {
   if (!app.isPackaged) return;
   if (IS_WIN) app.setLoginItemSettings({ openAtLogin: on, args: ["--hidden"] });
   else try {
-    SC.setLinuxAutostart("piphin-hub", on, { name: "Piphin Hub", target: LAUNCHER, args: ["--hidden"], icon: ICON, wmClass: "piphin-hub" });
+    SC.setLinuxAutostart("piphin-hub", on, { name: "Arasaka Central", target: LAUNCHER, args: ["--hidden"], icon: ICON, wmClass: "piphin-hub" });
   } catch { /* sem permissão na pasta */ }
 }
 
@@ -266,7 +271,7 @@ function registerIpc() {
   handle("hub:folderSize", (id) => { const s = hub.status[id]; return s && s.dir ? U.folderSize(s.dir) : 0; });
   handle("hub:selfCheck", () => checkHubUpdate({ force: true, ask: true }));
   handle("hub:selfRestart", async () => {
-    if (!hubUpdate || !hubUpdate.ready) throw new Error("Nenhuma atualização do Hub pronta");
+    if (!hubUpdate || !hubUpdate.ready) throw new Error("Nenhuma atualização da Central pronta");
     if (hub.jobs.size) throw new Error("Espere as instalações em andamento terminarem");
     await stopModules();
     selfupdate.restartNow(app);
@@ -310,7 +315,7 @@ async function askRestart() {
   if (!win || win.isDestroyed()) return;
   if (!win.isVisible()) return restartHidden();
   if (!win.isFocused() && Notification.isSupported()) {
-    const n = new Notification({ title: "Piphin Hub", body: T(`A versão ${hubUpdate.version} do Hub está pronta. Clique para reiniciar.`), icon: ICON });
+    const n = new Notification({ title: "Arasaka Central", body: T(`A versão ${hubUpdate.version} da Central está pronta. Clique para reiniciar.`), icon: ICON });
     n.on("click", () => { win.show(); win.focus(); });
     n.show();
   }
@@ -318,9 +323,9 @@ async function askRestart() {
   const notes = String(hubUpdate.notes || "").replace(/[*`]/g, "").trim().slice(0, 600);
   const r = await dialog.showMessageBox(win, {
     type: "info",
-    title: T("Atualização do Piphin Hub"),
-    message: T(`O Piphin Hub ${hubUpdate.version} foi baixado.`),
-    detail: (notes ? notes + "\n\n" : "") + T("Reiniciar agora para usar a versão nova? Se escolher \"Depois\", ela é aplicada quando você fechar o Hub."),
+    title: T("Atualização da Arasaka Central"),
+    message: T(`A Arasaka Central ${hubUpdate.version} foi baixado.`),
+    detail: (notes ? notes + "\n\n" : "") + T("Reiniciar agora para usar a versão nova? Se escolher \"Depois\", ela é aplicada quando você fechar a Central."),
     buttons: [T("Reiniciar agora"), T("Depois")],
     defaultId: 0,
     cancelId: 1,
@@ -340,7 +345,7 @@ async function periodicCheck(first) {
         try { await hub.install(a.id, { closeIfRunning: false }); } catch { /* aberto ou sem rede: fica para depois */ }
       }
     } else if (pending.length && !first && Notification.isSupported() && !(win && win.isFocused())) {
-      const n = new Notification({ title: "Piphin Hub", body: T(`Atualização disponível: ${pending.map((a) => a.name).join(", ")}`), icon: ICON });
+      const n = new Notification({ title: "Arasaka Central", body: T(`Atualização disponível: ${pending.map((a) => a.name).join(", ")}`), icon: ICON });
       n.on("click", () => { if (win) { win.show(); win.focus(); } });
       n.show();
     }
@@ -352,23 +357,21 @@ async function periodicCheck(first) {
 function hubShortcuts(force) {
   if (!app.isPackaged && !force) return;
   if (!IS_WIN) return hubShortcutsLinux(force);
-  const links = [
-    path.join(app.getPath("desktop"), "Piphin Hub.lnk"),
-    path.join(app.getPath("appData"), "Microsoft", "Windows", "Start Menu", "Programs", "Piphin Hub.lnk"),
-  ];
+  const dirs = [app.getPath("desktop"), path.join(app.getPath("appData"), "Microsoft", "Windows", "Start Menu", "Programs")];
   const opts = {
     target: process.execPath,
     cwd: path.dirname(process.execPath),
-    description: "Piphin Hub: baixe, atualize e gerencie os apps da Piphin Studio",
+    description: "Arasaka Central: baixe, atualize e gerencie seus apps",
     icon: path.join(__dirname, "icons", "hub.ico"),
     iconIndex: 0,
     appUserModelId: "studio.piphin.hub",
   };
   const first = !hub.state.hubShortcuts;
-  for (const lnk of links) {
-    const exists = fs.existsSync(lnk);
+  for (const dir of dirs) {
+    const lnk = path.join(dir, APP_NAME + ".lnk"), old = path.join(dir, OLD_NAME + ".lnk");
+    const exists = fs.existsSync(lnk), hadOld = fs.existsSync(old); // atalho com o nome antigo: troca pelo novo
     try {
-      if (first || force) shell.writeShortcutLink(lnk, exists ? "replace" : "create", opts);
+      if (first || force || hadOld) { shell.writeShortcutLink(lnk, exists ? "replace" : "create", opts); if (hadOld) fs.rmSync(old, { force: true }); }
       else if (exists && shell.readShortcutLink(lnk).target.toLowerCase() !== process.execPath.toLowerCase())
         shell.writeShortcutLink(lnk, "replace", opts);
     } catch { /* sem permissão na pasta */ }
@@ -378,15 +381,15 @@ function hubShortcuts(force) {
 
 // Linux: entrada no menu de aplicativos (e na Área de Trabalho), com a mesma regra de só corrigir depois
 function hubShortcutsLinux(force) {
-  const name = "Piphin Hub";
+  const name = APP_NAME;
   const links = [path.join(SC.menuDir(), "piphin-hub.desktop"), path.join(SC.linuxDesktopDir(), "piphin-hub.desktop")];
-  const opts = { name, target: LAUNCHER, cwd: path.dirname(LAUNCHER), description: "Baixe, atualize e gerencie os apps da Piphin Studio", icon: ICON, wmClass: "piphin-hub" };
+  const opts = { name, target: LAUNCHER, cwd: path.dirname(LAUNCHER), description: "Baixe, atualize e gerencie seus apps", icon: ICON, wmClass: "piphin-hub" };
   const first = !hub.state.hubShortcuts;
   for (const f of links) {
     const exists = fs.existsSync(f);
     try {
       if (first || force) SC.write(shell, f, opts);
-      else if (exists && SC.readTarget(shell, f) !== LAUNCHER) SC.write(shell, f, opts);
+      else if (exists && (SC.readTarget(shell, f) !== LAUNCHER || !fs.readFileSync(f, "utf8").includes("Name=" + name + "\n"))) SC.write(shell, f, opts);
     } catch { /* sem permissão na pasta */ }
   }
   if (first) { hub.state.hubShortcuts = true; hub.save(); }
@@ -398,9 +401,9 @@ const ofs = require("original-fs");
 const hubBlocked = () => app.isPackaged && process.platform === "win32" && zone.isMarked(process.execPath, ofs);
 
 function unblockHub() {
-  if (!app.isPackaged) throw new Error("Só funciona no Hub instalado");
+  if (!app.isPackaged) throw new Error("Só funciona na Central instalada");
   const r = zone.unblockDir(path.dirname(process.execPath), ofs);
-  if (r.failed) throw new Error(`Não foi possível desbloquear ${r.failed} arquivo(s). Feche o Hub e tente de novo, ou extraia o .zip outra vez depois de marcar Desbloquear em Propriedades.`);
+  if (r.failed) throw new Error(`Não foi possível desbloquear ${r.failed} arquivo(s). Feche a Central e tente de novo, ou extraia o .zip outra vez depois de marcar Desbloquear em Propriedades.`);
   return r;
 }
 
@@ -469,8 +472,8 @@ app.whenReady().then(async () => {
   // ferramentas dos módulos para a IA (antes de iniciar os módulos: eles recebem o endereço)
   tools = new ToolsServer({ modules, hubVersion: app.getVersion(), builtins: [{
     // a IA acha o que os módulos criaram ou baixaram (ex.: "coloque a música que eu baixei no vídeo")
-    def: { name: "hub_media_library", title: "Piphin Hub: Mídia", annotations: { readOnlyHint: true },
-      description: "[Piphin Hub] Lista a mídia dos módulos num lugar só: músicas baixadas no Piphin Música, sons e músicas do Piphin Som, prints e gravações do Piphin Captura, imagens do Piphin Foto e vídeos do Piphin Vídeo. Devolve o caminho de cada arquivo, para usar em outras ferramentas (ex.: video_import_media, som_import_audio, foto_open_image). can_use_in_videos=false: a licença não permite usar a música em vídeos.",
+    def: { name: "hub_media_library", title: "Arasaka Central: Mídia", annotations: { readOnlyHint: true },
+      description: "[Arasaka Central] Lista a mídia dos módulos num lugar só: músicas baixadas no Arasaka Radioport, sons e músicas do Arasaka Synth, prints e gravações do Arasaka Scanner, imagens do Arasaka Holo e vídeos do Arasaka Braindance. Devolve o caminho de cada arquivo, para usar em outras ferramentas (ex.: video_import_media, som_import_audio, foto_open_image). can_use_in_videos=false: a licença não permite usar a música em vídeos.",
       inputSchema: { type: "object", properties: { kind: { type: "string", enum: ["audio", "video", "image"] }, query: { type: "string", description: "Palavras do nome, artista ou jogo" },
         from_module: { type: "string", description: "id do módulo (musica, som, captura, foto, video)" }, limit: { type: "integer", minimum: 1, maximum: 100 } } } },
     run: (a = {}) => {
@@ -481,7 +484,7 @@ app.whenReady().then(async () => {
     },
   }] });
   modules.toolsUrl = await tools.start().catch(() => "");
-  modules.startAll(); // os motores começam junto com o Hub (atalhos de macro funcionam desde já)
+  modules.startAll(); // os motores começam junto com a Central (atalhos de macro funcionam desde já)
   if (hub.settings.checkOnStart) periodicCheck(true);
   else hub.refresh().catch(() => {});
   setInterval(() => periodicCheck(false), CHECK_EVERY);

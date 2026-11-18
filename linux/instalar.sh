@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Piphin Hub no Linux: prepara a pasta extraída e abre o Hub (ele cria o atalho no menu de aplicativos).
+# Arasaka Central no Linux: prepara a pasta extraída e abre a Central (ele cria o atalho no menu de aplicativos).
 # Uso: bash instalar.sh     (rode de dentro da pasta extraída; deixe a pasta onde ela está)
 set -e
 cd "$(dirname "$(readlink -f "$0")")"
@@ -16,14 +16,14 @@ if [ "$(cat /proc/sys/kernel/apparmor_restrict_unprivileged_userns 2>/dev/null)"
 fi
 if [ "$needs_suid" = "1" ] && [ -f chrome-sandbox ]; then
   if [ "$(stat -c %u:%a chrome-sandbox)" != "0:4755" ]; then
-    echo "O sistema pede permissão de administrador uma vez para o sandbox de segurança do Hub (chrome-sandbox)."
+    echo "O sistema pede permissão de administrador uma vez para o sandbox de segurança da Central (chrome-sandbox)."
     sudo chown root:root chrome-sandbox && sudo chmod 4755 chrome-sandbox
   fi
 fi
 
 for tool in unzip tar; do
-  command -v "$tool" >/dev/null 2>&1 || echo "Aviso: instale o $tool (sudo apt install $tool) para o Hub extrair os apps."
+  command -v "$tool" >/dev/null 2>&1 || echo "Aviso: instale o $tool (sudo apt install $tool) para a Central extrair os apps."
 done
 
-echo "Abrindo o Piphin Hub de $DIR"
+echo "Abrindo a Arasaka Central de $DIR"
 nohup "$DIR/piphin-hub" >/dev/null 2>&1 &

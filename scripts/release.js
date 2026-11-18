@@ -10,15 +10,15 @@ const ROOT = path.join(__dirname, "..");
 const V = require(path.join(ROOT, "package.json")).version;
 const OWNER = "Ruiso-Outside", REPO = "Piphin-Hub", TAG = "v" + V;
 // o pacote do Linux (npm run dist:linux) entra quando existir
-const LINUX = `Piphin-Hub-${V}-linux-x64.tar.gz`;
-const ASSETS = [`Piphin-Hub-${V}-win-x64.zip`, `hub-app-${V}.zip`, ...(fs.existsSync(path.join(ROOT, "dist", LINUX)) ? [LINUX] : [])];
+const LINUX = `Arasaka-Central-${V}-linux-x64.tar.gz`;
+const ASSETS = [`Arasaka-Central-${V}-win-x64.zip`, `hub-app-${V}.zip`, ...(fs.existsSync(path.join(ROOT, "dist", LINUX)) ? [LINUX] : [])];
 const notesFile = process.argv[2];
 const NOTES = (notesFile ? fs.readFileSync(notesFile, "utf8").trim() + "\n\n" : "") +
-  `**Instalar:** baixe \`Piphin-Hub-${V}-win-x64.zip\`, extraia numa pasta fixa e abra o \`Piphin Hub.exe\`.\n` +
+  `**Instalar:** baixe \`Arasaka-Central-${V}-win-x64.zip\`, extraia numa pasta fixa e abra o \`Arasaka Central.exe\`.\n` +
   "**Antes de extrair:** clique com o botão direito no `.zip`, escolha **Propriedades**, marque **Desbloquear** e clique em OK. " +
-  "Sem isso, com o Controle Inteligente de Aplicativos ligado, o Windows bloqueia os atalhos do Hub (dá para desbloquear depois pelo aviso na tela Início).\n" +
+  "Sem isso, com o Controle Inteligente de Aplicativos ligado, o Windows bloqueia os atalhos da Central (dá para desbloquear depois pelo aviso na tela Início).\n" +
   (ASSETS.includes(LINUX) ? `**Linux:** baixe \`${LINUX}\`, extraia numa pasta fixa (ex.: \`~/Aplicativos\`) e rode \`bash instalar.sh\` dentro dela.\n` : "") +
-  "Quem já tem o Hub recebe esta versão sozinho (atualização automática).";
+  "Quem já tem a Central (ou o Piphin Hub) recebe esta versão sozinho (atualização automática).";
 
 const env = { ...process.env, GCM_INTERACTIVE: "never", GIT_TERMINAL_PROMPT: "0" };
 function token() {
@@ -68,7 +68,7 @@ function upload(uploadUrl, file) {
   try { rel = await api("GET", `https://api.github.com/repos/${OWNER}/${REPO}/releases/tags/${TAG}`); }
   catch (e) {
     if (e.status !== 404) throw e;
-    rel = await api("POST", `https://api.github.com/repos/${OWNER}/${REPO}/releases`, JSON.stringify({ tag_name: TAG, name: "Piphin Hub " + V, body: NOTES }));
+    rel = await api("POST", `https://api.github.com/repos/${OWNER}/${REPO}/releases`, JSON.stringify({ tag_name: TAG, name: "Arasaka Central " + V, body: NOTES }));
   }
   console.log("release:", rel.html_url);
   for (const name of ASSETS) {

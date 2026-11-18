@@ -7,7 +7,7 @@ const zlib = require("zlib");
 
 const root = path.join(__dirname, "..");
 const pkg = require(path.join(root, "package.json"));
-const file = path.resolve(process.argv[2] || path.join(root, "dist", `Piphin-Hub-${pkg.version}-linux-x64.tar.gz`));
+const file = path.resolve(process.argv[2] || path.join(root, "dist", `Arasaka-Central-${pkg.version}-linux-x64.tar.gz`));
 const EXEC = /(^|\/)(piphin-hub|chrome-sandbox|chrome_crashpad_handler|[^/]+\.so(\.\d+)*|[^/]+\.sh)$/;
 
 const buf = zlib.gunzipSync(fs.readFileSync(file));

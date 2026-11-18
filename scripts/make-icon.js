@@ -1,4 +1,4 @@
-// Desenha o ícone do Hub: icons/hub.png (256) e icons/hub.ico (16-256).
+// Gera o ícone da Arasaka Central a partir de icons/logo.png: icons/hub.png (256) e icons/hub.ico (16-256).
 // Uso: npm run icon   (usa o próprio Electron para desenhar; sem dependências)
 const { app, BrowserWindow } = require("electron");
 const fs = require("fs");
@@ -25,29 +25,17 @@ app.whenReady().then(async () => {
   const win = new BrowserWindow({ show: false, webPreferences: { offscreen: true } });
   await win.loadURL("about:blank");
   const sizes = [16, 24, 32, 48, 64, 128, 256];
-  const out = await win.webContents.executeJavaScript(`(() => {
+  const logo = "data:image/png;base64," + fs.readFileSync(path.join(OUT, "logo.png")).toString("base64");
+  const out = await win.webContents.executeJavaScript(`(async () => {
+    const img = new Image(); img.src = ${JSON.stringify(logo)}; await img.decode();
     const res = {};
     for (const s of ${JSON.stringify(sizes)}) {
       const c = document.createElement("canvas"); c.width = c.height = s;
-      const g = c.getContext("2d"); const k = s / 256;
-      // fundo: quadrado arredondado escuro
-      const r = 56 * k;
-      g.beginPath(); g.roundRect(8 * k, 8 * k, 240 * k, 240 * k, r);
-      const bg = g.createLinearGradient(0, 0, s, s); bg.addColorStop(0, "#1d1640"); bg.addColorStop(1, "#0b0a12");
-      g.fillStyle = bg; g.fill();
-      g.lineWidth = Math.max(1, 3 * k); g.strokeStyle = "rgba(168,85,247,.55)"; g.stroke();
-      // hub: nó central ligado a 6 nós (os apps)
-      const cx = 128 * k, cy = 128 * k, R = 66 * k;
-      const pts = [...Array(6)].map((_, i) => [cx + R * Math.cos(Math.PI / 3 * i - Math.PI / 2), cy + R * Math.sin(Math.PI / 3 * i - Math.PI / 2)]);
-      g.shadowColor = "#a855f7"; g.shadowBlur = 14 * k;
-      g.strokeStyle = "#a855f7"; g.lineWidth = Math.max(1.5, 9 * k); g.lineCap = "round";
-      g.beginPath(); pts.forEach(([x, y], i) => i ? g.lineTo(x, y) : g.moveTo(x, y)); g.closePath(); g.stroke();
-      if (s >= 32) { g.lineWidth = Math.max(1, 6 * k); g.strokeStyle = "rgba(192,132,252,.8)";
-        pts.forEach(([x, y]) => { g.beginPath(); g.moveTo(cx, cy); g.lineTo(x, y); g.stroke(); }); }
-      g.fillStyle = "#e9d5ff";
-      pts.forEach(([x, y]) => { g.beginPath(); g.arc(x, y, Math.max(1.5, 15 * k), 0, Math.PI * 2); g.fill(); });
-      const cg = g.createRadialGradient(cx, cy, 0, cx, cy, 30 * k); cg.addColorStop(0, "#ffffff"); cg.addColorStop(1, "#c084fc");
-      g.fillStyle = cg; g.beginPath(); g.arc(cx, cy, Math.max(2.5, 27 * k), 0, Math.PI * 2); g.fill();
+      const g = c.getContext("2d"); g.imageSmoothingQuality = "high";
+      // disco preto por dentro do anel da logo; a margem transparente da imagem é aproveitada
+      const m = s * -0.03, d = s - 2 * m;
+      g.fillStyle = "#050505"; g.beginPath(); g.arc(s / 2, s / 2, s * 0.49, 0, Math.PI * 2); g.fill();
+      g.drawImage(img, m, m, d, d);
       res[s] = c.toDataURL("image/png");
     }
     return res;
