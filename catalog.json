@@ -885,6 +885,249 @@
           "category": "Система"
         }
       }
+    },
+    {
+      "id": "arasaka-shard",
+      "name": "Arasaka Shard",
+      "description": "Cofre de senhas cifrado no seu PC com uma senha mestra: logins, notas, chaves, códigos do autenticador (2FA), gerador de senhas, aviso de senhas fracas ou repetidas e importação do navegador.",
+      "category": "Segurança",
+      "icon": "icons/arasaka-shard.svg",
+      "accent": "#e3121f",
+      "source": {
+        "type": "github",
+        "repo": "Ruiso-Outside/ArasakaShard",
+        "asset": "^ArasakaShard-.*-linux\\.tar\\.gz$"
+      },
+      "install": {
+        "type": "script",
+        "script": "install.sh",
+        "args": [
+          "-y"
+        ],
+        "terminal": true,
+        "uninstall": "uninstall.sh",
+        "uninstallTerminal": false,
+        "folder": "ArasakaShard",
+        "detect": "~/.local/bin/arasaka-shard",
+        "launch": "~/.local/bin/arasaka-shard",
+        "versionFile": "~/.local/share/arasaka-shard/app/arasaka_shard/core.py",
+        "versionPattern": "VERSION = \"([^\"]+)\""
+      },
+      "platforms": [
+        "linux"
+      ],
+      "dev": {
+        "versionFile": "arasaka_shard/core.py",
+        "versionPattern": "VERSION = \"([^\"]+)\""
+      },
+      "t": {
+        "en": {
+          "description": "Password vault encrypted on your PC with a master password: logins, notes, keys, authenticator (2FA) codes, password generator, weak or reused password warnings and browser import.",
+          "category": "Security"
+        },
+        "es": {
+          "description": "Bóveda de contraseñas cifrada en tu PC con una contraseña maestra: inicios de sesión, notas, claves, códigos del autenticador (2FA), generador, aviso de contraseñas débiles o repetidas e importación del navegador.",
+          "category": "Seguridad"
+        },
+        "th": {
+          "description": "ตู้เก็บรหัสผ่านที่เข้ารหัสในพีซีด้วยรหัสผ่านหลัก: บัญชี โน้ต คีย์ รหัสยืนยันสองขั้น (2FA) ตัวสร้างรหัสผ่าน เตือนรหัสผ่านอ่อนหรือซ้ำ และนำเข้าจากเบราว์เซอร์",
+          "category": "ความปลอดภัย"
+        },
+        "zh": {
+          "description": "在你电脑上用主密码加密的密码库：登录信息、笔记、密钥、验证器（2FA）代码、密码生成器、弱密码或重复密码提醒，以及从浏览器导入。",
+          "category": "安全"
+        },
+        "ja": {
+          "description": "マスターパスワードで PC 内に暗号化するパスワード保管庫：ログイン、メモ、鍵、認証アプリ（2FA）のコード、パスワード生成、弱い・使い回しのパスワード警告、ブラウザーからの取り込み。",
+          "category": "セキュリティ"
+        },
+        "ko": {
+          "description": "마스터 비밀번호로 PC에 암호화되는 비밀번호 금고: 로그인, 메모, 키, 인증기(2FA) 코드, 비밀번호 생성기, 약하거나 중복된 비밀번호 경고, 브라우저에서 가져오기.",
+          "category": "보안"
+        },
+        "id": {
+          "description": "Brankas kata sandi terenkripsi di PC dengan kata sandi utama: login, catatan, kunci, kode autentikator (2FA), pembuat kata sandi, peringatan kata sandi lemah atau berulang, dan impor dari peramban.",
+          "category": "Keamanan"
+        },
+        "vi": {
+          "description": "Kho mật khẩu mã hóa trên máy bằng mật khẩu chính: đăng nhập, ghi chú, khóa, mã xác thực (2FA), trình tạo mật khẩu, cảnh báo mật khẩu yếu hoặc trùng và nhập từ trình duyệt.",
+          "category": "Bảo mật"
+        },
+        "fr": {
+          "description": "Coffre de mots de passe chiffré sur votre PC avec un mot de passe maître : identifiants, notes, clés, codes d'authentification (2FA), générateur, alerte de mots de passe faibles ou réutilisés et import du navigateur.",
+          "category": "Sécurité"
+        },
+        "de": {
+          "description": "Passwort-Tresor, auf deinem PC mit einem Master-Passwort verschlüsselt: Logins, Notizen, Schlüssel, Authenticator-Codes (2FA), Passwortgenerator, Warnung bei schwachen oder doppelten Passwörtern und Import aus dem Browser.",
+          "category": "Sicherheit"
+        },
+        "ru": {
+          "description": "Хранилище паролей, зашифрованное на вашем ПК мастер-паролем: логины, заметки, ключи, коды аутентификатора (2FA), генератор паролей, предупреждения о слабых и повторяющихся паролях и импорт из браузера.",
+          "category": "Безопасность"
+        }
+      }
+    },
+    {
+      "id": "arasaka-uplink",
+      "name": "Arasaka Uplink",
+      "description": "Arquivos e textos entre o PC e o celular pela rede de casa: o celular lê um QR code e abre uma página, sem instalar app e sem nuvem. Cada aparelho novo precisa ser aceito no PC.",
+      "category": "Comunicação",
+      "icon": "icons/arasaka-uplink.svg",
+      "accent": "#e3121f",
+      "source": {
+        "type": "github",
+        "repo": "Ruiso-Outside/ArasakaUplink",
+        "asset": "^ArasakaUplink-.*-linux\\.tar\\.gz$"
+      },
+      "install": {
+        "type": "script",
+        "script": "install.sh",
+        "args": [
+          "-y"
+        ],
+        "terminal": true,
+        "uninstall": "uninstall.sh",
+        "uninstallTerminal": false,
+        "folder": "ArasakaUplink",
+        "detect": "~/.local/bin/arasaka-uplink",
+        "launch": "~/.local/bin/arasaka-uplink",
+        "versionFile": "~/.local/share/arasaka-uplink/app/arasaka_uplink/core.py",
+        "versionPattern": "VERSION = \"([^\"]+)\""
+      },
+      "platforms": [
+        "linux"
+      ],
+      "dev": {
+        "versionFile": "arasaka_uplink/core.py",
+        "versionPattern": "VERSION = \"([^\"]+)\""
+      },
+      "t": {
+        "en": {
+          "description": "Files and text between your PC and phone over your home network: the phone scans a QR code and opens a page, no app to install and no cloud. Each new device must be accepted on the PC.",
+          "category": "Communication"
+        },
+        "es": {
+          "description": "Archivos y textos entre el PC y el móvil por la red de casa: el móvil lee un código QR y abre una página, sin instalar apps ni nube. Cada aparato nuevo debe aceptarse en el PC.",
+          "category": "Comunicación"
+        },
+        "th": {
+          "description": "ส่งไฟล์และข้อความระหว่างพีซีกับมือถือผ่านเครือข่ายในบ้าน มือถือสแกน QR แล้วเปิดหน้าเว็บ ไม่ต้องติดตั้งแอปและไม่ใช้คลาวด์ อุปกรณ์ใหม่ต้องได้รับอนุญาตบนพีซี",
+          "category": "การสื่อสาร"
+        },
+        "zh": {
+          "description": "通过家庭网络在电脑和手机之间传文件和文字：手机扫二维码打开网页，无需安装应用，也不用云。每台新设备都需要在电脑上同意。",
+          "category": "通讯"
+        },
+        "ja": {
+          "description": "家のネットワークで PC とスマホの間でファイルとテキストをやり取り：スマホで QR コードを読んでページを開くだけ。アプリもクラウドも不要。新しい端末は PC で許可が必要です。",
+          "category": "コミュニケーション"
+        },
+        "ko": {
+          "description": "집 네트워크로 PC와 휴대폰 사이에 파일과 텍스트 전송: 휴대폰으로 QR 코드를 찍어 페이지를 열면 끝, 앱 설치나 클라우드 없음. 새 기기는 PC에서 승인해야 합니다.",
+          "category": "커뮤니케이션"
+        },
+        "id": {
+          "description": "File dan teks antara PC dan ponsel lewat jaringan rumah: ponsel memindai kode QR dan membuka halaman, tanpa instal aplikasi dan tanpa cloud. Setiap perangkat baru harus disetujui di PC.",
+          "category": "Komunikasi"
+        },
+        "vi": {
+          "description": "Gửi tệp và văn bản giữa máy tính và điện thoại qua mạng nhà: điện thoại quét mã QR và mở trang, không cần cài ứng dụng, không dùng đám mây. Thiết bị mới phải được chấp nhận trên máy tính.",
+          "category": "Liên lạc"
+        },
+        "fr": {
+          "description": "Fichiers et textes entre le PC et le téléphone par le réseau de la maison : le téléphone scanne un QR code et ouvre une page, sans app ni cloud. Chaque nouvel appareil doit être accepté sur le PC.",
+          "category": "Communication"
+        },
+        "de": {
+          "description": "Dateien und Texte zwischen PC und Handy über das Heimnetz: Das Handy scannt einen QR-Code und öffnet eine Seite, ohne App und ohne Cloud. Jedes neue Gerät muss am PC bestätigt werden.",
+          "category": "Kommunikation"
+        },
+        "ru": {
+          "description": "Файлы и тексты между ПК и телефоном по домашней сети: телефон сканирует QR-код и открывает страницу, без приложений и облака. Каждое новое устройство нужно разрешить на ПК.",
+          "category": "Общение"
+        }
+      }
+    },
+    {
+      "id": "arasaka-gigs",
+      "name": "Arasaka Gigs",
+      "description": "Quadro de tarefas (A fazer, Fazendo, Feito) com as issues abertas de todos os seus repositórios do GitHub. Levar uma issue para Feito oferece fechar no GitHub; um gig novo pode virar issue.",
+      "category": "Produtividade",
+      "icon": "icons/arasaka-gigs.svg",
+      "accent": "#e3121f",
+      "source": {
+        "type": "github",
+        "repo": "Ruiso-Outside/ArasakaGigs",
+        "asset": "^ArasakaGigs-.*-linux\\.tar\\.gz$"
+      },
+      "install": {
+        "type": "script",
+        "script": "install.sh",
+        "args": [
+          "-y"
+        ],
+        "terminal": true,
+        "uninstall": "uninstall.sh",
+        "uninstallTerminal": false,
+        "folder": "ArasakaGigs",
+        "detect": "~/.local/bin/arasaka-gigs",
+        "launch": "~/.local/bin/arasaka-gigs",
+        "versionFile": "~/.local/share/arasaka-gigs/app/arasaka_gigs/core.py",
+        "versionPattern": "VERSION = \"([^\"]+)\""
+      },
+      "platforms": [
+        "linux"
+      ],
+      "dev": {
+        "versionFile": "arasaka_gigs/core.py",
+        "versionPattern": "VERSION = \"([^\"]+)\""
+      },
+      "t": {
+        "en": {
+          "description": "Task board (To do, Doing, Done) with the open issues from all your GitHub repositories. Moving an issue to Done offers to close it on GitHub; a new gig can become an issue.",
+          "category": "Productivity"
+        },
+        "es": {
+          "description": "Tablero de tareas (Por hacer, Haciendo, Hecho) con los issues abiertos de todos tus repositorios de GitHub. Mover un issue a Hecho ofrece cerrarlo en GitHub; una tarea nueva puede convertirse en issue.",
+          "category": "Productividad"
+        },
+        "th": {
+          "description": "บอร์ดงาน (ต้องทำ กำลังทำ เสร็จ) พร้อม issue ที่เปิดอยู่จากทุกรีโพ GitHub ของคุณ ย้าย issue ไปเสร็จจะถามว่าปิดบน GitHub ไหม งานใหม่สร้างเป็น issue ได้",
+          "category": "ประสิทธิภาพ"
+        },
+        "zh": {
+          "description": "任务看板（待办、进行中、完成），包含你所有 GitHub 仓库中未关闭的 issue。把 issue 移到“完成”时可选择在 GitHub 上关闭；新任务也能直接建成 issue。",
+          "category": "效率"
+        },
+        "ja": {
+          "description": "タスクボード（やること・作業中・完了）に、すべての GitHub リポジトリの未解決 issue を表示。issue を完了に移すと GitHub で閉じるか確認し、新しいタスクを issue にもできます。",
+          "category": "生産性"
+        },
+        "ko": {
+          "description": "작업 보드(할 일, 진행 중, 완료)에 모든 GitHub 저장소의 열린 이슈를 모읍니다. 이슈를 완료로 옮기면 GitHub에서 닫을지 묻고, 새 작업을 이슈로 만들 수 있습니다.",
+          "category": "생산성"
+        },
+        "id": {
+          "description": "Papan tugas (Akan dikerjakan, Dikerjakan, Selesai) dengan issue terbuka dari semua repositori GitHub Anda. Memindahkan issue ke Selesai menawarkan menutupnya di GitHub; tugas baru bisa jadi issue.",
+          "category": "Produktivitas"
+        },
+        "vi": {
+          "description": "Bảng công việc (Cần làm, Đang làm, Xong) với các issue đang mở từ mọi kho GitHub của bạn. Chuyển issue sang Xong sẽ hỏi có đóng trên GitHub không; việc mới có thể tạo thành issue.",
+          "category": "Năng suất"
+        },
+        "fr": {
+          "description": "Tableau de tâches (À faire, En cours, Terminé) avec les tickets ouverts de tous vos dépôts GitHub. Passer un ticket en Terminé propose de le fermer sur GitHub ; une nouvelle tâche peut devenir un ticket.",
+          "category": "Productivité"
+        },
+        "de": {
+          "description": "Aufgabenboard (Zu tun, In Arbeit, Erledigt) mit den offenen Issues aller deiner GitHub-Repositories. Ein Issue nach Erledigt zu ziehen bietet an, es auf GitHub zu schließen; eine neue Aufgabe kann ein Issue werden.",
+          "category": "Produktivität"
+        },
+        "ru": {
+          "description": "Доска задач (Сделать, В работе, Готово) с открытыми issue из всех ваших репозиториев GitHub. При переносе issue в «Готово» предлагается закрыть его на GitHub; новую задачу можно сделать issue.",
+          "category": "Продуктивность"
+        }
+      }
     }
   ],
   "modules": [
