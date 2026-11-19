@@ -36,7 +36,7 @@ hub.onShortcut((k) => shortcut(k));
 
 const app = (id) => snap.apps.find((a) => a.id === id);
 const st = (a) => a.status || {};
-const installedModules = () => (snap.modules || []).map((m) => ({ ...m, cat: app(m.id) })).filter((m) => m.cat || m.name);
+const installedModules = () => (snap.modules || []).map((m) => ({ ...m, cat: app(m.id), name: (app(m.id) && app(m.id).name) || m.name })).filter((m) => m.cat || m.name);
 const accentOf = (a) => (a && a.accent) || "#ff0000";
 const iconOf = (a, m) => { const inst = m || (a && (snap.modules || []).find((x) => x.id === a.id)); return (inst && inst.icon) || (a && a.iconUrl) || null; };
 
@@ -279,12 +279,31 @@ function renderHome(main) {
 
 // Hub extraído de um .zip baixado: com o Controle Inteligente de Aplicativos, o Windows bloqueia os atalhos
 function blockedBanner() {
+  if (snap.platform === "linux" && snap.session === "wayland") return waylandBanner();
   if (!snap.hubBlocked) return "";
   return `<div class="p-banner zone-banner"><i class="i i-triangle-alert"></i>
     <div class="grow"><b>Os atalhos da Central podem não abrir</b><div class="muted">Os arquivos da Central vieram de um .zip baixado da internet, e por isso o Windows pode bloquear os atalhos da Área de Trabalho e do Menu Iniciar.
       Desbloquear tira essa marca só dos arquivos da pasta da Central (é o mesmo que Propriedades → Desbloquear).</div></div>
     <button class="btn primary sm" data-unblock="1"><i class="i i-shield-check"></i>Desbloquear arquivos da Central</button></div>`;
 }
+// Linux com Wayland: o sistema não deixa programas escutarem o teclado inteiro, clicarem em outros apps
+// nem tirarem print sem perguntar. Macro, atalhos globais, overlay e Captura funcionam por completo na sessão Xorg.
+function waylandBanner() {
+  let hidden = false;
+  try { hidden = localStorage.getItem("wayland-banner") === "hide"; } catch { /* ok */ }
+  if (hidden) return "";
+  return `<div class="p-banner zone-banner"><i class="i i-triangle-alert"></i>
+    <div class="grow"><b>Você está na sessão Wayland: alguns módulos ficam limitados</b><div class="muted">No Wayland o sistema não deixa programas usarem atalhos globais, enviar teclas e cliques
+      nem tirar print sem perguntar. Por isso a Macro, os atalhos da Captura e do LLM e o overlay do InfoHardware só funcionam por completo na sessão <b>Xorg</b>.
+      Para trocar: saia da sessão, clique no seu nome, use a engrenagem no canto da tela e escolha <b>Zorin Desktop on Xorg</b>.</div></div>
+    <button class="btn sm" data-hidewayland="1"><i class="i i-x"></i>Entendi</button></div>`;
+}
+document.addEventListener("click", (e) => {
+  const b = e.target.closest && e.target.closest("[data-hidewayland]");
+  if (!b) return;
+  try { localStorage.setItem("wayland-banner", "hide"); } catch { /* ok */ }
+  b.closest(".zone-banner").remove();
+});
 async function unblockHub(btn) {
   btn.disabled = true;
   const r = await hub.unblock();

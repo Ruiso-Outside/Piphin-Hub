@@ -23,6 +23,17 @@ if (app.getPath("userData") === path.join(app.getPath("appData"), app.getName())
 if (IS_WIN) app.setAppUserModelId("studio.piphin.hub");
 // Linux: roda pelo X11 (também no Wayland, pelo XWayland) para os atalhos globais, as janelas por cima (overlay)
 // e as posições de janela funcionarem como no Windows. PIPHIN_WAYLAND=1 usa o Wayland direto.
+// No Electron novo a plataforma (Wayland/X11) é escolhida ANTES deste arquivo rodar: o appendSwitch aqui só chegava
+// ao processo da GPU (que ia para o X11 enquanto a janela ficava no Wayland) e a janela nunca aparecia.
+// Por isso, numa sessão Wayland, a Central se reabre uma vez com --ozone-platform=x11 na linha de comando.
+if (process.platform === "linux" && process.env.PIPHIN_WAYLAND !== "1" && process.env.WAYLAND_DISPLAY && process.env.DISPLAY
+    && !process.argv.some((a) => a.startsWith("--ozone-platform"))) {
+  const { spawn } = require("child_process");
+  const exe = process.env.APPIMAGE || process.execPath;
+  spawn(exe, [...process.argv.slice(1), "--ozone-platform=x11"], { detached: true, stdio: "ignore" }).unref();
+  app.exit(0);
+  return;
+}
 if (process.platform === "linux" && process.env.PIPHIN_WAYLAND !== "1") app.commandLine.appendSwitch("ozone-platform", "x11");
 if (process.platform === "linux") app.commandLine.appendSwitch("enable-features", "GlobalShortcutsPortal");
 // executável que os atalhos abrem (no AppImage, o próprio .AppImage)
@@ -159,7 +170,7 @@ function applyStartWithWindows() {
   if (!app.isPackaged) return;
   if (IS_WIN) app.setLoginItemSettings({ openAtLogin: on, args: ["--hidden"] });
   else try {
-    SC.setLinuxAutostart("piphin-hub", on, { name: "Arasaka Central", target: LAUNCHER, args: ["--hidden"], icon: ICON, wmClass: "piphin-hub" });
+    SC.setLinuxAutostart("piphin-hub", on, { name: "Arasaka Central", target: LAUNCHER, args: ["--hidden"], icon: ICON, wmClass: "arasaka-central" });
   } catch { /* sem permissão na pasta */ }
 }
 
@@ -185,14 +196,14 @@ function registerIpc() {
     const s = hub.snapshot();
     // descrição de cada app/módulo no idioma escolhido (campo "t" do catálogo)
     for (const a of s.apps) { const tt = a.t && a.t[lang]; if (tt) { if (tt.description) a.description = tt.description; if (tt.category) a.category = tt.category; } }
-    return { ...s, platform: process.platform, hubVersion: app.getVersion(), hubUpdate, modules: modules.status(), visibleModule: modules.visible, hubBlocked: hubBlocked(),
+    return { ...s, platform: process.platform, session: process.platform === "linux" ? (process.env.XDG_SESSION_TYPE || (process.env.WAYLAND_DISPLAY ? "wayland" : "x11")) : "", hubVersion: app.getVersion(), hubUpdate, modules: modules.status(), visibleModule: modules.visible, hubBlocked: hubBlocked(),
       lang, langs: Object.entries(i18n.LANGS).map(([code, l]) => ({ code, name: l.name })) };
   });
   // tradução da tela do Hub (preload.js executa o script na página)
   ipcMain.on("hub:i18n", (e) => { e.returnValue = i18n.domScript(hubDict, lang); });
   handle("hub:unblock", () => unblockHub());
   handle("hub:openModule", (id) => modules.show(id));
-  handle("hub:layout", (o) => { if (o && typeof o.left === "number") modules.setInsetLeft(o.left); if (o && "covered" in o) modules.setCovered(o.covered); });
+  handle("hub:layout", (o) => { if (o && typeof o.left === "number") modules.setInsetLeft(o.left); if (o && typeof o.bottom === "number") modules.setInsetBottom(o.bottom); if (o && "covered" in o) modules.setCovered(o.covered); });
   handle("hub:pulse", () => sysPulse());
   // só em desenvolvimento (PIPHIN_DEV=1): foto da área de um módulo, para revisar as telas
   if (process.env.PIPHIN_DEV === "1") handle("hub:devCapture", async (id) => {
@@ -383,13 +394,13 @@ function hubShortcuts(force) {
 function hubShortcutsLinux(force) {
   const name = APP_NAME;
   const links = [path.join(SC.menuDir(), "piphin-hub.desktop"), path.join(SC.linuxDesktopDir(), "piphin-hub.desktop")];
-  const opts = { name, target: LAUNCHER, cwd: path.dirname(LAUNCHER), description: "Baixe, atualize e gerencie seus apps", icon: ICON, wmClass: "piphin-hub" };
+  const opts = { name, target: LAUNCHER, cwd: path.dirname(LAUNCHER), description: "Baixe, atualize e gerencie seus apps", icon: ICON, wmClass: "arasaka-central" };
   const first = !hub.state.hubShortcuts;
   for (const f of links) {
     const exists = fs.existsSync(f);
     try {
       if (first || force) SC.write(shell, f, opts);
-      else if (exists && (SC.readTarget(shell, f) !== LAUNCHER || !fs.readFileSync(f, "utf8").includes("Name=" + name + "\n"))) SC.write(shell, f, opts);
+      else if (exists && (SC.readTarget(shell, f) !== LAUNCHER || !fs.readFileSync(f, "utf8").includes("Name=" + name + "\n") || !fs.readFileSync(f, "utf8").includes("StartupWMClass=" + opts.wmClass + "\n"))) SC.write(shell, f, opts);
     } catch { /* sem permissão na pasta */ }
   }
   if (first) { hub.state.hubShortcuts = true; hub.save(); }

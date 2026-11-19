@@ -1,0 +1,180 @@
+/* Arasaka Central · camada de efeitos "Cyberpunk" (CRT, glitch, neon, HUD).
+   Só visual: nada aqui muda o funcionamento. body.fx-off desliga tudo (Configurações → Geral → Efeitos visuais),
+   e quem pediu "reduzir movimento" no sistema fica sem as animações. */
+
+:root {
+  --cy-red: #ff1a1a;
+  --cy-red-deep: #8a0000;
+  --cy-cyan: #00f0ff;
+  --cy-yellow: #fcee0a;
+  --cy-glow: 0 0 6px rgba(255, 26, 26, .75), 0 0 18px rgba(255, 26, 26, .35);
+  --cy-status-h: 24px;
+}
+
+/* ------------------------------------------------------------------ fundo: grade de neon + brilho */
+body:not(.fx-off) { background:
+  radial-gradient(1200px 600px at 85% -10%, rgba(255, 0, 0, .10), transparent 60%),
+  radial-gradient(900px 500px at -10% 110%, rgba(255, 0, 0, .06), transparent 60%),
+  var(--p-bg); }
+body:not(.fx-off) main {
+  background:
+    linear-gradient(rgba(255, 30, 30, .035) 1px, transparent 1px) 0 0 / 44px 44px,
+    linear-gradient(90deg, rgba(255, 30, 30, .035) 1px, transparent 1px) 0 0 / 44px 44px,
+    radial-gradient(800px 420px at 100% 0%, rgba(255, 0, 0, .07), transparent 70%),
+    var(--p-bg-2);
+  background-attachment: local;
+}
+
+/* ------------------------------------------------------------------ monitor CRT: linhas, ruído, vinheta */
+body:not(.fx-off)::after { /* linhas de varredura */
+  content: ""; position: fixed; inset: 0; z-index: 9998; pointer-events: none;
+  background: repeating-linear-gradient(to bottom, rgba(0, 0, 0, 0) 0, rgba(0, 0, 0, 0) 2px, rgba(0, 0, 0, .22) 3px, rgba(0, 0, 0, 0) 4px);
+  mix-blend-mode: multiply; opacity: .55;
+}
+body:not(.fx-off)::before { /* ruído + vinheta + faixa de varredura que desce */
+  content: ""; position: fixed; inset: 0; z-index: 9997; pointer-events: none;
+  background:
+    linear-gradient(to bottom, transparent 0%, rgba(255, 40, 40, .045) 48%, rgba(255, 40, 40, .08) 50%, rgba(255, 40, 40, .045) 52%, transparent 100%) 0 -100vh / 100% 60vh no-repeat,
+    radial-gradient(ellipse at center, transparent 55%, rgba(0, 0, 0, .55) 100%),
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 .2  0 0 0 0 .2  0 0 0 .07 0'/></filter><rect width='160' height='160' filter='url(%23n)'/></svg>");
+  animation: cy-sweep 7s linear infinite, cy-flicker 6s steps(1) infinite;
+}
+@keyframes cy-sweep { from { background-position: 0 -60vh, 0 0, 0 0; } to { background-position: 0 160vh, 0 0, 0 0; } }
+@keyframes cy-flicker { 0%, 100% { opacity: 1; } 41% { opacity: .92; } 42% { opacity: 1; } 77% { opacity: .95; } 78% { opacity: 1; } }
+
+/* ------------------------------------------------------------------ barra de título */
+body:not(.fx-off) .titlebar { background: linear-gradient(180deg, #0b0000, #050505); }
+body:not(.fx-off) .titlebar::after { /* linha de neon com um pulso que corre */
+  content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--cy-red) 20%, var(--cy-red) 80%, transparent),
+              linear-gradient(90deg, transparent 0, #fff 50%, transparent 100%) -30% 0 / 30% 100% no-repeat;
+  box-shadow: 0 0 8px var(--cy-red);
+  animation: cy-run 4.5s var(--p-ease) infinite;
+}
+@keyframes cy-run { 0% { background-position: 0 0, -30% 0; } 100% { background-position: 0 0, 130% 0; } }
+body:not(.fx-off) .tb-brand img { filter: drop-shadow(0 0 6px rgba(255, 26, 26, .8)); animation: cy-logo 3.2s ease-in-out infinite; }
+@keyframes cy-logo { 0%, 100% { filter: drop-shadow(0 0 4px rgba(255, 26, 26, .6)); } 50% { filter: drop-shadow(0 0 11px rgba(255, 26, 26, 1)); } }
+body:not(.fx-off) .tb-word { text-shadow: var(--cy-glow); }
+body:not(.fx-off) .tb-kanji { color: var(--cy-red); text-shadow: var(--cy-glow); }
+body:not(.fx-off) .tb-search { clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px); }
+body:not(.fx-off) .tb-search:hover { box-shadow: inset 0 0 0 1px var(--p-accent-line), 0 0 18px -6px var(--cy-red); }
+
+/* ------------------------------------------------------------------ barra lateral */
+body:not(.fx-off) .side { background: linear-gradient(90deg, rgba(255, 0, 0, .025), transparent 70%); }
+body:not(.fx-off) .nav-item { transition: background .15s, color .15s, transform .15s var(--p-ease), text-shadow .15s; }
+body:not(.fx-off) .nav-item:hover { transform: translateX(3px); text-shadow: 0 0 8px rgba(255, 26, 26, .6); }
+body:not(.fx-off) .nav-item.active { background: linear-gradient(90deg, rgba(255, 0, 0, .28), rgba(255, 0, 0, .04) 85%); text-shadow: var(--cy-glow); }
+body:not(.fx-off) .nav-item.active::after { content: "◤"; position: absolute; right: 8px; top: 2px; font-size: 8px; color: var(--cy-red); opacity: .9; }
+body:not(.fx-off) .side-label span { text-shadow: var(--cy-glow); }
+body:not(.fx-off) .nav-item .dot.ok { animation: cy-dot 2.4s ease-in-out infinite; }
+@keyframes cy-dot { 0%, 100% { box-shadow: 0 0 0 0 rgba(25, 230, 164, .0); } 50% { box-shadow: 0 0 0 4px rgba(25, 230, 164, .18), 0 0 8px rgba(25, 230, 164, .9); } }
+
+/* ícones dos módulos e apps no vermelho Arasaka (os coloridos antigos ficam do mesmo jeito que os novos) */
+body:not(.fx-off) .mod-ico:not(.ph), body:not(.fx-off) .mod-tile .ico img, body:not(.fx-off) .store-card .ico img,
+body:not(.fx-off) .palette-item .pi-ico img, body:not(.fx-off) .drawer .head .ico img, body:not(.fx-off) .list-item > img,
+body:not(.fx-off) .mod-loading img {
+  filter: url(#cyRed) drop-shadow(0 0 4px rgba(255, 26, 26, .45)); /* #cyRed: filtro SVG que o cyber.js põe na página */
+}
+
+/* ------------------------------------------------------------------ cards com cantos de HUD e neon */
+body:not(.fx-off) .mod-tile, body:not(.fx-off) .store-card, body:not(.fx-off) .pulse-tile, body:not(.fx-off) .m-card {
+  --hud: rgba(255, 26, 26, .55);
+  background-image:
+    linear-gradient(var(--hud), var(--hud)), linear-gradient(var(--hud), var(--hud)),
+    linear-gradient(var(--hud), var(--hud)), linear-gradient(var(--hud), var(--hud));
+  background-repeat: no-repeat;
+  background-size: 14px 1px, 1px 14px, 14px 1px, 1px 14px;
+  background-position: left 0 bottom 0, left 0 bottom 0, right 0 top 0, right 0 top 0;
+  transition: transform .2s var(--p-ease), box-shadow .2s, border-color .2s, background-size .25s var(--p-ease);
+}
+body:not(.fx-off) .mod-tile:hover, body:not(.fx-off) .store-card:hover, body:not(.fx-off) .m-card:hover {
+  --hud: var(--cy-red);
+  transform: translateY(-2px);
+  background-size: 34px 1px, 1px 34px, 34px 1px, 1px 34px;
+  box-shadow: 0 0 0 1px rgba(255, 26, 26, .55), 0 0 28px -8px rgba(255, 26, 26, .65), inset 0 0 40px -28px rgba(255, 26, 26, .9);
+}
+body:not(.fx-off) .mod-tile h3, body:not(.fx-off) .store-card h3 { letter-spacing: .4px; }
+body:not(.fx-off) .mod-tile:hover h3, body:not(.fx-off) .store-card:hover h3 { animation: cy-rgb .35s steps(2) 1; text-shadow: var(--cy-glow); }
+body:not(.fx-off) .pulse-tile .v { text-shadow: 0 0 10px rgba(255, 26, 26, .55); font-family: var(--p-mono); }
+
+/* ------------------------------------------------------------------ títulos com glitch */
+.cy-glitch { position: relative; display: inline-block; }
+body:not(.fx-off) .cy-glitch::before, body:not(.fx-off) .cy-glitch::after {
+  content: attr(data-text); position: absolute; inset: 0; pointer-events: none; opacity: 0; white-space: inherit;
+}
+body:not(.fx-off) .cy-glitch.on::before { opacity: .9; color: var(--cy-cyan); transform: translate(-2px, 0); animation: cy-slice-a .32s steps(3) 1; mix-blend-mode: screen; }
+body:not(.fx-off) .cy-glitch.on::after { opacity: .9; color: var(--cy-red); transform: translate(2px, 0); animation: cy-slice-b .32s steps(3) 1; mix-blend-mode: screen; }
+body:not(.fx-off) .cy-glitch.on { animation: cy-jitter .32s steps(2) 1; }
+@keyframes cy-slice-a { 0% { clip-path: inset(10% 0 70% 0); } 33% { clip-path: inset(55% 0 20% 0); } 66% { clip-path: inset(30% 0 45% 0); } 100% { clip-path: inset(80% 0 5% 0); } }
+@keyframes cy-slice-b { 0% { clip-path: inset(65% 0 10% 0); } 33% { clip-path: inset(15% 0 60% 0); } 66% { clip-path: inset(45% 0 35% 0); } 100% { clip-path: inset(5% 0 85% 0); } }
+@keyframes cy-jitter { 0% { transform: translate(0); } 50% { transform: translate(1px, -1px) skewX(-4deg); } 100% { transform: translate(0); } }
+@keyframes cy-rgb { 0% { text-shadow: -2px 0 var(--cy-cyan), 2px 0 var(--cy-red); } 100% { text-shadow: var(--cy-glow); } }
+body:not(.fx-off) .hero h1, body:not(.fx-off) main h1 { text-shadow: 0 0 14px rgba(255, 26, 26, .35); }
+body:not(.fx-off) .hero .hello::after { content: "_"; margin-left: 2px; animation: cy-caret 1s steps(1) infinite; }
+@keyframes cy-caret { 50% { opacity: 0; } }
+
+/* ------------------------------------------------------------------ botões */
+body:not(.fx-off) .btn { position: relative; }
+body:not(.fx-off) .btn.primary, body:not(.fx-off) .btn.accent {
+  clip-path: polygon(0 0, calc(100% - 9px) 0, 100% 9px, 100% 100%, 9px 100%, 0 calc(100% - 9px));
+  text-shadow: 0 0 6px rgba(255, 255, 255, .35);
+}
+body:not(.fx-off) .btn:hover { box-shadow: 0 0 16px -4px rgba(255, 26, 26, .8); }
+body:not(.fx-off) .btn.primary:hover, body:not(.fx-off) .btn.accent:hover { animation: cy-btn .28s steps(2) 1; }
+@keyframes cy-btn { 0% { transform: translate(0); filter: none; } 50% { transform: translate(-1px, 0); filter: drop-shadow(2px 0 0 var(--cy-cyan)); } 100% { transform: translate(0); filter: none; } }
+
+/* ------------------------------------------------------------------ troca de tela: interferência */
+body:not(.fx-off) main.cy-enter > * { animation: cy-enter .42s var(--p-ease) both; }
+@keyframes cy-enter {
+  0% { opacity: 0; clip-path: inset(0 0 100% 0); filter: brightness(2) saturate(0); transform: translateY(6px); }
+  35% { opacity: 1; clip-path: inset(0 0 40% 0); filter: brightness(1.4) hue-rotate(-20deg); }
+  55% { clip-path: inset(0 0 0 0); transform: translate(-2px, 0); }
+  70% { transform: translate(2px, 0); filter: none; }
+  100% { opacity: 1; clip-path: inset(0); transform: none; filter: none; }
+}
+
+/* ------------------------------------------------------------------ barra de status (rodapé) */
+.cy-status { display: none; }
+body:not(.fx-off) .shell { height: calc(100% - 44px - var(--cy-status-h)); }
+body:not(.fx-off) .cy-status {
+  display: flex; align-items: center; gap: 0; height: var(--cy-status-h); position: relative; z-index: 2;
+  border-top: 1px solid var(--p-line-2); background: linear-gradient(180deg, #0a0000, #050505);
+  font: 500 10.5px/1 var(--p-mono); letter-spacing: .8px; color: var(--p-text-3); text-transform: uppercase; overflow: hidden; user-select: none;
+}
+.cy-status .cs-tag { flex: none; height: 100%; display: flex; align-items: center; gap: 7px; padding: 0 14px 0 12px; background: var(--cy-red); color: #000; font-weight: 700;
+  clip-path: polygon(0 0, 100% 0, calc(100% - 10px) 100%, 0 100%); }
+.cy-status .cs-tag::before { content: ""; width: 6px; height: 6px; background: #000; animation: cy-caret 1.2s steps(1) infinite; }
+.cy-status .cs-item { flex: none; padding: 0 12px; border-right: 1px solid var(--p-line); white-space: nowrap; }
+.cy-status .cs-item b { color: var(--cy-red); font-weight: 600; text-shadow: 0 0 6px rgba(255, 26, 26, .6); }
+.cy-status .cs-ticker { flex: 1; min-width: 0; overflow: hidden; position: relative; align-self: stretch; display: flex; align-items: center;mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); }
+.cy-status .cs-ticker span { display: inline-block; white-space: nowrap; padding-left: 100%; animation: cy-ticker 38s linear infinite; color: rgba(255, 90, 90, .55); }
+@keyframes cy-ticker { to { transform: translateX(-100%); } }
+.cy-status .cs-kanji { flex: none; padding: 0 12px; color: var(--cy-red); font-family: var(--p-font); letter-spacing: 3px; text-shadow: var(--cy-glow); }
+
+/* ------------------------------------------------------------------ inicialização */
+#cyBoot { position: fixed; inset: 0; z-index: 10000; background: #030000; display: flex; flex-direction: column; justify-content: center; align-items: center;
+  font: 500 12.5px/1.7 var(--p-mono); color: rgba(255, 70, 70, .85); cursor: pointer; overflow: hidden; }
+#cyBoot::after { content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: repeating-linear-gradient(to bottom, transparent 0, transparent 2px, rgba(0, 0, 0, .35) 3px, transparent 4px); }
+#cyBoot .cb-logo { width: 84px; height: 84px; filter: drop-shadow(0 0 18px rgba(255, 26, 26, .9)); animation: cy-boot-logo 1.6s steps(1) both; }
+#cyBoot .cb-name { margin-top: 18px; font: 700 26px var(--p-font-display); letter-spacing: 14px; color: #fff; text-shadow: var(--cy-glow); padding-left: 14px; }
+#cyBoot .cb-kanji { margin-top: 2px; font: 600 14px var(--p-font); letter-spacing: 10px; color: var(--cy-red); }
+#cyBoot .cb-log { margin-top: 26px; width: min(520px, 80vw); min-height: 7.5em; white-space: pre; }
+#cyBoot .cb-log .ok { color: #19e6a4; }
+#cyBoot .cb-bar { margin-top: 10px; width: min(520px, 80vw); height: 3px; background: rgba(255, 26, 26, .15); }
+#cyBoot .cb-bar i { display: block; height: 100%; width: 0; background: var(--cy-red); box-shadow: 0 0 10px var(--cy-red); transition: width .18s linear; }
+#cyBoot.out { animation: cy-boot-out .45s steps(6) forwards; }
+@keyframes cy-boot-logo { 0% { opacity: 0; } 8% { opacity: 1; } 12% { opacity: .2; } 16%, 100% { opacity: 1; } }
+@keyframes cy-boot-out {
+  0% { clip-path: inset(0); filter: none; }
+  30% { clip-path: inset(20% 0 30% 0); filter: hue-rotate(160deg) brightness(1.6); transform: translateX(-8px); }
+  60% { clip-path: inset(48% 0 48% 0); transform: translateX(10px); }
+  100% { clip-path: inset(50% 0 50% 0); opacity: 0; }
+}
+
+/* ------------------------------------------------------------------ sem movimento */
+@media (prefers-reduced-motion: reduce) {
+  body::before, body::after, .titlebar::after, .tb-brand img, .cy-status .cs-ticker span, .nav-item .dot.ok,
+  main.cy-enter > *, .cy-glitch.on, .cy-glitch.on::before, .cy-glitch.on::after { animation: none !important; }
+  #cyBoot { display: none !important; }
+}
