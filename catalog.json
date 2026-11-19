@@ -10,7 +10,7 @@
       "accent": "#a855f7",
       "source": {
         "type": "github",
-        "repo": "Ruiso-Outside/InfoHardware",
+        "repo": "Ruiso-Outside/ArasakaBiomonitor",
         "asset": "^InfoHardware-Setup-.*\\.exe$"
       },
       "install": {
@@ -70,7 +70,7 @@
       "accent": "#22d3ee",
       "source": {
         "type": "github",
-        "repo": "Ruiso-Outside/LLM",
+        "repo": "Ruiso-Outside/ArasakaMikoshi",
         "asset": "^LLM-Local-.*-win-x64\\.zip$"
       },
       "install": {
@@ -136,7 +136,7 @@
       "accent": "#e879f9",
       "source": {
         "type": "github",
-        "repo": "Ruiso-Outside/Piphin-Macro",
+        "repo": "Ruiso-Outside/ArasakaSandevistan",
         "asset": "^Piphin-Macro-.*-win-x64\\.zip$"
       },
       "install": {
@@ -189,14 +189,14 @@
   "modules": [
     {
       "id": "macro",
-      "name": "Arasaka Daemon",
+      "name": "Arasaka Sandevistan",
       "description": "Macros de teclado e mouse, gravador, autoclicker e analisador anti-macro para testar seus jogos. Roda dentro da Central (120 KB em vez de um app de 146 MB).",
       "category": "Jogos",
       "icon": "icons/macro.png",
       "accent": "#ff0000",
       "source": {
         "type": "github",
-        "repo": "Ruiso-Outside/Piphin-Macro",
+        "repo": "Ruiso-Outside/ArasakaSandevistan",
         "asset": "^piphin-module-macro-.*\\.zip$"
       },
       "t": {
@@ -244,7 +244,7 @@
       "accent": "#ff0000",
       "source": {
         "type": "github",
-        "repo": "Ruiso-Outside/LLM",
+        "repo": "Ruiso-Outside/ArasakaMikoshi",
         "asset": "^piphin-module-llm-.*\\.zip$"
       },
       "t": {
@@ -292,7 +292,7 @@
       "accent": "#ff0000",
       "source": {
         "type": "github",
-        "repo": "Ruiso-Outside/InfoHardware",
+        "repo": "Ruiso-Outside/ArasakaBiomonitor",
         "asset": "^piphin-module-infohardware-.*\\.zip$"
       },
       "t": {
@@ -333,14 +333,14 @@
     },
     {
       "id": "foto",
-      "name": "Arasaka Holo",
+      "name": "Arasaka Optics",
       "description": "Editor de imagens completo: camadas, seleções, pincéis, texto, ajustes e filtros com prévia, recorte e exportação PNG, JPG e WebP. Mude o tamanho e gire arrastando as alças, reuse imagens do inventário com pastas e crie QR codes. A IA do Arasaka Mikoshi também edita por aqui. Roda dentro da Central (cerca de 250 KB).",
       "category": "Criação",
-      "icon": "https://raw.githubusercontent.com/Ruiso-Outside/Piphin-Foto/main/icons/foto.png",
+      "icon": "https://raw.githubusercontent.com/Ruiso-Outside/ArasakaOptics/main/icons/foto.png",
       "accent": "#ff0000",
       "source": {
         "type": "github",
-        "repo": "Ruiso-Outside/Piphin-Foto",
+        "repo": "Ruiso-Outside/ArasakaOptics",
         "asset": "^piphin-module-foto-.*\\.zip$"
       },
       "t": {
@@ -384,11 +384,11 @@
       "name": "Arasaka Braindance",
       "description": "Editor de vídeo completo: linha do tempo com várias faixas, cortes, textos e legendas, efeitos, transições, velocidade e exportação MP4 pela placa de vídeo. A IA do Arasaka Mikoshi também edita por aqui. Roda dentro da Central (cerca de 300 KB).",
       "category": "Criação",
-      "icon": "https://raw.githubusercontent.com/Ruiso-Outside/Piphin-Video/main/icons/video.png",
+      "icon": "https://raw.githubusercontent.com/Ruiso-Outside/ArasakaBraindance/main/icons/video.png",
       "accent": "#ff0000",
       "source": {
         "type": "github",
-        "repo": "Ruiso-Outside/Piphin-Video",
+        "repo": "Ruiso-Outside/ArasakaBraindance",
         "asset": "^piphin-module-video-.*\\.zip$"
       },
       "t": {
@@ -432,11 +432,11 @@
       "name": "Arasaka Synth",
       "description": "Estúdio de música e efeitos sonoros: instrumentos e bateria sintetizados, piano roll, acordes e ritmos prontos, gravação, efeitos de mixagem, gerador de efeitos para jogos e exportação MP3/WAV. A IA do Arasaka Mikoshi também compõe por aqui. Roda dentro da Central (cerca de 450 KB).",
       "category": "Criação",
-      "icon": "https://raw.githubusercontent.com/Ruiso-Outside/Piphin-Som/main/icons/som.png",
+      "icon": "https://raw.githubusercontent.com/Ruiso-Outside/ArasakaSynth/main/icons/som.png",
       "accent": "#ff0000",
       "source": {
         "type": "github",
-        "repo": "Ruiso-Outside/Piphin-Som",
+        "repo": "Ruiso-Outside/ArasakaSynth",
         "asset": "^piphin-module-som-.*\\.zip$"
       },
       "t": {
@@ -480,11 +480,11 @@
       "name": "Arasaka Overclock",
       "description": "Deixa o PC mais rápido para jogos e limpa o lixo de um jeito simples: check-up com nota, limpeza segura, otimizações do Windows com desfazer, inicialização e Modo Turbo. Nada muda sem o seu clique. Roda dentro da Central (cerca de 120 KB).",
       "category": "Sistema",
-      "icon": "https://raw.githubusercontent.com/Ruiso-Outside/Piphin-Turbo/main/icons/turbo.png",
+      "icon": "https://raw.githubusercontent.com/Ruiso-Outside/ArasakaOverclock/main/icons/turbo.png",
       "accent": "#ff0000",
       "source": {
         "type": "github",
-        "repo": "Ruiso-Outside/Piphin-Turbo",
+        "repo": "Ruiso-Outside/ArasakaOverclock",
         "asset": "^piphin-module-turbo-.*\\.zip$"
       },
       "t": {
@@ -528,11 +528,11 @@
       "name": "Arasaka Netrunner",
       "description": "Vê tudo da sua rede: sinal e frequências do Wi-Fi, canais, uso ao vivo, aparelhos conectados e testes de ping, DNS e velocidade. Explica o que está deixando a internet lenta. Roda dentro da Central (cerca de 200 KB).",
       "category": "Sistema",
-      "icon": "https://raw.githubusercontent.com/Ruiso-Outside/Piphin-Rede/main/icons/rede.png",
+      "icon": "https://raw.githubusercontent.com/Ruiso-Outside/ArasakaNetrunner/main/icons/rede.png",
       "accent": "#ff0000",
       "source": {
         "type": "github",
-        "repo": "Ruiso-Outside/Piphin-Rede",
+        "repo": "Ruiso-Outside/ArasakaNetrunner",
         "asset": "^piphin-module-rede-.*.zip$"
       },
       "t": {
@@ -576,11 +576,11 @@
       "name": "Arasaka Datafort",
       "description": "Hospede seus próprios servidores num PC com Ubuntu Server da sua rede: Minecraft, Terraria, Valheim, bots do Discord, sites, apps e bancos de dados, cada um isolado no Docker. Console, arquivos, backups e agendamentos aqui na Central. Roda dentro da Central (cerca de 200 KB).",
       "category": "Sistema",
-      "icon": "https://raw.githubusercontent.com/Ruiso-Outside/Piphin-Server/main/icons/server.png",
+      "icon": "https://raw.githubusercontent.com/Ruiso-Outside/ArasakaDatafort/main/icons/server.png",
       "accent": "#ff0000",
       "source": {
         "type": "github",
-        "repo": "Ruiso-Outside/Piphin-Server",
+        "repo": "Ruiso-Outside/ArasakaDatafort",
         "asset": "^piphin-module-server-.*\\.zip$"
       },
       "t": {
@@ -624,11 +624,11 @@
       "name": "Arasaka Radioport",
       "description": "Baixe músicas livres de graça (Creative Commons e domínio público) do Openverse, ccMixter e Internet Archive e ouça junto com as suas: biblioteca, playlists, curtidas, equalizador e créditos prontos para copiar. Roda dentro da Central (cerca de 300 KB).",
       "category": "Mídia",
-      "icon": "https://raw.githubusercontent.com/Ruiso-Outside/Piphin-Musica/main/icons/musica.png",
+      "icon": "https://raw.githubusercontent.com/Ruiso-Outside/ArasakaRadioport/main/icons/musica.png",
       "accent": "#ff0000",
       "source": {
         "type": "github",
-        "repo": "Ruiso-Outside/Piphin-Musica",
+        "repo": "Ruiso-Outside/ArasakaRadioport",
         "asset": "^piphin-module-musica-.*\\.zip$"
       },
       "t": {
@@ -672,11 +672,11 @@
       "name": "Arasaka Arcade",
       "description": "Todos os jogos instalados no PC num só lugar (Steam, Epic, Riot, GOG, Ubisoft, EA, Battle.net, Rockstar, Xbox): tempo de jogo de qualquer loja, estatísticas, perfil de jogador, roleta do que jogar e espaço em disco. Roda dentro da Central (cerca de 110 KB).",
       "category": "Jogos",
-      "icon": "https://raw.githubusercontent.com/Ruiso-Outside/Piphin-Jogos/main/icons/jogos.png",
+      "icon": "https://raw.githubusercontent.com/Ruiso-Outside/ArasakaArcade/main/icons/jogos.png",
       "accent": "#ff0000",
       "source": {
         "type": "github",
-        "repo": "Ruiso-Outside/Piphin-Jogos",
+        "repo": "Ruiso-Outside/ArasakaArcade",
         "asset": "^piphin-module-jogos-.*\\.zip$"
       },
       "t": {
@@ -720,11 +720,11 @@
       "name": "Arasaka Scanner",
       "description": "Print de tela prático (PrtSc para escolher a área) com editor para marcar e esconder informações, e gravador de tela em MP4 com o som do PC e o microfone (Alt+F9). Precisa da Central 1.6.0. Roda dentro da Central (cerca de 300 KB).",
       "category": "Criação",
-      "icon": "https://raw.githubusercontent.com/Ruiso-Outside/Piphin-Captura/main/icons/captura.png",
+      "icon": "https://raw.githubusercontent.com/Ruiso-Outside/ArasakaScanner/main/icons/captura.png",
       "accent": "#ff0000",
       "source": {
         "type": "github",
-        "repo": "Ruiso-Outside/Piphin-Captura",
+        "repo": "Ruiso-Outside/ArasakaScanner",
         "asset": "^piphin-module-captura-.*\\.zip$"
       },
       "t": {
@@ -768,11 +768,11 @@
       "name": "Arasaka ICE",
       "description": "Verifica se o PC tem sinais de invasão ou brechas de segurança (programas escondidos, acesso remoto, hosts e proxy desviados, antivírus, firewall...), corrige com um clique e desfaz, vigia mudanças perigosas e confere se suas senhas vazaram. Roda dentro da Central (cerca de 120 KB).",
       "category": "Sistema",
-      "icon": "https://raw.githubusercontent.com/Ruiso-Outside/Piphin-Escudo/main/icons/escudo.png",
+      "icon": "https://raw.githubusercontent.com/Ruiso-Outside/ArasakaICE/main/icons/escudo.png",
       "accent": "#ff0000",
       "source": {
         "type": "github",
-        "repo": "Ruiso-Outside/Piphin-Escudo",
+        "repo": "Ruiso-Outside/ArasakaICE",
         "asset": "^piphin-module-escudo-.*\\.zip$"
       },
       "t": {
@@ -816,11 +816,11 @@
       "name": "Arasaka Eurodólar",
       "description": "Finanças pessoais e da empresa em carteiras separadas: contas, cartões e faturas, contas a pagar com lembrete, orçamentos, metas, DRE e limite do MEI, importação de extrato, lançamento rápido em português e senha opcional. Roda dentro da Central (cerca de 130 KB).",
       "category": "Finanças",
-      "icon": "https://raw.githubusercontent.com/Ruiso-Outside/Piphin-Financas/main/icons/financas.png",
+      "icon": "https://raw.githubusercontent.com/Ruiso-Outside/ArasakaEurodolar/main/icons/financas.png",
       "accent": "#ff0000",
       "source": {
         "type": "github",
-        "repo": "Ruiso-Outside/Piphin-Financas",
+        "repo": "Ruiso-Outside/ArasakaEurodolar",
         "asset": "^piphin-module-financas-.*\\.zip$"
       },
       "t": {

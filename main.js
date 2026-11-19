@@ -484,7 +484,7 @@ app.whenReady().then(async () => {
   tools = new ToolsServer({ modules, hubVersion: app.getVersion(), builtins: [{
     // a IA acha o que os módulos criaram ou baixaram (ex.: "coloque a música que eu baixei no vídeo")
     def: { name: "hub_media_library", title: "Arasaka Central: Mídia", annotations: { readOnlyHint: true },
-      description: "[Arasaka Central] Lista a mídia dos módulos num lugar só: músicas baixadas no Arasaka Radioport, sons e músicas do Arasaka Synth, prints e gravações do Arasaka Scanner, imagens do Arasaka Holo e vídeos do Arasaka Braindance. Devolve o caminho de cada arquivo, para usar em outras ferramentas (ex.: video_import_media, som_import_audio, foto_open_image). can_use_in_videos=false: a licença não permite usar a música em vídeos.",
+      description: "[Arasaka Central] Lista a mídia dos módulos num lugar só: músicas baixadas no Arasaka Radioport, sons e músicas do Arasaka Synth, prints e gravações do Arasaka Scanner, imagens do Arasaka Optics e vídeos do Arasaka Braindance. Devolve o caminho de cada arquivo, para usar em outras ferramentas (ex.: video_import_media, som_import_audio, foto_open_image). can_use_in_videos=false: a licença não permite usar a música em vídeos.",
       inputSchema: { type: "object", properties: { kind: { type: "string", enum: ["audio", "video", "image"] }, query: { type: "string", description: "Palavras do nome, artista ou jogo" },
         from_module: { type: "string", description: "id do módulo (musica, som, captura, foto, video)" }, limit: { type: "integer", minimum: 1, maximum: 100 } } } },
     run: (a = {}) => {

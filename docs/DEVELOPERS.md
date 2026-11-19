@@ -22,7 +22,7 @@ Igual ao Piphin LLM: o `.exe` é o do Electron oficial, sem modificações, por 
 - Atualização **sem perder dados**: a versão nova é extraída ao lado, as pastas marcadas em `keep` são mantidas, e se algo falhar a versão anterior volta.
 - **Mídia**: tudo que os módulos criam ou baixam num lugar só, pronto para usar em qualquer módulo (veja abaixo).
 - **12 idiomas**: Português, English, Español, ไทย, 简体中文, 日本語, 한국어, Bahasa Indonesia, Tiếng Việt, Français, Deutsch e Русский. Em **Configurações → Geral → Idioma** ("Automático" segue o Windows). Vale para o Hub, os módulos, as janelas do Windows (avisos, salvar/abrir) e as datas e números.
-- **O próprio Hub se atualiza sozinho**: ao abrir e a cada hora ele consulta os Releases de `Ruiso-Outside/Piphin-Hub`, baixa a versão nova em segundo plano (conferindo o SHA-256) e pergunta se pode reiniciar. Se você escolher "Depois", ela entra quando o Hub for fechado. Só a pasta `resources\app` é trocada; se algo falhar, a versão atual continua.
+- **O próprio Hub se atualiza sozinho**: ao abrir e a cada hora ele consulta os Releases de `Ruiso-Outside/ArasakaCentral`, baixa a versão nova em segundo plano (conferindo o SHA-256) e pergunta se pode reiniciar. Se você escolher "Depois", ela entra quando o Hub for fechado. Só a pasta `resources\app` é trocada; se algo falhar, a versão atual continua.
 
 ## Módulos
 Módulos são partes do Piphin que rodam **dentro do Hub**, com uma área própria na janela e um item em **Módulos** na barra lateral. Como usam o Electron do próprio Hub, cada um tem poucos KB (o Piphin Macro tem 120 KB como módulo, contra 146 MB como app separado). Instalar, atualizar e remover um módulo não reinicia o Hub.
@@ -117,7 +117,7 @@ Se a interface vem de um servidor local do próprio módulo (como o Piphin LLM),
 **No catálogo**, módulos ficam em `"modules"` (o Hub antigo ignora essa lista). Um módulo com o mesmo `id` de um app separado substitui o app no Hub:
 ```json
 "modules": [{ "id": "macro", "name": "Piphin Macro", "category": "Jogos", "icon": "icons/macro.png",
-  "source": { "type": "github", "repo": "Ruiso-Outside/Piphin-Macro", "asset": "^piphin-module-macro-.*\\.zip$" } }]
+  "source": { "type": "github", "repo": "Ruiso-Outside/ArasakaSandevistan", "asset": "^piphin-module-macro-.*\\.zip$" } }]
 ```
 Exemplos completos: `module/` e `scripts/make-module.js` no repositório do Piphin Macro, `desktop/module/` e `desktop/scripts/make-module.js` no do Piphin LLM, e `module/`, `src/InfoHardware.Engine` e `build-module.ps1` no do InfoHardware (motor .NET que roda dentro do PowerShell do Windows, com administrador pelo UAC: o jeito de usar código .NET sem criar um `.exe` que o Controle Inteligente de Aplicativos bloquearia).
 
@@ -153,7 +153,7 @@ Há dois jeitos:
 
 **1. Pela tela (só neste PC):** Explorar → **Adicionar app**. Informe o repositório do GitHub (ou uma pasta local com os `.zip`/`.exe`, útil para testar antes de publicar), o padrão do arquivo do Release e o nome do `.exe`.
 
-**2. No catálogo (para todos os PCs):** acrescente uma entrada em `catalog.json`. Se o catálogo estiver publicado em `Ruiso-Outside/Piphin-Hub` (branch `main`), todos os Hubs recebem o app novo na próxima verificação, sem precisar atualizar o Hub.
+**2. No catálogo (para todos os PCs):** acrescente uma entrada em `catalog.json`. Se o catálogo estiver publicado em `Ruiso-Outside/ArasakaCentral` (branch `main`), todos os Hubs recebem o app novo na próxima verificação, sem precisar atualizar o Hub.
 
 ```json
 {

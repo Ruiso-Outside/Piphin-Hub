@@ -1,4 +1,4 @@
-Required Notice: Copyright © 2026 Piphin Studio (https://github.com/Ruiso-Outside/Piphin-Hub)
+Required Notice: Copyright © 2026 Piphin Studio (https://github.com/Ruiso-Outside/ArasakaCentral)
 
 # PolyForm Strict License 1.0.0
 
