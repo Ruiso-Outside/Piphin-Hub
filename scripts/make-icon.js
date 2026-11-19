@@ -1,4 +1,5 @@
-// Gera o ícone da Arasaka Central a partir de icons/logo.png: icons/hub.png (256) e icons/hub.ico (16-256).
+// Gera o ícone da Arasaka Central a partir de icons/hub.svg: icons/hub.png (256) e icons/hub.ico (16-256).
+// (icons/logo.png continua sendo a logo da marca, usada dentro da Central)
 // Uso: npm run icon   (usa o próprio Electron para desenhar; sem dependências)
 const { app, BrowserWindow } = require("electron");
 const fs = require("fs");
@@ -25,17 +26,14 @@ app.whenReady().then(async () => {
   const win = new BrowserWindow({ show: false, webPreferences: { offscreen: true } });
   await win.loadURL("about:blank");
   const sizes = [16, 24, 32, 48, 64, 128, 256];
-  const logo = "data:image/png;base64," + fs.readFileSync(path.join(OUT, "logo.png")).toString("base64");
+  const logo = "data:image/svg+xml;base64," + fs.readFileSync(path.join(OUT, "hub.svg")).toString("base64");
   const out = await win.webContents.executeJavaScript(`(async () => {
     const img = new Image(); img.src = ${JSON.stringify(logo)}; await img.decode();
     const res = {};
     for (const s of ${JSON.stringify(sizes)}) {
       const c = document.createElement("canvas"); c.width = c.height = s;
       const g = c.getContext("2d"); g.imageSmoothingQuality = "high";
-      // disco preto por dentro do anel da logo; a margem transparente da imagem é aproveitada
-      const m = s * -0.03, d = s - 2 * m;
-      g.fillStyle = "#050505"; g.beginPath(); g.arc(s / 2, s / 2, s * 0.49, 0, Math.PI * 2); g.fill();
-      g.drawImage(img, m, m, d, d);
+      g.drawImage(img, 0, 0, s, s);
       res[s] = c.toDataURL("image/png");
     }
     return res;
