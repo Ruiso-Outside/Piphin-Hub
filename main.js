@@ -116,6 +116,7 @@ function createWindow() {
   win.loadFile(path.join(__dirname, "web", "index.html"));
   // aberto pelo Windows (iniciar com o Windows): fica só no ícone perto do relógio
   win.once("ready-to-show", () => { if (process.argv.includes("--hidden")) showTray(false); else win.show(); });
+  win.webContents.once("did-finish-load", () => setTimeout(() => openFromArgv(process.argv), 600));
   // links externos abrem no navegador
   win.webContents.setWindowOpenHandler(({ url }) => { if (/^https:\/\//.test(url)) shell.openExternal(url); return { action: "deny" }; });
   win.webContents.on("will-navigate", (e, url) => { if (!url.startsWith("file:")) { e.preventDefault(); if (/^https:\/\//.test(url)) shell.openExternal(url); } });
@@ -522,10 +523,17 @@ app.on("will-quit", () => {
   if (hubUpdate && hubUpdate.ready) { try { selfupdate.swap(app); } catch { /* tenta de novo na próxima vez */ } }
 });
 
+// --module=<id>: abre direto num módulo (usado pelo Arasaka Cyberdeck e por atalhos)
+function openFromArgv(argv) {
+  const a = (argv || []).find((x) => /^--module=/.test(x));
+  const id = a && a.slice(9).replace(/[^\w-]/g, "");
+  if (id && hub && hub.catalog().some((x) => x.id === id && x.kind === "module")) { showWin(); hub.emit("openModule", id); }
+}
+
 // outra cópia foi aberta: se for mais nova, esta fecha e passa a vez; senão, só aparece
-app.on("second-instance", (_e, _argv, _cwd, other) => {
+app.on("second-instance", (_e, argv, _cwd, other) => {
   if (other && other.version && U.cmpVersion(other.version, app.getVersion()) > 0) { quitting = true; app.quit(); }
-  else showWin();
+  else { showWin(); openFromArgv(argv); }
 });
 
 // antes de sair, cada módulo desliga o que abriu

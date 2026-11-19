@@ -1345,6 +1345,13 @@
             "17",
             "18"
           ]
+        },
+        {
+          "id": "ubuntu",
+          "name": "Ubuntu (experimental)",
+          "versions": [
+            "24.04"
+          ]
         }
       ],
       "source": {
