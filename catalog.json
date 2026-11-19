@@ -804,6 +804,87 @@
           "category": "Продуктивность"
         }
       }
+    },
+    {
+      "id": "arasaka-ripperdoc",
+      "name": "Arasaka Ripperdoc",
+      "description": "Manutenção do Linux: driver de vídeo (NVIDIA pelo .run ou pacote do Ubuntu, DKMS para todos os kernels), atualizações do apt, Flatpak, Snap e firmware, limpeza segura e o que abre com a sessão. Mostra cada comando antes de rodar.",
+      "category": "Sistema",
+      "icon": "icons/arasaka-ripperdoc.svg",
+      "accent": "#e3121f",
+      "source": {
+        "type": "github",
+        "repo": "Ruiso-Outside/ArasakaRipperdoc",
+        "asset": "^ArasakaRipperdoc-.*-linux\\.tar\\.gz$"
+      },
+      "install": {
+        "type": "script",
+        "script": "install.sh",
+        "args": [
+          "-y"
+        ],
+        "terminal": true,
+        "uninstall": "uninstall.sh",
+        "uninstallTerminal": false,
+        "folder": "ArasakaRipperdoc",
+        "detect": "~/.local/bin/arasaka-ripperdoc",
+        "launch": "~/.local/bin/arasaka-ripperdoc",
+        "versionFile": "~/.local/share/arasaka-ripperdoc/app/arasaka_ripperdoc/core.py",
+        "versionPattern": "VERSION = \"([^\"]+)\""
+      },
+      "platforms": [
+        "linux"
+      ],
+      "dev": {
+        "versionFile": "arasaka_ripperdoc/core.py",
+        "versionPattern": "VERSION = \"([^\"]+)\""
+      },
+      "t": {
+        "en": {
+          "description": "Linux maintenance: video driver (NVIDIA .run or Ubuntu package, DKMS for every kernel), updates for apt, Flatpak, Snap and firmware, safe cleanup and startup apps. Shows every command before running it.",
+          "category": "System"
+        },
+        "es": {
+          "description": "Mantenimiento de Linux: driver de video (NVIDIA .run o paquete de Ubuntu, DKMS para cada kernel), actualizaciones de apt, Flatpak, Snap y firmware, limpieza segura y programas de inicio. Muestra cada comando antes de ejecutarlo.",
+          "category": "Sistema"
+        },
+        "th": {
+          "description": "ดูแล Linux: ไดรเวอร์การ์ดจอ (NVIDIA แบบ .run หรือแพ็กเกจ Ubuntu, DKMS ทุกเคอร์เนล) อัปเดต apt, Flatpak, Snap และเฟิร์มแวร์ ล้างข้อมูลอย่างปลอดภัย และโปรแกรมเริ่มต้น แสดงทุกคำสั่งก่อนรัน",
+          "category": "ระบบ"
+        },
+        "zh": {
+          "description": "Linux 维护：显卡驱动（NVIDIA .run 或 Ubuntu 软件包，为每个内核编译 DKMS）、apt/Flatpak/Snap/固件更新、安全清理和开机启动项。运行前会显示每条命令。",
+          "category": "系统"
+        },
+        "ja": {
+          "description": "Linux のメンテナンス：ビデオドライバー（NVIDIA の .run か Ubuntu のパッケージ、全カーネルの DKMS）、apt・Flatpak・Snap・ファームウェアの更新、安全なクリーンアップ、自動起動。実行前にすべてのコマンドを表示します。",
+          "category": "システム"
+        },
+        "ko": {
+          "description": "Linux 관리: 그래픽 드라이버(NVIDIA .run 또는 Ubuntu 패키지, 모든 커널의 DKMS), apt·Flatpak·Snap·펌웨어 업데이트, 안전한 정리, 시작 프로그램. 실행 전에 모든 명령을 보여 줍니다.",
+          "category": "시스템"
+        },
+        "id": {
+          "description": "Perawatan Linux: driver video (NVIDIA .run atau paket Ubuntu, DKMS untuk setiap kernel), pembaruan apt, Flatpak, Snap, dan firmware, pembersihan aman, dan aplikasi startup. Menampilkan setiap perintah sebelum dijalankan.",
+          "category": "Sistem"
+        },
+        "vi": {
+          "description": "Bảo trì Linux: driver card đồ họa (NVIDIA .run hoặc gói Ubuntu, DKMS cho mọi kernel), cập nhật apt, Flatpak, Snap và firmware, dọn dẹp an toàn và ứng dụng khởi động. Hiện mọi lệnh trước khi chạy.",
+          "category": "Hệ thống"
+        },
+        "fr": {
+          "description": "Maintenance de Linux : pilote graphique (NVIDIA .run ou paquet Ubuntu, DKMS pour chaque noyau), mises à jour apt, Flatpak, Snap et firmware, nettoyage sûr et programmes au démarrage. Montre chaque commande avant de l'exécuter.",
+          "category": "Système"
+        },
+        "de": {
+          "description": "Linux-Wartung: Grafiktreiber (NVIDIA-.run oder Ubuntu-Paket, DKMS für jeden Kernel), Updates für apt, Flatpak, Snap und Firmware, sicheres Aufräumen und Autostart. Zeigt jeden Befehl vor dem Ausführen.",
+          "category": "System"
+        },
+        "ru": {
+          "description": "Обслуживание Linux: видеодрайвер (NVIDIA .run или пакет Ubuntu, DKMS для каждого ядра), обновления apt, Flatpak, Snap и прошивок, безопасная очистка и автозапуск. Показывает каждую команду перед запуском.",
+          "category": "Система"
+        }
+      }
     }
   ],
   "modules": [
