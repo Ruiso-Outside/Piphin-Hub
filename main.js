@@ -5,6 +5,7 @@ const os = require("os");
 const fs = require("fs");
 const path = require("path");
 const { Hub } = require("./lib/apps");
+const { Dev } = require("./lib/dev");
 const U = require("./lib/util");
 const selfupdate = require("./lib/selfupdate");
 const { ModuleHost } = require("./lib/modules");
@@ -192,6 +193,7 @@ function handle(name, fn) {
 }
 
 function registerIpc() {
+  const dev = new Dev({ hub, execPath: process.execPath });
   handle("hub:snapshot", () => {
     const s = hub.snapshot();
     // descrição de cada app/módulo no idioma escolhido (campo "t" do catálogo)
@@ -249,6 +251,14 @@ function registerIpc() {
   handle("hub:install", (id, opts) => hub.install(id, opts));
   handle("hub:cancel", (id) => hub.cancel(id));
   handle("hub:uninstall", (id, opts) => hub.uninstall(id, opts));
+  handle("hub:rollback", (id, opts) => hub.rollback(id, opts));
+  handle("hub:report", (id) => hub.report(id, { hubVersion: app.getVersion() }));
+  handle("hub:ghLoginStart", () => hub.loginStart());
+  handle("hub:devScan", () => dev.scan());
+  handle("hub:devPublish", (dir, opts) => dev.publish(String(dir), opts || {}, (line) => send("hub:devLog", { dir, line })));
+  handle("hub:devOpen", (dir) => shell.openPath(String(dir)).then(() => null));
+  handle("hub:ghLoginCancel", () => hub.loginCancel());
+  handle("hub:ghLogout", () => hub.logout().then(() => null));
   handle("hub:launch", (id) => hub.launch(id));
   handle("hub:openFolder", async (id) => {
     const s = hub.status[id];
@@ -479,6 +489,7 @@ app.whenReady().then(async () => {
   hubShortcuts(false);
   hub.on("changed", () => send("hub:changed"));
   hub.on("progress", (p) => send("hub:progress", p));
+  hub.on("login", (e) => send("hub:ghLogin", e));
   registerIpc();
   createWindow();
   // ferramentas dos módulos para a IA (antes de iniciar os módulos: eles recebem o endereço)

@@ -278,6 +278,10 @@
           "description": "IDE в стиле Arasaka: 28 языков, автодополнение и ошибки в реальном времени (LSP), отладчик и профайлер Python, git и HTTP-клиент.",
           "category": "Программирование"
         }
+      },
+      "dev": {
+        "versionFile": "arasaka_daemon/app.py",
+        "versionPattern": "VERSION = \"([^\"]+)\""
       }
     },
     {
@@ -373,6 +377,10 @@
           "description": "Чат с максимальной приватностью: без аккаунта и пароля, постоянный ник вашего ПК, сквозное шифрование и ничего не сохраняется.",
           "category": "Общение"
         }
+      },
+      "dev": {
+        "versionFile": "arasaka_holo/app.py",
+        "versionPattern": "VERSION = \"([^\"]+)\""
       }
     },
     {
@@ -450,6 +458,13 @@
           "description": "Программы Windows и Roblox Studio в Linux: Wine, Winetricks, DXVK и Vinegar в одной панели, отдельный контейнер для каждой программы.",
           "category": "Система"
         }
+      },
+      "logs": [
+        "~/.local/share/arasaka-bridge/logs"
+      ],
+      "dev": {
+        "versionFile": "arasaka_bridge/core.py",
+        "versionPattern": "VERSION = \"([^\"]+)\""
       }
     },
     {
@@ -527,6 +542,10 @@
           "description": "Виртуальные машины Windows 10, Windows 11 и Linux на QEMU/KVM: готовые профили, UEFI, Secure Boot, TPM 2.0, снимки и экран в реальном времени.",
           "category": "Система"
         }
+      },
+      "dev": {
+        "versionFile": "arasaka_blackwall/core.py",
+        "versionPattern": "VERSION = \"([^\"]+)\""
       }
     },
     {
@@ -617,6 +636,11 @@
           "description": "Игровой движок 2D, 2.5D и 3D: визуальный редактор, скрипты на Luau, мультиплеер с выделенным сервером и экспорт в один клик.",
           "category": "Творчество"
         }
+      },
+      "dev": {
+        "versionFile": "CMakeLists.txt",
+        "versionPattern": "project\\(DemonicEngine VERSION ([0-9.]+)",
+        "release": "gh-release"
       }
     }
   ],
@@ -715,6 +739,11 @@
         "ru": {
           "description": "Локальный ИИ на вашем ПК: чат с вложениями, Codex, изображения и быстрый вопрос. Без аккаунта, ничего не уходит в интернет."
         }
+      },
+      "dev": {
+        "versionFile": "desktop/package.json",
+        "release": "manual",
+        "note": "O app do Windows (que se atualiza sozinho) e o módulo saem no mesmo Release: publique pelo processo do projeto"
       }
     },
     {
@@ -763,6 +792,12 @@
         "ru": {
           "description": "Сведения о железе, датчики и мониторинг в реальном времени с FPS-оверлеем для игр."
         }
+      },
+      "dev": {
+        "versionFile": "src/InfoHardware/InfoHardware.csproj",
+        "versionPattern": "<Version>([^<]+)</Version>",
+        "release": "manual",
+        "note": "O motor do Windows só compila no Windows: publique pelo build-module.ps1 num PC com Windows"
       }
     },
     {
@@ -1379,5 +1414,8 @@
         }
       }
     }
-  ]
+  ],
+  "auth": {
+    "githubClientId": ""
+  }
 }

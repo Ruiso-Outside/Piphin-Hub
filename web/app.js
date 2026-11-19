@@ -81,6 +81,23 @@ async function act(kind, id, opts = {}) {
     else if (r.error !== "Cancelado") toast(r.error, "err");
     return load();
   }
+  if (kind === "rollback") {
+    const prev = a.previous && a.previous.version;
+    if (!(await confirmBox(`Voltar o ${esc(a.name)} para a v${esc(prev)}?`, `A versão instalada agora (v${esc(st(a).version || "?")}) fica guardada, para dar para desfazer. A Central não oferece de novo esta atualização até sair uma mais nova.${a.install.type === "script" && a.install.terminal ? "<br>O instalador abre num terminal e pode pedir a sua senha." : ""}`, "Voltar")))
+      return;
+    jobs[id] = { phase: "apply", pct: null, text: "Voltando...", local: true };
+    render();
+    let r = await hub.rollback(id, opts);
+    if (!r.ok && r.code === "RUNNING") {
+      delete jobs[id];
+      if (!(await confirmBox(`${a.name} está aberto`, `Fechar o ${esc(a.name)} e continuar?`, "Fechar e continuar"))) return load();
+      return act("rollback", id, { closeIfRunning: true });
+    }
+    delete jobs[id];
+    if (r.ok) toast(`${a.name} voltou para a v${r.data.version}`, "ok"); else if (r.error !== "Cancelado") toast(r.error, "err");
+    return load();
+  }
+  if (kind === "report") return reportBox(id);
   if (kind === "launch" && a.kind === "module") return openModule(id);
   if (kind === "launch") {
     const r = await hub.launch(id);
@@ -185,12 +202,14 @@ function render(fresh) {
   else if (view === "store") renderStore(main);
   else if (view === "media") renderMedia(main);
   else if (view === "settings") renderSettings(main);
+  else if (view === "dev") renderDev(main);
   if (fresh) main.firstElementChild?.classList.add("p-enter");
   main.scrollTop = scroll;
   if (drawerId) renderDrawer();
 }
 
 function renderSide() {
+  $("#navDev").hidden = !(snap.settings && snap.settings.devMode);
   $$(".side .nav-item[data-view]").forEach((b) => b.classList.toggle("active", b.dataset.view === view));
   const updates = snap.apps.filter((a) => st(a).updateAvailable).length;
   $("#updCount").hidden = !updates;
@@ -501,11 +520,13 @@ async function renderDrawer() {
     if (a.kind !== "module") more.push(`<button class="btn" data-act="folder" data-id="${a.id}"><i class="i i-folder-open"></i>Pasta</button>`);
     if (a.kind === "module") more.push(`<button class="btn" data-act="restartModule" data-id="${a.id}"><i class="i i-rotate-ccw"></i>Reiniciar módulo</button>`);
     if (!s.updateAvailable && s.latest && canOpen(a)) more.push(`<button class="btn" data-act="install" data-id="${a.id}"><i class="i i-refresh-cw"></i>Reinstalar</button>`);
+    if (a.previous && a.install.type !== "installer") more.push(`<button class="btn" data-act="rollback" data-id="${a.id}" title="Instala de novo a versão de antes da última atualização"><i class="i i-history"></i>Voltar para a v${esc(a.previous.version)}</button>`);
     more.push(`<button class="btn danger" data-act="uninstall" data-id="${a.id}"><i class="i i-trash-2"></i>Desinstalar</button>`);
   } else if (a.install.type === "portable") {
     more.push(`<button class="btn" data-act="locate" data-id="${a.id}" title="Já tem este app numa pasta? Aponte para ela"><i class="i i-folder-open"></i>Já tenho instalado</button>`);
   }
   if (s.latest && s.latest.page) more.push(`<a class="btn ghost" href="${esc(s.latest.page)}" target="_blank"><i class="i i-external-link"></i>GitHub</a>`);
+  if (a.source.type === "github" && (s.installed || s.latestError)) more.push(`<button class="btn ghost" data-act="report" data-id="${a.id}" title="Monta um relatório para abrir uma issue no GitHub"><i class="i i-triangle-alert"></i>Relatar problema</button>`);
   if (a.origin === "custom") more.push(`<button class="btn danger" data-act="removeCustom" data-id="${a.id}"><i class="i i-x"></i>Remover da Loja</button>`);
 
   d.innerHTML = `<div class="cover"><button class="btn icon sm close" data-close="1" title="Fechar"><i class="i i-x"></i></button></div>
@@ -516,6 +537,7 @@ async function renderDrawer() {
       <p class="desc">${esc(a.description || "")}</p>
       ${jobHtml(a)}
       <div class="actions" style="margin-top:12px"><span data-main>${primaryButton(a)}</span>${more.join("")}</div>
+      ${s.skippedVersion ? `<div class="info-box" style="margin-bottom:16px">Você voltou de versão, então a v${esc(s.skippedVersion)} não é oferecida. <a href="#" data-act="install" data-id="${a.id}">Atualizar mesmo assim</a></div>` : ""}
       ${s.latestError ? `<div class="error-box" style="margin-bottom:16px">Não foi possível consultar a versão mais recente: ${esc(s.latestError)}</div>` : ""}
       <dl class="kv">
         <dt>Instalada</dt><dd>${s.installed ? "v" + esc(s.version || "?") : "—"}</dd>
@@ -556,7 +578,15 @@ function renderSettings(main) {
       <div class="set"><div class="ico-left"><i class="i i-folder-open"></i><div><h4>Pasta dos apps portáteis</h4><p>Onde a Central instala apps que vêm em .zip. Módulos ficam na pasta da Central.</p></div></div>
         <div class="wide"><input type="text" id="sLib" value="${esc(s.libraryDir)}"><button class="btn" id="sLibPick">Escolher</button></div></div>
 
+      <div class="p-section">Conta do GitHub</div>
+      ${s.githubLogin ? row("user", `Conectado como <span data-noi18n>@${esc(s.githubLogin)}</span>`, "Os apps de acesso restrito para os quais você foi convidado aparecem na Loja.", `<button class="btn" id="sGhOut"><i class="i i-log-out"></i>Sair</button>`)
+        : s.githubLoginAvailable ? row("user", "Entrar com GitHub", "Libera os apps de acesso restrito (como a Arasaka Construct) para quem foi convidado no repositório. Você só digita um código no site do GitHub; a Central não vê a sua senha.", `<button class="btn primary" id="sGhIn"><i class="i i-log-out"></i>Entrar</button>`)
+        : row("user", "Entrar com GitHub", "Ainda não disponível nesta Central. Por enquanto, use um token do GitHub em Avançado.", "")}
+
       <div class="p-section">Avançado</div>
+      ${row("code", "Modo desenvolvedor", "Mostra a aba Desenvolvedor, para publicar versões dos seus apps a partir dos repositórios clonados no PC (usa o git e o GitHub CLI).", sw("sDev", s.devMode))}
+      ${s.devMode ? `<div class="set"><div class="ico-left"><i class="i i-folder-open"></i><div><h4>Pasta dos repositórios</h4><p>Onde ficam os clones dos seus apps (a pasta pessoal também é olhada).</p></div></div>
+        <div class="wide"><input type="text" id="sDevWs" value="${esc(s.devWorkspace || "")}" placeholder="~/piphin"><button class="btn" id="sDevPick">Escolher</button></div></div>` : ""}
       <div class="set"><div class="ico-left"><i class="i i-database"></i><div><h4>Catálogo online</h4><p>Lista de módulos e apps. Publicar um item novo nele faz ele aparecer na Loja de todos os PCs.</p></div></div>
         <div class="wide"><input type="text" id="sCat" value="${esc(s.catalogUrl)}"></div></div>
       <div class="set"><div class="ico-left"><i class="i i-lock"></i><div><h4>Token do GitHub (opcional)</h4><p>Libera os apps de acesso restrito (como a Arasaka Construct) para quem foi convidado no GitHub. Também resolve o limite de 60 consultas por hora.</p></div></div>
@@ -580,6 +610,116 @@ function renderSettings(main) {
   $("#sLibPick").onclick = async () => { const r = await hub.pickFolder("Pasta dos apps"); if (r.ok && r.data) save({ libraryDir: r.data }); };
   $("#sCat").onchange = (e) => save({ catalogUrl: e.target.value.trim() });
   $("#sTok").onchange = (e) => save({ githubToken: e.target.value.trim() });
+  if ($("#sGhIn")) $("#sGhIn").onclick = () => githubLoginBox();
+  $("#sDev").onchange = (e) => save({ devMode: e.target.checked });
+  if ($("#sDevWs")) {
+    $("#sDevWs").onchange = (e) => save({ devWorkspace: e.target.value.trim() });
+    $("#sDevPick").onclick = async () => { const r = await hub.pickFolder("Pasta dos repositórios"); if (r.ok && r.data) save({ devWorkspace: r.data }); };
+  }
+  if ($("#sGhOut")) $("#sGhOut").onclick = async () => {
+    if (!(await confirmBox("Sair da conta do GitHub?", "Os apps de acesso restrito somem da Loja (os que já estão instalados continuam no PC).", "Sair"))) return;
+    const r = await hub.ghLogout(); toast(r.ok ? "Você saiu da conta do GitHub" : r.error, r.ok ? "ok" : "err"); load();
+  };
+}
+
+// Login pelo código de dispositivo: mostra o código, abre o GitHub e espera a autorização
+async function githubLoginBox() {
+  const r = await hub.ghLoginStart();
+  if (!r.ok) return toast(r.error, "err");
+  const { userCode, url } = r.data;
+  $("#modalBox").innerHTML = `<h3>Entrar com GitHub</h3>
+    <p>1. Abra <b data-noi18n>${esc(url.replace(/^https:\/\//, ""))}</b> e entre na sua conta.<br>2. Digite este código:</p>
+    <div data-noi18n style="font:700 34px var(--p-mono, monospace);letter-spacing:.18em;text-align:center;padding:14px;border:1px solid var(--p-line-2);margin:10px 0;user-select:all">${esc(userCode)}</div>
+    <p class="faint" id="ghWait"><span class="spin" style="width:12px;height:12px;display:inline-block;vertical-align:middle"></span> Esperando você autorizar no GitHub...</p>
+    <div class="modal-actions"><button class="btn ghost" id="mNo">Cancelar</button><button class="btn" id="ghCopy"><i class="i i-copy"></i>Copiar código</button><button class="btn primary" id="ghOpen"><i class="i i-external-link"></i>Abrir o GitHub</button></div>`;
+  showModal();
+  $("#mNo").onclick = () => { hub.ghLoginCancel(); closeModal(false); };
+  $("#ghCopy").onclick = async () => { try { await navigator.clipboard.writeText(userCode); toast("Código copiado", "ok"); } catch { /* sem área de transferência */ } };
+  $("#ghOpen").onclick = () => hub.openUrl(url);
+  try { await navigator.clipboard.writeText(userCode); } catch { /* segue */ }
+  hub.openUrl(url);
+}
+hub.onGhLogin((r) => {
+  if ($("#ghWait")) closeModal(true);
+  if (r.ok) toast(r.login ? `Conectado ao GitHub como @${r.login}` : "Conectado ao GitHub", "ok"); else toast(r.error, "err");
+  load();
+});
+
+// ------------------------------------------------------------------ desenvolvedor
+let devList = null, devLoading = false;
+const devLog = [];
+async function loadDev(force) {
+  if (devLoading || (devList && !force)) return;
+  devLoading = true; render();
+  const r = await hub.devScan();
+  devLoading = false;
+  if (r.ok) devList = r.data; else toast(r.error, "err");
+  render();
+}
+function bump(v, part) {
+  const [a, b, c] = String(v || "0.0.0").split(".").map((x) => parseInt(x, 10) || 0);
+  return part === "major" ? `${a + 1}.0.0` : part === "minor" ? `${a}.${b + 1}.0` : `${a}.${b}.${c + 1}`;
+}
+function renderDev(main) {
+  if (!devList && !devLoading) loadDev();
+  const rows = (devList || []).map((r, i) => {
+    const pending = r.commits.length, behind = r.code && r.published && r.code !== r.published;
+    const state = r.dirty ? `<span class="badge warn">${r.dirty} alteração(ões) sem commit</span>`
+      : r.ahead ? `<span class="badge warn">${r.ahead} commit(s) não enviado(s)</span>`
+      : pending ? `<span class="badge info">${pending} commit(s) desde a v${esc(r.tag || "?")}</span>` : `<span class="badge ok"><i class="i i-check"></i>publicado</span>`;
+    return `<div class="dev-row">
+      <div class="dev-name"><b>${esc(r.name)}</b><span class="faint" data-noi18n>${esc(r.repo)}</span></div>
+      <div class="dev-ver"><span>código <b data-noi18n>v${esc(r.code || "?")}</b></span><span class="faint">publicado <b data-noi18n>v${esc(r.published || "—")}</b></span>${behind ? `<span class="badge warn">versão diferente</span>` : ""}</div>
+      <div class="dev-state">${state}</div>
+      <div class="dev-act">
+        ${r.canPublish ? `<button class="btn primary sm" data-dev-pub="${i}"><i class="i i-rocket"></i>Publicar</button>` : `<span class="faint" style="font-size:12px" title="${esc(r.why)}">${esc(r.why)}</span>`}
+        <button class="btn icon sm" data-dev-open="${i}" title="Abrir a pasta"><i class="i i-folder-open"></i></button>
+        <a class="btn icon sm" href="https://github.com/${esc(r.repo)}/actions" target="_blank" title="GitHub Actions"><i class="i i-external-link"></i></a>
+      </div></div>`;
+  }).join("");
+  main.innerHTML = `<div class="p-page"><div class="p-head"><div><h1>Desenvolvedor</h1><p>Os seus repositórios clonados no PC: a versão no código, a publicada e o que mudou. Publicar troca a versão, faz o commit, envia e publica o Release.</p></div>
+      <div class="actions"><button class="btn" data-dev-scan="1"><i class="i i-refresh-cw"></i>Atualizar</button></div></div>
+    ${devLoading && !devList ? `<div class="p-empty"><div class="spin"></div><span>Lendo os repositórios...</span></div>`
+      : devList && !devList.length ? `<div class="p-empty"><i class="i i-code"></i><h3>Nenhum repositório encontrado</h3><span>Clone os repositórios dos seus apps na pasta escolhida em Configurações (padrão: ~/piphin).</span></div>`
+      : `<div class="dev-list">${rows}</div>`}
+    ${devLog.length ? `<div class="p-section">Saída</div><pre class="notes dev-log" data-noi18n>${esc(devLog.slice(-200).join("\n"))}</pre>` : ""}
+  </div>`;
+  const log = $(".dev-log"); if (log) log.scrollTop = log.scrollHeight;
+}
+document.addEventListener("click", async (e) => {
+  const t = e.target.closest("[data-dev-scan],[data-dev-open],[data-dev-pub]");
+  if (!t) return;
+  if (t.dataset.devScan) return loadDev(true);
+  const r = devList[Number(t.dataset.devOpen ?? t.dataset.devPub)];
+  if (t.dataset.devOpen != null) return hub.devOpen(r.dir);
+  publishBox(r);
+});
+hub.onDevLog(({ line }) => { devLog.push(line); const el = $(".dev-log"); if (el) { el.textContent = devLog.slice(-200).join("\n"); el.scrollTop = el.scrollHeight; } });
+function publishBox(r) {
+  const base = r.published && r.code && r.published !== r.code ? r.code : bump(r.code || r.published, "patch");
+  const notes = r.commits.filter((c) => !/^Versão \d/.test(c)).map((c) => "- " + c).join("\n");
+  const how = { tag: "O GitHub roda os testes e publica o Release com os pacotes.", module: "O módulo é montado aqui e o Release é criado com o GitHub CLI.", ghrelease: "O Release é criado e os workflows do GitHub montam os pacotes.", kit: "Só a tag da versão." }[r.release] || "";
+  $("#modalBox").innerHTML = `<h3>Publicar ${esc(r.name)}</h3>
+    <p style="font-size:13px">Versão atual no código: <b data-noi18n>v${esc(r.code || "?")}</b> · publicada: <b data-noi18n>v${esc(r.published || "—")}</b>. ${how}</p>
+    <div class="row" style="gap:8px;margin:10px 0"><input id="pVer" type="text" value="${esc(base)}" style="width:120px" data-noi18n>
+      <button class="btn sm" data-b="patch">Correção</button><button class="btn sm" data-b="minor">Novidade</button><button class="btn sm" data-b="major">Grande mudança</button></div>
+    <p class="faint" style="font-size:12px;margin:0 0 4px">Novidades (aparecem na Central e no GitHub):</p>
+    <textarea id="pNotes" style="width:100%;height:160px" data-noi18n>${esc(notes)}</textarea>
+    <div class="modal-actions"><button class="btn ghost" id="mNo">Cancelar</button><button class="btn primary" id="pGo"><i class="i i-rocket"></i>Publicar</button></div>`;
+  showModal();
+  $$("[data-b]", $("#modalBox")).forEach((b) => (b.onclick = () => ($("#pVer").value = bump(r.code || r.published, b.dataset.b))));
+  $("#mNo").onclick = () => closeModal(false);
+  $("#pGo").onclick = async () => {
+    const version = $("#pVer").value.trim(), text = $("#pNotes").value.trim();
+    closeModal(true);
+    devLog.push("", `===== ${r.name} v${version} =====`);
+    toast(`Publicando ${r.name} v${version}...`);
+    render();
+    const res = await hub.devPublish(r.dir, { version, notes: text });
+    if (res.ok) { toast(`${r.name} v${version} publicado`, "ok"); devLog.push(`■ ${res.data.url}`); hub.openUrl(res.data.url); }
+    else { toast(res.error, "err"); devLog.push(`!! ${res.error}`); }
+    loadDev(true);
+  };
 }
 
 // ------------------------------------------------------------------ adicionar app
@@ -634,6 +774,35 @@ function confirmBox(title, html, okText = "Confirmar", danger = false) {
     $("#mYes").focus();
   });
 }
+// Relatório de erro: a pessoa vê e edita tudo antes; o GitHub abre com o texto (ou ele vai para a área de transferência)
+async function reportBox(id) {
+  const a = app(id);
+  const r = await hub.report(id);
+  if (!r.ok) return toast(r.error, "err");
+  const { title, body, repo } = r.data;
+  $("#modalBox").innerHTML = `<h3>Relatar problema · ${esc(a.name)}</h3>
+    <p class="faint" style="font-size:12.5px">Confira o texto: caminhos da sua pasta, nome de usuário, tokens, e-mails e endereços MAC já foram tirados. Nada é enviado sozinho; o GitHub abre e você publica se quiser.</p>
+    <input id="rTitle" type="text" value="${esc(title)}" placeholder="Título" style="width:100%;margin:8px 0">
+    <textarea id="rBody" spellcheck="false" style="width:100%;height:300px;font:12px var(--p-mono, monospace)" data-noi18n>${esc(body)}</textarea>
+    <div class="modal-actions"><button class="btn ghost" id="mNo">Cancelar</button><button class="btn" id="rCopy"><i class="i i-copy"></i>Copiar</button>
+      ${repo ? `<button class="btn primary" id="rOpen"><i class="i i-external-link"></i>Abrir no GitHub</button>` : ""}</div>`;
+  showModal();
+  $("#mNo").onclick = () => closeModal(false);
+  const text = () => $("#rBody").value;
+  $("#rCopy").onclick = async () => { try { await navigator.clipboard.writeText(text()); toast("Relatório copiado", "ok"); } catch { toast("Não consegui copiar", "err"); } };
+  if (repo) $("#rOpen").onclick = async () => {
+    const t = $("#rTitle").value.trim() || `[${a.name}] Problema`;
+    let b = text(), copied = false;
+    if (encodeURIComponent(b).length > 6000) { // link longo demais: o texto vai pela área de transferência
+      try { await navigator.clipboard.writeText(b); copied = true; } catch { /* segue com o texto cortado */ }
+      b = copied ? "<!-- O relatório completo foi copiado pela Arasaka Central: cole aqui (Ctrl+V) -->\n\n" : b.slice(0, 4000);
+    }
+    await hub.openUrl(`https://github.com/${repo}/issues/new?title=${encodeURIComponent(t)}&body=${encodeURIComponent(b)}`);
+    closeModal(true);
+    toast(copied ? "Relatório copiado: cole na issue que abriu" : "Abrindo o GitHub...", "ok");
+  };
+  $("#rTitle").focus();
+}
 function closeModal(v = false) {
   if (!$("#modal").hidden) cover(false);
   $("#modal").hidden = true;
@@ -655,6 +824,7 @@ function paletteCommands() {
   cmds.push({ group: "Ir para", label: "Início", ico: "house", run: () => go("home") });
   cmds.push({ group: "Ir para", label: "Loja", ico: "store", run: () => go("store"), keys: "explorar instalar baixar" });
   cmds.push({ group: "Ir para", label: "Mídia", ico: "images", run: () => go("media"), keys: "musicas sons prints gravacoes imagens videos arquivos biblioteca" });
+  if (snap.settings && snap.settings.devMode) cmds.push({ group: "Ir para", label: "Desenvolvedor", ico: "code", run: () => go("dev"), keys: "publicar versao release git" });
   cmds.push({ group: "Ir para", label: "Configurações", ico: "settings", hint: "Ctrl ,", run: () => go("settings"), keys: "preferencias opcoes" });
   const upd = snap.apps.filter((a) => st(a).updateAvailable);
   if (upd.length) cmds.push({ group: "Ações", label: `Atualizar tudo (${upd.length})`, ico: "download", run: updateAll });
