@@ -40,6 +40,21 @@ const installedModules = () => (snap.modules || []).map((m) => ({ ...m, cat: app
 const accentOf = (a) => (a && a.accent) || "#ff0000";
 const iconOf = (a, m) => { const inst = m || (a && (snap.modules || []).find((x) => x.id === a.id)); return (inst && inst.icon) || (a && a.iconUrl) || null; };
 
+const STORE_KIND = { module: ["puzzle", "Módulo"], app: ["app-window", "App"], theme: ["palette", "Tema"] };
+const kindBadge = (a) => { const [ic, n] = STORE_KIND[a.kind] || STORE_KIND.app; return `<i class="i i-${ic}"></i>${n}`; };
+const canOpen = (a) => a.kind === "module" || (a.kind === "app" && !(a.install.type === "script" && !a.install.launch));
+// Temas: "supports": [{ "id": "zorin", "name": "Zorin OS", "versions": ["17", "18"] }]; compara com o os-release
+const supportsText = (a) => (a.supports || []).map((x) => x.name + (x.versions && x.versions.length ? " " + x.versions.join(" / ") : "")).join(" · ");
+function compat(a) {
+  const sys = snap.system || {};
+  if (!a.supports || !a.supports.length || !sys.id) return null;
+  const ids = [sys.id, ...(sys.like || [])];
+  const hit = a.supports.find((x) => ids.includes(x.id));
+  if (!hit) return false;
+  return !hit.versions || !hit.versions.length || hit.versions.includes(String(sys.versionId).split(".")[0]) || hit.versions.includes(String(sys.versionId));
+}
+const compatBadge = (a) => { const c = compat(a); return c == null ? "" : c ? `<span class="badge ok"><i class="i i-check"></i>seu sistema</span>` : `<span class="badge warn">não testado no seu sistema</span>`; };
+
 function stateOf(a) {
   const s = st(a);
   if (jobs[a.id]) return "busy";
@@ -77,7 +92,7 @@ async function act(kind, id, opts = {}) {
     const ok = await confirmBox(`Desinstalar ${a.name}?`,
       a.kind === "module" ? "O módulo vai para a Lixeira. Os dados dele (configurações e arquivos salvos) continuam no PC."
       : portable ? `A pasta <code>${esc(st(a).dir)}</code> vai para a Lixeira (dá para recuperar).${a.install.selfUpdating ? " Seus dados (modelos, conversas...) ficam na pasta de dados do app e não são apagados." : ""}`
-        : `O desinstalador do ${esc(a.name)} será executado.`, "Desinstalar", true);
+        : `O desinstalador do ${esc(a.name)} será executado.${a.install.type === "script" && (a.install.uninstallTerminal ?? a.install.terminal) ? "<br>Ele abre num terminal e pode pedir a sua senha." : ""}`, "Desinstalar", true);
     if (!ok) return;
     jobs[id] = { phase: "uninstall", pct: null, text: "Desinstalando...", local: true };
     render();
@@ -227,7 +242,7 @@ function greeting() {
 function renderHome(main) {
   const mods = installedModules();
   const notInstalled = snap.apps.filter((a) => a.kind === "module" && !st(a).installed && !jobs[a.id]);
-  const apps = snap.apps.filter((a) => a.kind !== "module" && st(a).installed);
+  const apps = snap.apps.filter((a) => a.kind === "app" && st(a).installed);
   const updates = snap.apps.filter((a) => st(a).updateAvailable);
   const date = new Date().toLocaleDateString("pt-BR", { weekday: "long", day: "numeric", month: "long" });
   const p = pulseData;
@@ -371,28 +386,30 @@ function drawPulse() {
 }
 
 // ------------------------------------------------------------------ Loja
-const FILTERS = [["all", "Tudo"], ["modules", "Módulos"], ["apps", "Apps"], ["installed", "Instalados"], ["updates", "Atualizações"]];
+const FILTERS = [["all", "Tudo"], ["modules", "Módulos"], ["apps", "Apps"], ["themes", "Temas"], ["installed", "Instalados"], ["updates", "Atualizações"]];
+const KIND_ORDER = { module: 0, app: 1, theme: 2 };
 function storeList(f = storeFilter) {
   const q = norm(storeQuery);
   return snap.apps.filter((a) => {
     const s = st(a);
     if (f === "modules" && a.kind !== "module") return false;
-    if (f === "apps" && a.kind === "module") return false;
+    if (f === "apps" && a.kind !== "app") return false;
+    if (f === "themes" && a.kind !== "theme") return false;
     if (f === "installed" && !s.installed) return false;
     if (f === "updates" && !s.updateAvailable) return false;
     return !q || norm(a.name + " " + a.description + " " + a.category).includes(q);
-  }).sort((x, y) => (x.kind === y.kind ? x.name.localeCompare(y.name, "pt-BR") : x.kind === "module" ? -1 : 1));
+  }).sort((x, y) => (x.kind === y.kind ? x.name.localeCompare(y.name, "pt-BR") : (KIND_ORDER[x.kind] ?? 1) - (KIND_ORDER[y.kind] ?? 1)));
 }
 
 function renderStore(main) {
   const focused = document.activeElement && document.activeElement.id === "storeSearch";
   const list = storeList();
   main.innerHTML = `<div class="p-page">
-    <div class="p-head"><div><h1>Loja</h1><p>Módulos rodam dentro da Central; apps abrem separados. Tudo vem dos Releases do GitHub.</p></div>
+    <div class="p-head"><div><h1>Loja</h1><p>Módulos rodam dentro da Central; apps abrem separados; temas mudam o visual do sistema. Tudo vem dos Releases do GitHub.</p></div>
       <div class="actions"><label class="search"><i class="i i-search"></i><input id="storeSearch" type="search" placeholder="Buscar" value="${esc(storeQuery)}" style="width:220px"></label>
         <button class="btn" data-check="1"><i class="i i-refresh-cw"></i>Verificar</button>
         ${snap.apps.some((a) => st(a).updateAvailable) ? `<button class="btn primary" data-act-all="1"><i class="i i-download"></i>Atualizar tudo</button>` : ""}</div></div>
-    <div class="chips" style="margin-bottom:18px">${FILTERS.map(([k, n]) => { const c = storeList(k).length;
+    <div class="chips" style="margin-bottom:18px">${FILTERS.filter(([k]) => k !== "themes" || snap.apps.some((a) => a.kind === "theme")).map(([k, n]) => { const c = storeList(k).length;
       return `<button class="chip ${storeFilter === k ? "active" : ""}" data-filter="${k}">${n}<span class="count">${c}</span></button>`; }).join("")}</div>
     ${list.length ? `<div class="store-grid">${list.map(storeCard).join("")}${storeFilter === "all" || storeFilter === "apps" ? addTile() : ""}</div>`
       : `<div class="p-empty"><i class="i i-${storeFilter === "updates" ? "circle-check" : "search"}"></i><h3>${storeFilter === "updates" ? "Tudo em dia" : "Nada encontrado"}</h3>
@@ -416,9 +433,10 @@ function statusBadge(a) {
 function primaryButton(a, sm) {
   const s = st(a), cls = sm ? " sm" : "";
   switch (stateOf(a)) {
-    case "busy": return jobs[a.id].phase === "download" ? `<button class="btn${cls}" data-act="cancel" data-id="${a.id}"><i class="i i-x"></i>Cancelar</button>` : `<button class="btn${cls}" disabled><span class="spin" style="width:14px;height:14px"></span>Aguarde</button>`;
+    case "busy": return jobs[a.id].phase === "download" || jobs[a.id].phase === "terminal" ? `<button class="btn${cls}" data-act="cancel" data-id="${a.id}"><i class="i i-x"></i>Cancelar</button>` : `<button class="btn${cls}" disabled><span class="spin" style="width:14px;height:14px"></span>Aguarde</button>`;
     case "update": return `<button class="btn primary${cls}" data-act="update" data-id="${a.id}"><i class="i i-download"></i>Atualizar</button>`;
-    case "installed": return `<button class="btn primary${cls}" data-act="launch" data-id="${a.id}"><i class="i i-${a.kind === "module" ? "arrow-right" : "external-link"}"></i>Abrir</button>`;
+    case "installed": return canOpen(a) ? `<button class="btn primary${cls}" data-act="launch" data-id="${a.id}"><i class="i i-${a.kind === "module" ? "arrow-right" : "external-link"}"></i>Abrir</button>`
+      : `<button class="btn${cls}" data-act="install" data-id="${a.id}" title="Roda o instalador de novo"><i class="i i-refresh-cw"></i>Reaplicar</button>`;
     case "loading": return `<button class="btn${cls}" disabled>...</button>`;
     default: return `<button class="btn primary${cls}" data-act="install" data-id="${a.id}" ${s.latest ? "" : "disabled"}><i class="i i-download"></i>Instalar</button>`;
   }
@@ -437,11 +455,12 @@ function storeCard(a) {
   const ver = s.installed ? `v<b>${esc(s.version || "?")}</b>${s.updateAvailable ? ` → <b>${esc(s.latest.version)}</b>` : ""}`
     : s.latest ? `v<b>${esc(s.latest.version)}</b>${s.latest.size ? " · " + mb(s.latest.size) : ""}` : "";
   return `<div class="store-card" data-open="${a.id}" style="--accent-c:${esc(accentOf(a))}">
-    <div class="cover"><div class="tags"><span class="badge">${a.kind === "module" ? `<i class="i i-puzzle"></i>Módulo` : `<i class="i i-app-window"></i>App`}</span>${a.origin === "custom" ? `<span class="badge info">seu</span>` : ""}</div>
+    <div class="cover"><div class="tags"><span class="badge">${kindBadge(a)}</span>${a.origin === "custom" ? `<span class="badge info">seu</span>` : ""}</div>
       <div class="ico">${iconOf(a) ? `<img src="${esc(iconOf(a))}" alt="">` : `<span class="ph">${esc(a.name[0])}</span>`}</div></div>
     <div class="body"><div class="row" style="justify-content:space-between"><h3>${esc(a.name)}</h3>${statusBadge(a)}</div>
       <div class="cat">${esc(a.category || "Outros")}</div>
       <p class="desc">${esc(shortDesc(a.description))}</p>
+      ${a.supports ? `<div class="row" style="gap:6px;flex-wrap:wrap;font-size:12px;margin-top:6px"><span class="faint"><span>Para</span> <span data-noi18n>${esc(supportsText(a))}</span></span>${compatBadge(a)}</div>` : ""}
       ${jobHtml(a)}
       <div class="foot"><span class="ver">${ver}</span>${primaryButton(a, true)}</div></div></div>`;
 }
@@ -461,7 +480,7 @@ function updateJobUi(id) {
     $(".jp", el).textContent = pct == null ? "" : pct + "%";
   });
   $$(`[data-open="${id}"] .foot .btn, .drawer .actions .btn[data-main]`).forEach((b) => {
-    const want = j.phase === "download" ? "cancel" : "";
+    const want = j.phase === "download" || j.phase === "terminal" ? "cancel" : "";
     if ((b.dataset.act || "") !== want) b.outerHTML = primaryButton(app(id), b.classList.contains("sm"));
   });
 }
@@ -481,7 +500,7 @@ async function renderDrawer() {
   if (s.installed) {
     if (a.kind !== "module") more.push(`<button class="btn" data-act="folder" data-id="${a.id}"><i class="i i-folder-open"></i>Pasta</button>`);
     if (a.kind === "module") more.push(`<button class="btn" data-act="restartModule" data-id="${a.id}"><i class="i i-rotate-ccw"></i>Reiniciar módulo</button>`);
-    if (!s.updateAvailable && s.latest) more.push(`<button class="btn" data-act="install" data-id="${a.id}"><i class="i i-refresh-cw"></i>Reinstalar</button>`);
+    if (!s.updateAvailable && s.latest && canOpen(a)) more.push(`<button class="btn" data-act="install" data-id="${a.id}"><i class="i i-refresh-cw"></i>Reinstalar</button>`);
     more.push(`<button class="btn danger" data-act="uninstall" data-id="${a.id}"><i class="i i-trash-2"></i>Desinstalar</button>`);
   } else if (a.install.type === "portable") {
     more.push(`<button class="btn" data-act="locate" data-id="${a.id}" title="Já tem este app numa pasta? Aponte para ela"><i class="i i-folder-open"></i>Já tenho instalado</button>`);
@@ -491,8 +510,8 @@ async function renderDrawer() {
 
   d.innerHTML = `<div class="cover"><button class="btn icon sm close" data-close="1" title="Fechar"><i class="i i-x"></i></button></div>
     <div class="head"><div class="ico">${iconOf(a) ? `<img src="${esc(iconOf(a))}" alt="">` : ""}</div>
-      <div style="padding-bottom:6px"><h2>${esc(a.name)}</h2><div class="row" style="margin-top:6px"><span class="badge">${a.kind === "module" ? "Módulo" : "App"}</span>
-      <span class="badge">${esc(a.category || "Outros")}</span>${statusBadge(a)}</div></div></div>
+      <div style="padding-bottom:6px"><h2>${esc(a.name)}</h2><div class="row" style="margin-top:6px"><span class="badge">${kindBadge(a)}</span>${a.private ? `<span class="badge info"><i class="i i-lock"></i>acesso restrito</span>` : ""}
+      ${a.kind === "theme" && a.category === "Tema" ? "" : `<span class="badge">${esc(a.category || "Outros")}</span>`}${statusBadge(a)}</div></div></div>
     <div class="inner">
       <p class="desc">${esc(a.description || "")}</p>
       ${jobHtml(a)}
@@ -503,8 +522,9 @@ async function renderDrawer() {
         <dt>Mais recente</dt><dd>${s.latest ? "v" + esc(s.latest.version) + (s.latest.publishedAt ? ` <span class="faint">· ${fmtDate(s.latest.publishedAt)}</span>` : "") : "—"}</dd>
         ${s.latest && s.latest.size ? `<dt>Download</dt><dd>${mb(s.latest.size)}</dd>` : ""}
         ${s.installed ? `<dt>Pasta</dt><dd class="mono" style="font-size:12px">${esc(s.dir)}</dd><dt>Espaço em disco</dt><dd id="dsize">calculando...</dd>` : ""}
+        ${a.supports ? `<dt>Sistemas</dt><dd><span data-noi18n>${esc(supportsText(a))}</span> ${compatBadge(a)}</dd>` : ""}
         <dt>Origem</dt><dd>${src}</dd>
-        <dt>Tipo</dt><dd>${a.kind === "module" ? "Módulo (roda dentro da Central)" : a.install.type === "portable" ? "App portátil (pasta)" : "App com instalador"}${a.install.selfUpdating ? " · também se atualiza sozinho" : ""}</dd>
+        <dt>Tipo</dt><dd>${a.kind === "module" ? "Módulo (roda dentro da Central)" : a.kind === "theme" ? "Tema do sistema (roda o instalador do tema)" : a.install.type === "portable" ? "App portátil (pasta)" : a.install.type === "script" ? (a.install.terminal ? "Instalador próprio (abre um terminal, pode pedir a sua senha)" : "Instalador próprio") : "App com instalador"}${a.install.selfUpdating ? " · também se atualiza sozinho" : ""}</dd>
       </dl>
       ${s.latest && s.latest.notes ? `<div class="p-section">Novidades da v${esc(s.latest.version)}</div><div class="notes">${esc(s.latest.notes)}</div>` : ""}
     </div>`;
@@ -539,7 +559,7 @@ function renderSettings(main) {
       <div class="p-section">Avançado</div>
       <div class="set"><div class="ico-left"><i class="i i-database"></i><div><h4>Catálogo online</h4><p>Lista de módulos e apps. Publicar um item novo nele faz ele aparecer na Loja de todos os PCs.</p></div></div>
         <div class="wide"><input type="text" id="sCat" value="${esc(s.catalogUrl)}"></div></div>
-      <div class="set"><div class="ico-left"><i class="i i-lock"></i><div><h4>Token do GitHub (opcional)</h4><p>Só para repositórios privados ou se o limite de consultas (60 por hora) for atingido.</p></div></div>
+      <div class="set"><div class="ico-left"><i class="i i-lock"></i><div><h4>Token do GitHub (opcional)</h4><p>Libera os apps de acesso restrito (como a Arasaka Construct) para quem foi convidado no GitHub. Também resolve o limite de 60 consultas por hora.</p></div></div>
         <div class="wide"><input type="password" id="sTok" value="${esc(s.githubToken)}" placeholder="ghp_..." autocomplete="off"></div></div>
     </div></div>`;
   const save = async (patch, msg = "Configuração salva") => { const r = await hub.setSettings(patch); if (!r.ok) toast(r.error, "err"); else { toast(msg, "ok"); load(); } };
@@ -644,8 +664,8 @@ function paletteCommands() {
   if (snap.hubUpdate && snap.hubUpdate.ready) cmds.push({ group: "Ações", label: `Reiniciar e atualizar a Central (v${snap.hubUpdate.version})`, ico: "sparkles", run: () => hub.selfRestart() });
   for (const a of snap.apps) {
     const s = st(a);
-    if (a.kind !== "module" && s.installed) cmds.push({ group: "Apps", label: a.name, sub: "abrir", icon: iconOf(a), run: () => act("launch", a.id) });
-    if (!s.installed && s.latest && !jobs[a.id]) cmds.push({ group: "Instalar", label: a.name, sub: a.kind === "module" ? "módulo" : "app", icon: iconOf(a), run: () => act("install", a.id) });
+    if (a.kind === "app" && canOpen(a) && s.installed) cmds.push({ group: "Apps", label: a.name, sub: "abrir", icon: iconOf(a), run: () => act("launch", a.id) });
+    if (!s.installed && s.latest && !jobs[a.id]) cmds.push({ group: "Instalar", label: a.name, sub: a.kind === "module" ? "módulo" : a.kind === "theme" ? "tema" : "app", icon: iconOf(a), run: () => act("install", a.id) });
     if (s.updateAvailable) cmds.push({ group: "Atualizar", label: a.name, sub: `v${s.version} → v${s.latest.version}`, icon: iconOf(a), run: () => act("update", a.id) });
   }
   return cmds;

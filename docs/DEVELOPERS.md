@@ -187,7 +187,18 @@ Há dois jeitos:
 | `install.dirArg` | (installer) argumento de pasta, com `{dir}` (ex.: `"/dir={dir}"`) |
 | `install.uninstallKey` | (installer) chave em `...\CurrentVersion\Uninstall\` para versão, pasta e desinstalador |
 | `install.selfUpdating` | O app também se atualiza sozinho (só informativo) |
+| `install.type: "script"` | (Hub 1.11.0) pacote `.tar.gz`/`.zip` com o instalador do próprio app (`install.sh` ou `install.ps1`). A pasta fica na *Pasta dos apps* para desinstalar e reinstalar depois |
+| `install.script` / `install.args` | (script) instalador dentro do pacote e argumentos (ex.: `"install.sh"`, `["-y"]`) |
+| `install.terminal` | (script, Linux) roda num terminal que a pessoa vê, para digitar a senha do sudo ou responder perguntas. A Central espera o terminal terminar. Apps assim não entram no *Atualizar automaticamente* |
+| `install.uninstall` / `uninstallArgs` / `uninstallTerminal` | (script) desinstalador dentro do pacote; `uninstallTerminal` usa o valor de `terminal` se faltar |
+| `install.detect` | (script) arquivo que existe quando o app está instalado (`~/...`, `%LOCALAPPDATA%\...`), inclusive o que foi instalado fora da Central |
+| `install.launch` | (script) o que o botão Abrir roda; sem ele (temas), o botão vira **Reaplicar** |
+| `install.versionFile` / `versionPattern` | Versão instalada: JSON com `"version"`, texto com uma regex de um grupo (`"VERSION = \"([^\"]+)\""`) ou só o número na primeira linha |
+| `private` | (Hub 1.11.0) `true` para um repositório privado: o app só aparece para quem coloca em Configurações um token do GitHub com acesso ao repositório (ou já tem o app instalado). Para liberar alguém, convide a pessoa no repositório (Settings → Collaborators, permissão Read) e peça um token *classic* com o escopo `repo` |
+| `supports` | (temas) sistemas suportados: `[{ "id": "zorin", "name": "Zorin OS", "versions": ["17", "18"] }]`; a Central compara com o `ID`/`VERSION_ID` do os-release e mostra "seu sistema" ou "não testado" |
 | `t` | Traduções do card: `{ "en": { "description": "...", "category": "..." }, "th": {...} }` (Hub 1.8.0; sem tradução, fica o português) |
+
+**Temas** ficam numa lista própria, `"themes"`, com os mesmos campos de um app `script` (Hubs antigos ignoram a lista). Aparecem no filtro **Temas** da Loja.
 
 A versão de cada Release vem da **tag** (`v1.2.3`). Para o Hub reconhecer um app novo, basta publicar um Release com o arquivo (`.zip` portátil de preferência: sem instalador, o Controle Inteligente de Aplicativos não atrapalha).
 

@@ -353,6 +353,7 @@ async function periodicCheck(first) {
     const pending = hub.snapshot().apps.filter((a) => a.status && a.status.updateAvailable);
     if (hub.settings.autoUpdate) {
       for (const a of pending) {
+        if (a.install && a.install.terminal && process.platform !== "win32") continue; // pede senha num terminal: só quando a pessoa clicar
         try { await hub.install(a.id, { closeIfRunning: false }); } catch { /* aberto ou sem rede: fica para depois */ }
       }
     } else if (pending.length && !first && Notification.isSupported() && !(win && win.isFocused())) {

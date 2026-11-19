@@ -1,7 +1,7 @@
 {
   "name": "piphin-hub",
   "productName": "Arasaka Central",
-  "version": "1.10.1",
+  "version": "1.11.0",
   "description": "Arasaka Central: baixe, atualize e gerencie seus apps",
   "main": "main.js",
   "author": "Piphin Studio",

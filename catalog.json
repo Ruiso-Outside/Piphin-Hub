@@ -184,6 +184,440 @@
       "platforms": [
         "win32"
       ]
+    },
+    {
+      "id": "arasaka-daemon",
+      "name": "Arasaka Daemon",
+      "description": "IDE de programação com tema Arasaka: 28 linguagens, autocompletar e erros em tempo real (LSP), depurador e profiler de Python, git e cliente HTTP.",
+      "category": "Programação",
+      "icon": "icons/arasaka-daemon.svg",
+      "accent": "#e3121f",
+      "source": {
+        "type": "github",
+        "repo": "Ruiso-Outside/ArasakaDaemon",
+        "asset": "^ArasakaDaemon-.*-linux\\.tar\\.gz$"
+      },
+      "install": {
+        "type": "script",
+        "script": "install.sh",
+        "args": [
+          "-y"
+        ],
+        "terminal": true,
+        "uninstall": "uninstall.sh",
+        "uninstallTerminal": false,
+        "folder": "ArasakaDaemon",
+        "detect": "~/.local/bin/arasaka-daemon",
+        "launch": "~/.local/bin/arasaka-daemon",
+        "versionFile": "~/.local/share/arasaka-daemon/app/arasaka_daemon/app.py",
+        "versionPattern": "VERSION = \"([^\"]+)\""
+      },
+      "win": {
+        "source": {
+          "type": "github",
+          "repo": "Ruiso-Outside/ArasakaDaemon",
+          "asset": "^ArasakaDaemon-.*-windows\\.zip$"
+        },
+        "install": {
+          "type": "script",
+          "script": "install.ps1",
+          "uninstall": "uninstall.ps1",
+          "folder": "ArasakaDaemon",
+          "detect": "%LOCALAPPDATA%\\arasaka-daemon\\bin\\arasaka-daemon.cmd",
+          "launch": "%LOCALAPPDATA%\\arasaka-daemon\\bin\\arasaka-daemon.cmd",
+          "versionFile": "%LOCALAPPDATA%\\arasaka-daemon\\app\\arasaka_daemon\\app.py",
+          "versionPattern": "VERSION = \"([^\"]+)\""
+        }
+      },
+      "platforms": [
+        "linux",
+        "win32"
+      ],
+      "t": {
+        "en": {
+          "description": "Arasaka-themed code editor: 28 languages, autocomplete and live errors (LSP), Python debugger and profiler, git and an HTTP client.",
+          "category": "Programming"
+        },
+        "es": {
+          "description": "IDE con tema Arasaka: 28 lenguajes, autocompletado y errores en tiempo real (LSP), depurador y profiler de Python, git y cliente HTTP.",
+          "category": "Programación"
+        },
+        "th": {
+          "description": "IDE ธีม Arasaka: 28 ภาษา เติมโค้ดอัตโนมัติและแจ้งข้อผิดพลาดแบบเรียลไทม์ (LSP) ดีบักเกอร์และโปรไฟเลอร์ Python, git และไคลเอนต์ HTTP",
+          "category": "การเขียนโปรแกรม"
+        },
+        "zh": {
+          "description": "Arasaka 主题的编程 IDE：28 种语言、自动补全和实时报错（LSP）、Python 调试器和性能分析、git 和 HTTP 客户端。",
+          "category": "编程"
+        },
+        "ja": {
+          "description": "Arasaka テーマのプログラミング IDE：28 言語、補完とリアルタイムのエラー表示（LSP）、Python デバッガーとプロファイラー、git、HTTP クライアント。",
+          "category": "プログラミング"
+        },
+        "ko": {
+          "description": "Arasaka 테마 프로그래밍 IDE: 28개 언어, 자동 완성과 실시간 오류(LSP), Python 디버거와 프로파일러, git, HTTP 클라이언트.",
+          "category": "프로그래밍"
+        },
+        "id": {
+          "description": "IDE bertema Arasaka: 28 bahasa, pelengkapan otomatis dan error real-time (LSP), debugger dan profiler Python, git, dan klien HTTP.",
+          "category": "Pemrograman"
+        },
+        "vi": {
+          "description": "IDE giao diện Arasaka: 28 ngôn ngữ, tự hoàn thành và báo lỗi tức thì (LSP), trình gỡ lỗi và profiler Python, git và trình khách HTTP.",
+          "category": "Lập trình"
+        },
+        "fr": {
+          "description": "IDE au thème Arasaka : 28 langages, autocomplétion et erreurs en temps réel (LSP), débogueur et profileur Python, git et client HTTP.",
+          "category": "Programmation"
+        },
+        "de": {
+          "description": "Programmier-IDE im Arasaka-Look: 28 Sprachen, Autovervollständigung und Fehler in Echtzeit (LSP), Python-Debugger und -Profiler, Git und HTTP-Client.",
+          "category": "Programmierung"
+        },
+        "ru": {
+          "description": "IDE в стиле Arasaka: 28 языков, автодополнение и ошибки в реальном времени (LSP), отладчик и профайлер Python, git и HTTP-клиент.",
+          "category": "Программирование"
+        }
+      }
+    },
+    {
+      "id": "arasaka-holo",
+      "name": "Arasaka Holo",
+      "description": "Chat com privacidade máxima: sem conta nem senha, nick fixo do seu PC, mensagens cifradas de ponta a ponta e nada guardado.",
+      "category": "Comunicação",
+      "icon": "icons/arasaka-holo.svg",
+      "accent": "#e3121f",
+      "source": {
+        "type": "github",
+        "repo": "Ruiso-Outside/ArasakaHolo",
+        "asset": "^ArasakaHolo-.*-linux\\.tar\\.gz$"
+      },
+      "install": {
+        "type": "script",
+        "script": "install.sh",
+        "args": [
+          "-y"
+        ],
+        "terminal": true,
+        "uninstall": "uninstall.sh",
+        "uninstallTerminal": false,
+        "folder": "ArasakaHolo",
+        "detect": "~/.local/bin/arasaka-holo",
+        "launch": "~/.local/bin/arasaka-holo",
+        "versionFile": "~/.local/share/arasaka-holo/app/arasaka_holo/app.py",
+        "versionPattern": "VERSION = \"([^\"]+)\""
+      },
+      "win": {
+        "source": {
+          "type": "github",
+          "repo": "Ruiso-Outside/ArasakaHolo",
+          "asset": "^ArasakaHolo-.*-windows\\.zip$"
+        },
+        "install": {
+          "type": "script",
+          "script": "install.ps1",
+          "uninstall": "uninstall.ps1",
+          "folder": "ArasakaHolo",
+          "detect": "%LOCALAPPDATA%\\arasaka-holo\\bin\\arasaka-holo.cmd",
+          "launch": "%LOCALAPPDATA%\\arasaka-holo\\bin\\arasaka-holo.cmd",
+          "versionFile": "%LOCALAPPDATA%\\arasaka-holo\\app\\arasaka_holo\\app.py",
+          "versionPattern": "VERSION = \"([^\"]+)\""
+        }
+      },
+      "platforms": [
+        "linux",
+        "win32"
+      ],
+      "t": {
+        "en": {
+          "description": "Maximum-privacy chat: no account or password, a fixed nickname tied to your PC, end-to-end encrypted messages and nothing stored.",
+          "category": "Communication"
+        },
+        "es": {
+          "description": "Chat con máxima privacidad: sin cuenta ni contraseña, apodo fijo de tu PC, mensajes cifrados de extremo a extremo y nada guardado.",
+          "category": "Comunicación"
+        },
+        "th": {
+          "description": "แชตความเป็นส่วนตัวสูงสุด: ไม่ต้องมีบัญชีหรือรหัสผ่าน ชื่อเล่นผูกกับพีซีของคุณ ข้อความเข้ารหัสต้นทางถึงปลายทาง และไม่เก็บอะไรไว้",
+          "category": "การสื่อสาร"
+        },
+        "zh": {
+          "description": "极致隐私的聊天：无需账号和密码，昵称固定绑定你的电脑，端到端加密，什么都不保存。",
+          "category": "通讯"
+        },
+        "ja": {
+          "description": "プライバシー最優先のチャット：アカウントもパスワードも不要、PC に固定されたニックネーム、エンドツーエンド暗号化で何も保存しません。",
+          "category": "コミュニケーション"
+        },
+        "ko": {
+          "description": "최고 수준의 개인정보 보호 채팅: 계정과 비밀번호 없이 PC에 고정된 닉네임, 종단 간 암호화, 아무것도 저장하지 않음.",
+          "category": "커뮤니케이션"
+        },
+        "id": {
+          "description": "Chat dengan privasi maksimal: tanpa akun atau kata sandi, nama tetap dari PC Anda, pesan terenkripsi end-to-end, dan tidak ada yang disimpan.",
+          "category": "Komunikasi"
+        },
+        "vi": {
+          "description": "Trò chuyện riêng tư tối đa: không tài khoản, không mật khẩu, biệt danh cố định theo máy, mã hóa đầu cuối và không lưu gì.",
+          "category": "Liên lạc"
+        },
+        "fr": {
+          "description": "Chat à confidentialité maximale : sans compte ni mot de passe, pseudo fixe lié à votre PC, messages chiffrés de bout en bout et rien n'est conservé.",
+          "category": "Communication"
+        },
+        "de": {
+          "description": "Chat mit maximaler Privatsphäre: kein Konto, kein Passwort, fester Spitzname deines PCs, Ende-zu-Ende-verschlüsselt und nichts wird gespeichert.",
+          "category": "Kommunikation"
+        },
+        "ru": {
+          "description": "Чат с максимальной приватностью: без аккаунта и пароля, постоянный ник вашего ПК, сквозное шифрование и ничего не сохраняется.",
+          "category": "Общение"
+        }
+      }
+    },
+    {
+      "id": "arasaka-bridge",
+      "name": "Arasaka Bridge",
+      "description": "Programas do Windows e Roblox Studio no Linux: Wine, Winetricks, DXVK e Vinegar num painel só, com um container isolado por programa.",
+      "category": "Sistema",
+      "icon": "icons/arasaka-bridge.svg",
+      "accent": "#e3121f",
+      "source": {
+        "type": "github",
+        "repo": "Ruiso-Outside/ArasakaBridge",
+        "asset": "^ArasakaBridge-.*-linux\\.tar\\.gz$"
+      },
+      "install": {
+        "type": "script",
+        "script": "install.sh",
+        "args": [
+          "-y"
+        ],
+        "terminal": true,
+        "uninstall": "uninstall.sh",
+        "uninstallTerminal": false,
+        "folder": "ArasakaBridge",
+        "detect": "~/.local/bin/arasaka-bridge",
+        "launch": "~/.local/bin/arasaka-bridge",
+        "versionFile": "~/.local/share/arasaka-bridge/app/arasaka_bridge/core.py",
+        "versionPattern": "VERSION = \"([^\"]+)\""
+      },
+      "platforms": [
+        "linux"
+      ],
+      "t": {
+        "en": {
+          "description": "Windows programs and Roblox Studio on Linux: Wine, Winetricks, DXVK and Vinegar in one panel, with an isolated container per program.",
+          "category": "System"
+        },
+        "es": {
+          "description": "Programas de Windows y Roblox Studio en Linux: Wine, Winetricks, DXVK y Vinegar en un solo panel, con un contenedor aislado por programa.",
+          "category": "Sistema"
+        },
+        "th": {
+          "description": "โปรแกรม Windows และ Roblox Studio บน Linux: Wine, Winetricks, DXVK และ Vinegar ในแผงเดียว พร้อมคอนเทนเนอร์แยกต่อโปรแกรม",
+          "category": "ระบบ"
+        },
+        "zh": {
+          "description": "在 Linux 上运行 Windows 程序和 Roblox Studio：Wine、Winetricks、DXVK 和 Vinegar 集中在一个面板，每个程序一个独立容器。",
+          "category": "系统"
+        },
+        "ja": {
+          "description": "Linux で Windows プログラムと Roblox Studio：Wine、Winetricks、DXVK、Vinegar をひとつのパネルで。プログラムごとに独立したコンテナ。",
+          "category": "システム"
+        },
+        "ko": {
+          "description": "Linux에서 Windows 프로그램과 Roblox Studio: Wine, Winetricks, DXVK, Vinegar를 한 패널에서, 프로그램마다 격리된 컨테이너.",
+          "category": "시스템"
+        },
+        "id": {
+          "description": "Program Windows dan Roblox Studio di Linux: Wine, Winetricks, DXVK, dan Vinegar dalam satu panel, dengan kontainer terpisah per program.",
+          "category": "Sistem"
+        },
+        "vi": {
+          "description": "Chương trình Windows và Roblox Studio trên Linux: Wine, Winetricks, DXVK và Vinegar trong một bảng, mỗi chương trình một container riêng.",
+          "category": "Hệ thống"
+        },
+        "fr": {
+          "description": "Programmes Windows et Roblox Studio sous Linux : Wine, Winetricks, DXVK et Vinegar dans un seul panneau, avec un conteneur isolé par programme.",
+          "category": "Système"
+        },
+        "de": {
+          "description": "Windows-Programme und Roblox Studio unter Linux: Wine, Winetricks, DXVK und Vinegar in einem Panel, mit einem isolierten Container pro Programm.",
+          "category": "System"
+        },
+        "ru": {
+          "description": "Программы Windows и Roblox Studio в Linux: Wine, Winetricks, DXVK и Vinegar в одной панели, отдельный контейнер для каждой программы.",
+          "category": "Система"
+        }
+      }
+    },
+    {
+      "id": "arasaka-blackwall",
+      "name": "Arasaka Blackwall",
+      "description": "Máquinas virtuais Windows 10, Windows 11 e Linux com QEMU/KVM: perfis prontos, UEFI, Secure Boot, TPM 2.0, snapshots e tela ao vivo.",
+      "category": "Sistema",
+      "icon": "icons/arasaka-blackwall.svg",
+      "accent": "#e3121f",
+      "source": {
+        "type": "github",
+        "repo": "Ruiso-Outside/ArasakaBlackwall",
+        "asset": "^ArasakaBlackwall-.*-linux\\.tar\\.gz$"
+      },
+      "install": {
+        "type": "script",
+        "script": "install.sh",
+        "args": [
+          "-y"
+        ],
+        "terminal": true,
+        "uninstall": "uninstall.sh",
+        "uninstallTerminal": false,
+        "folder": "ArasakaBlackwall",
+        "detect": "~/.local/bin/arasaka-blackwall",
+        "launch": "~/.local/bin/arasaka-blackwall",
+        "versionFile": "~/.local/share/arasaka-blackwall/app/arasaka_blackwall/core.py",
+        "versionPattern": "VERSION = \"([^\"]+)\""
+      },
+      "platforms": [
+        "linux"
+      ],
+      "t": {
+        "en": {
+          "description": "Windows 10, Windows 11 and Linux virtual machines with QEMU/KVM: ready-made profiles, UEFI, Secure Boot, TPM 2.0, snapshots and a live screen.",
+          "category": "System"
+        },
+        "es": {
+          "description": "Máquinas virtuales Windows 10, Windows 11 y Linux con QEMU/KVM: perfiles listos, UEFI, Secure Boot, TPM 2.0, snapshots y pantalla en vivo.",
+          "category": "Sistema"
+        },
+        "th": {
+          "description": "เครื่องเสมือน Windows 10, Windows 11 และ Linux ด้วย QEMU/KVM: โปรไฟล์สำเร็จรูป UEFI, Secure Boot, TPM 2.0, สแนปช็อต และหน้าจอสด",
+          "category": "ระบบ"
+        },
+        "zh": {
+          "description": "用 QEMU/KVM 运行 Windows 10、Windows 11 和 Linux 虚拟机：现成配置、UEFI、安全启动、TPM 2.0、快照和实时画面。",
+          "category": "系统"
+        },
+        "ja": {
+          "description": "QEMU/KVM で Windows 10、Windows 11、Linux の仮想マシン：既定プロファイル、UEFI、セキュアブート、TPM 2.0、スナップショット、ライブ画面。",
+          "category": "システム"
+        },
+        "ko": {
+          "description": "QEMU/KVM로 Windows 10, Windows 11, Linux 가상 머신: 기본 프로필, UEFI, 보안 부팅, TPM 2.0, 스냅샷, 실시간 화면.",
+          "category": "시스템"
+        },
+        "id": {
+          "description": "Mesin virtual Windows 10, Windows 11, dan Linux dengan QEMU/KVM: profil siap pakai, UEFI, Secure Boot, TPM 2.0, snapshot, dan layar langsung.",
+          "category": "Sistem"
+        },
+        "vi": {
+          "description": "Máy ảo Windows 10, Windows 11 và Linux với QEMU/KVM: cấu hình sẵn, UEFI, Secure Boot, TPM 2.0, snapshot và màn hình trực tiếp.",
+          "category": "Hệ thống"
+        },
+        "fr": {
+          "description": "Machines virtuelles Windows 10, Windows 11 et Linux avec QEMU/KVM : profils prêts, UEFI, Secure Boot, TPM 2.0, snapshots et écran en direct.",
+          "category": "Système"
+        },
+        "de": {
+          "description": "Virtuelle Maschinen mit Windows 10, Windows 11 und Linux über QEMU/KVM: fertige Profile, UEFI, Secure Boot, TPM 2.0, Snapshots und Live-Bild.",
+          "category": "System"
+        },
+        "ru": {
+          "description": "Виртуальные машины Windows 10, Windows 11 и Linux на QEMU/KVM: готовые профили, UEFI, Secure Boot, TPM 2.0, снимки и экран в реальном времени.",
+          "category": "Система"
+        }
+      }
+    },
+    {
+      "id": "arasaka-construct",
+      "name": "Arasaka Construct",
+      "description": "Engine de jogos 2D, 2.5D e 3D com editor visual, scripts em Luau, multiplayer com servidor dedicado e exportação com um clique.",
+      "category": "Criação",
+      "icon": "icons/arasaka-construct.png",
+      "accent": "#e3121f",
+      "private": true,
+      "source": {
+        "type": "github",
+        "repo": "Ruiso-Outside/ArasakaConstruct",
+        "asset": "^DemonicEngine-.*-linux\\.tar\\.gz$"
+      },
+      "install": {
+        "type": "script",
+        "script": "install.sh",
+        "terminal": false,
+        "uninstall": "uninstall.sh",
+        "folder": "ArasakaConstruct",
+        "detect": "~/.local/bin/demonic-editor",
+        "launch": "~/.local/bin/demonic-editor",
+        "versionFile": "~/.local/share/demonic-engine/demonic-manifest.json",
+        "selfUpdating": true
+      },
+      "win": {
+        "source": {
+          "type": "github",
+          "repo": "Ruiso-Outside/ArasakaConstruct",
+          "asset": "^DemonicEngine-.*-windows\\.zip$"
+        },
+        "install": {
+          "type": "portable",
+          "folder": "Arasaka Construct",
+          "exe": "demonic-editor.exe",
+          "versionFile": "demonic-manifest.json",
+          "shortcutName": "Arasaka Construct",
+          "selfUpdating": true
+        }
+      },
+      "platforms": [
+        "linux",
+        "win32"
+      ],
+      "t": {
+        "en": {
+          "description": "2D, 2.5D and 3D game engine with a visual editor, Luau scripts, dedicated-server multiplayer and one-click export.",
+          "category": "Creative"
+        },
+        "es": {
+          "description": "Motor de juegos 2D, 2.5D y 3D con editor visual, scripts en Luau, multijugador con servidor dedicado y exportación con un clic.",
+          "category": "Creación"
+        },
+        "th": {
+          "description": "เอนจินเกม 2D, 2.5D และ 3D พร้อมเอดิเตอร์แบบภาพ สคริปต์ Luau มัลติเพลเยอร์ด้วยเซิร์ฟเวอร์เฉพาะ และส่งออกในคลิกเดียว",
+          "category": "งานสร้างสรรค์"
+        },
+        "zh": {
+          "description": "2D、2.5D 和 3D 游戏引擎：可视化编辑器、Luau 脚本、专用服务器多人联机、一键导出。",
+          "category": "创作"
+        },
+        "ja": {
+          "description": "2D・2.5D・3D ゲームエンジン：ビジュアルエディター、Luau スクリプト、専用サーバーのマルチプレイ、ワンクリック書き出し。",
+          "category": "クリエイティブ"
+        },
+        "ko": {
+          "description": "2D, 2.5D, 3D 게임 엔진: 비주얼 에디터, Luau 스크립트, 전용 서버 멀티플레이, 원클릭 내보내기.",
+          "category": "크리에이티브"
+        },
+        "id": {
+          "description": "Mesin game 2D, 2.5D, dan 3D dengan editor visual, skrip Luau, multipemain dengan server khusus, dan ekspor sekali klik.",
+          "category": "Kreasi"
+        },
+        "vi": {
+          "description": "Engine game 2D, 2.5D và 3D với trình chỉnh sửa trực quan, script Luau, nhiều người chơi qua máy chủ riêng và xuất bản một cú nhấp.",
+          "category": "Sáng tạo"
+        },
+        "fr": {
+          "description": "Moteur de jeu 2D, 2,5D et 3D avec éditeur visuel, scripts Luau, multijoueur à serveur dédié et export en un clic.",
+          "category": "Création"
+        },
+        "de": {
+          "description": "2D-, 2,5D- und 3D-Spiele-Engine mit visuellem Editor, Luau-Skripten, Multiplayer mit dediziertem Server und Export per Klick.",
+          "category": "Kreativ"
+        },
+        "ru": {
+          "description": "Игровой движок 2D, 2.5D и 3D: визуальный редактор, скрипты на Luau, мультиплеер с выделенным сервером и экспорт в один клик.",
+          "category": "Творчество"
+        }
+      }
     }
   ],
   "modules": [
@@ -856,6 +1290,92 @@
         },
         "ru": {
           "description": "Личные и бизнес-финансы в отдельных кошельках: счета, карты и выписки, счета к оплате с напоминаниями, бюджеты, цели, импорт выписок и необязательный пароль. Отчёты для бизнеса и лимит MEI — по правилам Бразилии; быстрый ввод понимает португальский."
+        }
+      }
+    }
+  ],
+  "themes": [
+    {
+      "id": "arasaka-zorin",
+      "name": "Arasaka Zorin",
+      "description": "Tema Arasaka completo para o sistema, do boot ao terminal: GRUB, tela de carregamento, login, janelas, ícones, cursores, sons, wallpapers e efeitos.",
+      "category": "Tema",
+      "icon": "icons/arasaka-zorin.png",
+      "accent": "#e3121f",
+      "supports": [
+        {
+          "id": "zorin",
+          "name": "Zorin OS",
+          "versions": [
+            "17",
+            "18"
+          ]
+        }
+      ],
+      "source": {
+        "type": "github",
+        "repo": "Ruiso-Outside/ArasakaZorin",
+        "asset": "^ArasakaZorin-.*-linux\\.tar\\.gz$"
+      },
+      "install": {
+        "type": "script",
+        "script": "install.sh",
+        "args": [
+          "-y"
+        ],
+        "terminal": true,
+        "uninstall": "uninstall.sh",
+        "folder": "ArasakaZorin",
+        "detect": "/usr/share/themes/Arasaka/index.theme",
+        "versionFile": "/usr/share/arasaka/VERSION"
+      },
+      "platforms": [
+        "linux"
+      ],
+      "t": {
+        "en": {
+          "description": "Complete Arasaka theme for the system, from boot to terminal: GRUB, boot splash, login, windows, icons, cursors, sounds, wallpapers and effects.",
+          "category": "Theme"
+        },
+        "es": {
+          "description": "Tema Arasaka completo para el sistema, del arranque a la terminal: GRUB, pantalla de carga, inicio de sesión, ventanas, iconos, cursores, sonidos, fondos y efectos.",
+          "category": "Tema"
+        },
+        "th": {
+          "description": "ธีม Arasaka ครบชุดสำหรับระบบ ตั้งแต่บูตจนถึงเทอร์มินัล: GRUB หน้าจอโหลด ล็อกอิน หน้าต่าง ไอคอน เคอร์เซอร์ เสียง วอลเปเปอร์ และเอฟเฟกต์",
+          "category": "ธีม"
+        },
+        "zh": {
+          "description": "完整的 Arasaka 系统主题，从开机到终端：GRUB、启动画面、登录、窗口、图标、光标、声音、壁纸和特效。",
+          "category": "主题"
+        },
+        "ja": {
+          "description": "起動からターミナルまでの Arasaka システムテーマ：GRUB、起動画面、ログイン、ウィンドウ、アイコン、カーソル、サウンド、壁紙、エフェクト。",
+          "category": "テーマ"
+        },
+        "ko": {
+          "description": "부팅부터 터미널까지 완전한 Arasaka 시스템 테마: GRUB, 부팅 화면, 로그인, 창, 아이콘, 커서, 사운드, 배경화면, 효과.",
+          "category": "테마"
+        },
+        "id": {
+          "description": "Tema Arasaka lengkap untuk sistem, dari boot hingga terminal: GRUB, layar pemuatan, login, jendela, ikon, kursor, suara, wallpaper, dan efek.",
+          "category": "Tema"
+        },
+        "vi": {
+          "description": "Giao diện Arasaka đầy đủ cho hệ thống, từ khởi động đến terminal: GRUB, màn hình tải, đăng nhập, cửa sổ, biểu tượng, con trỏ, âm thanh, hình nền và hiệu ứng.",
+          "category": "Giao diện"
+        },
+        "fr": {
+          "description": "Thème Arasaka complet pour le système, du démarrage au terminal : GRUB, écran de chargement, connexion, fenêtres, icônes, curseurs, sons, fonds d'écran et effets.",
+          "category": "Thème"
+        },
+        "de": {
+          "description": "Komplettes Arasaka-Design für das System, vom Start bis zum Terminal: GRUB, Ladebildschirm, Anmeldung, Fenster, Symbole, Mauszeiger, Klänge, Hintergründe und Effekte.",
+          "category": "Design"
+        },
+        "ru": {
+          "description": "Полная тема Arasaka для системы, от загрузки до терминала: GRUB, экран загрузки, вход, окна, значки, курсоры, звуки, обои и эффекты.",
+          "category": "Тема"
         }
       }
     }
