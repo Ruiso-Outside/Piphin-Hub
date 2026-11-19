@@ -642,6 +642,168 @@
         "versionPattern": "project\\(DemonicEngine VERSION ([0-9.]+)",
         "release": "gh-release"
       }
+    },
+    {
+      "id": "arasaka-relic",
+      "name": "Arasaka Relic",
+      "description": "Backups com fotos diárias num HD externo ou pasta: só o que mudou ocupa espaço novo. Salva a chave do Holo e os dados dos apps Arasaka, restaura o que você precisar e pode rodar todo dia sozinho.",
+      "category": "Sistema",
+      "icon": "icons/arasaka-relic.svg",
+      "accent": "#e3121f",
+      "source": {
+        "type": "github",
+        "repo": "Ruiso-Outside/ArasakaRelic",
+        "asset": "^ArasakaRelic-.*-linux\\.tar\\.gz$"
+      },
+      "install": {
+        "type": "script",
+        "script": "install.sh",
+        "args": [
+          "-y"
+        ],
+        "terminal": true,
+        "uninstall": "uninstall.sh",
+        "uninstallTerminal": false,
+        "folder": "ArasakaRelic",
+        "detect": "~/.local/bin/arasaka-relic",
+        "launch": "~/.local/bin/arasaka-relic",
+        "versionFile": "~/.local/share/arasaka-relic/app/arasaka_relic/core.py",
+        "versionPattern": "VERSION = \"([^\"]+)\""
+      },
+      "platforms": [
+        "linux"
+      ],
+      "dev": {
+        "versionFile": "arasaka_relic/core.py",
+        "versionPattern": "VERSION = \"([^\"]+)\""
+      },
+      "t": {
+        "en": {
+          "description": "Daily snapshot backups to an external drive or folder: only what changed takes new space. Saves the Holo key and Arasaka app data, restores what you need and can run every day on its own.",
+          "category": "System"
+        },
+        "es": {
+          "description": "Copias de seguridad diarias en un disco externo o carpeta: solo lo que cambió ocupa espacio nuevo. Guarda la clave de Holo y los datos de las apps Arasaka, restaura lo que necesites y puede ejecutarse solo cada día.",
+          "category": "Sistema"
+        },
+        "th": {
+          "description": "สำรองข้อมูลแบบสแนปช็อตรายวันลงไดรฟ์ภายนอกหรือโฟลเดอร์ ใช้พื้นที่เพิ่มเฉพาะส่วนที่เปลี่ยน บันทึกคีย์ Holo และข้อมูลแอป Arasaka กู้คืนสิ่งที่ต้องการ และตั้งให้ทำงานเองทุกวันได้",
+          "category": "ระบบ"
+        },
+        "zh": {
+          "description": "每日快照备份到外置硬盘或文件夹：只有改动的部分占用新空间。保存 Holo 密钥和 Arasaka 应用数据，按需恢复，还能每天自动运行。",
+          "category": "系统"
+        },
+        "ja": {
+          "description": "外付けドライブやフォルダーへの毎日のスナップショットバックアップ。変更分だけが容量を使います。Holo の鍵や Arasaka アプリのデータを保存し、必要なものを復元でき、毎日自動で実行できます。",
+          "category": "システム"
+        },
+        "ko": {
+          "description": "외장 드라이브나 폴더에 매일 스냅샷 백업: 바뀐 부분만 새 공간을 씁니다. Holo 키와 Arasaka 앱 데이터를 저장하고, 필요한 것을 복원하며, 매일 자동으로 실행할 수 있습니다.",
+          "category": "시스템"
+        },
+        "id": {
+          "description": "Cadangan snapshot harian ke drive eksternal atau folder: hanya yang berubah memakai ruang baru. Menyimpan kunci Holo dan data aplikasi Arasaka, memulihkan yang Anda perlukan, dan bisa berjalan sendiri setiap hari.",
+          "category": "Sistem"
+        },
+        "vi": {
+          "description": "Sao lưu dạng ảnh chụp hằng ngày vào ổ ngoài hoặc thư mục: chỉ phần thay đổi mới tốn thêm dung lượng. Lưu khóa Holo và dữ liệu ứng dụng Arasaka, khôi phục thứ bạn cần và có thể tự chạy mỗi ngày.",
+          "category": "Hệ thống"
+        },
+        "fr": {
+          "description": "Sauvegardes quotidiennes en instantanés sur un disque externe ou un dossier : seul ce qui a changé prend de la place. Sauvegarde la clé Holo et les données des apps Arasaka, restaure ce dont vous avez besoin et peut tourner seule chaque jour.",
+          "category": "Système"
+        },
+        "de": {
+          "description": "Tägliche Snapshot-Backups auf eine externe Festplatte oder einen Ordner: Nur Geändertes belegt neuen Platz. Sichert den Holo-Schlüssel und die Daten der Arasaka-Apps, stellt Benötigtes wieder her und läuft auf Wunsch täglich von selbst.",
+          "category": "System"
+        },
+        "ru": {
+          "description": "Ежедневные резервные копии-снимки на внешний диск или в папку: новое место занимает только изменённое. Сохраняет ключ Holo и данные приложений Arasaka, восстанавливает нужное и может запускаться сам каждый день.",
+          "category": "Система"
+        }
+      }
+    },
+    {
+      "id": "arasaka-cyberdeck",
+      "name": "Arasaka Cyberdeck",
+      "description": "Lançador rápido: aperte Ctrl+Alt+Espaço e abra apps, jogos da Steam, VMs do Blackwall, módulos da Central, pastas e ações do sistema, ou faça uma conta.",
+      "category": "Produtividade",
+      "icon": "icons/arasaka-cyberdeck.svg",
+      "accent": "#e3121f",
+      "source": {
+        "type": "github",
+        "repo": "Ruiso-Outside/ArasakaCyberdeck",
+        "asset": "^ArasakaCyberdeck-.*-linux\\.tar\\.gz$"
+      },
+      "install": {
+        "type": "script",
+        "script": "install.sh",
+        "args": [
+          "-y"
+        ],
+        "terminal": true,
+        "uninstall": "uninstall.sh",
+        "uninstallTerminal": false,
+        "folder": "ArasakaCyberdeck",
+        "detect": "~/.local/bin/arasaka-cyberdeck",
+        "launch": "~/.local/bin/arasaka-cyberdeck",
+        "versionFile": "~/.local/share/arasaka-cyberdeck/app/arasaka_cyberdeck/core.py",
+        "versionPattern": "VERSION = \"([^\"]+)\""
+      },
+      "platforms": [
+        "linux"
+      ],
+      "dev": {
+        "versionFile": "arasaka_cyberdeck/core.py",
+        "versionPattern": "VERSION = \"([^\"]+)\""
+      },
+      "t": {
+        "en": {
+          "description": "Quick launcher: press Ctrl+Alt+Space and open apps, Steam games, Blackwall VMs, Central modules, folders and system actions, or do a quick calculation.",
+          "category": "Productivity"
+        },
+        "es": {
+          "description": "Lanzador rápido: pulsa Ctrl+Alt+Espacio y abre apps, juegos de Steam, VMs de Blackwall, módulos de la Central, carpetas y acciones del sistema, o haz una cuenta.",
+          "category": "Productividad"
+        },
+        "th": {
+          "description": "ตัวเปิดด่วน: กด Ctrl+Alt+Space แล้วเปิดแอป เกม Steam VM ของ Blackwall โมดูลของ Central โฟลเดอร์ และคำสั่งระบบ หรือคิดเลข",
+          "category": "ประสิทธิภาพ"
+        },
+        "zh": {
+          "description": "快速启动器：按 Ctrl+Alt+空格，打开应用、Steam 游戏、Blackwall 虚拟机、Central 模块、文件夹和系统操作，或者算一笔账。",
+          "category": "效率"
+        },
+        "ja": {
+          "description": "クイックランチャー：Ctrl+Alt+Space を押して、アプリ、Steam のゲーム、Blackwall の VM、Central のモジュール、フォルダー、システム操作を開いたり、計算したりできます。",
+          "category": "生産性"
+        },
+        "ko": {
+          "description": "빠른 실행기: Ctrl+Alt+Space를 눌러 앱, Steam 게임, Blackwall VM, Central 모듈, 폴더, 시스템 작업을 열거나 계산을 하세요.",
+          "category": "생산성"
+        },
+        "id": {
+          "description": "Peluncur cepat: tekan Ctrl+Alt+Spasi lalu buka aplikasi, game Steam, VM Blackwall, modul Central, folder, dan aksi sistem, atau berhitung.",
+          "category": "Produktivitas"
+        },
+        "vi": {
+          "description": "Trình khởi chạy nhanh: nhấn Ctrl+Alt+Space để mở ứng dụng, game Steam, máy ảo Blackwall, mô-đun Central, thư mục và thao tác hệ thống, hoặc tính nhanh.",
+          "category": "Năng suất"
+        },
+        "fr": {
+          "description": "Lanceur rapide : appuyez sur Ctrl+Alt+Espace et ouvrez apps, jeux Steam, VM Blackwall, modules de la Central, dossiers et actions système, ou faites un calcul.",
+          "category": "Productivité"
+        },
+        "de": {
+          "description": "Schnellstarter: Strg+Alt+Leertaste drücken und Apps, Steam-Spiele, Blackwall-VMs, Central-Module, Ordner und Systemaktionen öffnen oder schnell rechnen.",
+          "category": "Produktivität"
+        },
+        "ru": {
+          "description": "Быстрый запуск: нажмите Ctrl+Alt+Пробел и открывайте приложения, игры Steam, ВМ Blackwall, модули Central, папки и системные действия или считайте.",
+          "category": "Продуктивность"
+        }
+      }
     }
   ],
   "modules": [
