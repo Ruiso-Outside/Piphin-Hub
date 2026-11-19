@@ -149,7 +149,7 @@ main { flex: 1; min-width: 0; overflow-y: auto; background: var(--p-bg-2); borde
 @keyframes dr-in { from { transform: translateX(40px); opacity: 0; } }
 .drawer .cover { height: 120px; position: relative;
   background: radial-gradient(90% 160% at 0% 0%, color-mix(in srgb, var(--accent-c) 50%, transparent), transparent 70%), var(--p-surface-2); }
-.drawer .close { position: absolute; top: 12px; right: 12px; background: rgba(5, 5, 5, .5); backdrop-filter: blur(6px); }
+.drawer .btn.close, body:not(.fx-off) .drawer .btn.close { position: absolute; top: 12px; right: 12px; background: rgba(5, 5, 5, .5); backdrop-filter: blur(6px); }
 .drawer .head { display: flex; align-items: flex-end; gap: 16px; padding: 0 24px; margin-top: -36px; position: relative; }
 .drawer .head .ico { width: 76px; height: 76px; border-radius: 2px; background: var(--p-surface-1); border: 1px solid var(--p-line-2); display: grid; place-items: center; box-shadow: 0 12px 30px -10px rgba(0, 0, 0, .8); }
 .drawer .head .ico img { width: 52px; height: 52px; object-fit: contain; }
