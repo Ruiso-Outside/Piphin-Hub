@@ -1128,6 +1128,87 @@
           "category": "Продуктивность"
         }
       }
+    },
+    {
+      "id": "arasaka-techie",
+      "name": "Arasaka Techie",
+      "description": "Simulador de montagem de PC: escolha as peças e veja o FPS esperado em jogos populares e o gargalo, o airflow do gabinete com pressão e temperaturas, a fonte recomendada e quanto um upgrade rende, com as trocas que ele obriga. É estimativa.",
+      "category": "Hardware",
+      "icon": "icons/arasaka-techie.svg",
+      "accent": "#e3121f",
+      "source": {
+        "type": "github",
+        "repo": "Ruiso-Outside/ArasakaTechie",
+        "asset": "^ArasakaTechie-.*-linux\\.tar\\.gz$"
+      },
+      "install": {
+        "type": "script",
+        "script": "install.sh",
+        "args": [
+          "-y"
+        ],
+        "terminal": true,
+        "uninstall": "uninstall.sh",
+        "uninstallTerminal": false,
+        "folder": "ArasakaTechie",
+        "detect": "~/.local/bin/arasaka-techie",
+        "launch": "~/.local/bin/arasaka-techie",
+        "versionFile": "~/.local/share/arasaka-techie/app/arasaka_techie/core.py",
+        "versionPattern": "VERSION = \"([^\"]+)\""
+      },
+      "platforms": [
+        "linux"
+      ],
+      "dev": {
+        "versionFile": "arasaka_techie/core.py",
+        "versionPattern": "VERSION = \"([^\"]+)\""
+      },
+      "t": {
+        "en": {
+          "description": "PC build simulator: pick the parts and see expected FPS in popular games and the bottleneck, case airflow with pressure and temperatures, the recommended power supply and how much an upgrade gains, with the swaps it forces. It is an estimate.",
+          "category": "Hardware"
+        },
+        "es": {
+          "description": "Simulador de armado de PC: elige las piezas y mira los FPS esperados en juegos populares y el cuello de botella, el flujo de aire del gabinete con presión y temperaturas, la fuente recomendada y cuánto rinde una mejora, con los cambios que obliga. Es una estimación.",
+          "category": "Hardware"
+        },
+        "th": {
+          "description": "จำลองการประกอบพีซี: เลือกชิ้นส่วนแล้วดู FPS ที่คาดว่าจะได้ในเกมยอดนิยมและคอขวด การไหลของอากาศในเคสพร้อมแรงดันและอุณหภูมิ พาวเวอร์ซัพพลายที่แนะนำ และการอัปเกรดได้ผลแค่ไหนพร้อมชิ้นที่ต้องเปลี่ยนตาม เป็นค่าประมาณ",
+          "category": "ฮาร์ดแวร์"
+        },
+        "zh": {
+          "description": "电脑装机模拟器：选择配件，查看热门游戏的预计帧数和瓶颈、机箱风道（正负压和温度）、推荐电源，以及升级能带来多少提升和必须一起更换的配件。结果为估算。",
+          "category": "硬件"
+        },
+        "ja": {
+          "description": "PC 自作シミュレーター：パーツを選ぶと、人気ゲームの予想 FPS とボトルネック、ケースのエアフロー（正圧・負圧と温度）、推奨電源、アップグレードの効果と一緒に交換が必要なパーツがわかります。数値は推定です。",
+          "category": "ハードウェア"
+        },
+        "ko": {
+          "description": "PC 조립 시뮬레이터: 부품을 고르면 인기 게임의 예상 FPS와 병목, 케이스 에어플로(정압·부압과 온도), 권장 파워, 업그레이드 효과와 함께 바꿔야 하는 부품을 보여 줍니다. 추정치입니다.",
+          "category": "하드웨어"
+        },
+        "id": {
+          "description": "Simulator rakit PC: pilih komponen dan lihat perkiraan FPS di game populer serta bottleneck, aliran udara casing dengan tekanan dan suhu, PSU yang disarankan, dan seberapa besar hasil upgrade beserta komponen yang wajib ikut diganti. Ini perkiraan.",
+          "category": "Perangkat keras"
+        },
+        "vi": {
+          "description": "Mô phỏng lắp ráp PC: chọn linh kiện và xem FPS dự kiến trong các game phổ biến cùng điểm nghẽn, luồng gió của vỏ máy với áp suất và nhiệt độ, nguồn được khuyên dùng và mức tăng khi nâng cấp kèm các linh kiện bắt buộc phải thay. Đây là ước tính.",
+          "category": "Phần cứng"
+        },
+        "fr": {
+          "description": "Simulateur de montage de PC : choisissez les pièces et voyez les FPS attendus dans des jeux populaires et le goulot d'étranglement, le flux d'air du boîtier avec pression et températures, l'alimentation conseillée et le gain d'une mise à niveau, avec les changements qu'elle impose. C'est une estimation.",
+          "category": "Matériel"
+        },
+        "de": {
+          "description": "PC-Bau-Simulator: Teile wählen und erwartete FPS in beliebten Spielen samt Flaschenhals sehen, den Airflow im Gehäuse mit Druck und Temperaturen, das empfohlene Netzteil und was ein Upgrade bringt, inklusive der nötigen Folgetausche. Es ist eine Schätzung.",
+          "category": "Hardware"
+        },
+        "ru": {
+          "description": "Симулятор сборки ПК: выберите комплектующие и смотрите ожидаемый FPS в популярных играх и узкое место, воздушный поток в корпусе с давлением и температурами, рекомендуемый блок питания и прирост от апгрейда с обязательными заменами. Это оценка.",
+          "category": "Железо"
+        }
+      }
     }
   ],
   "modules": [
