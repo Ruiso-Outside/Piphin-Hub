@@ -1132,7 +1132,7 @@
     {
       "id": "arasaka-techie",
       "name": "Arasaka Techie",
-      "description": "Simulador de montagem de PC: escolha as peças e veja o FPS esperado em jogos populares e o gargalo, o airflow do gabinete com pressão e temperaturas, a fonte recomendada e quanto um upgrade rende, com as trocas que ele obriga. É estimativa.",
+      "description": "Simulador de montagem de PC, do PC antigo e dos kits Xeon X99 ao topo de linha: escolha passo a passo só com peças compatíveis, FPS esperado e gargalo em jogos populares, airflow do gabinete com temperaturas, fonte recomendada, upgrade com as trocas obrigatórias e preços com histórico e a loja mais barata. É estimativa.",
       "category": "Hardware",
       "icon": "icons/arasaka-techie.svg",
       "accent": "#e3121f",
@@ -1165,11 +1165,11 @@
       },
       "t": {
         "en": {
-          "description": "PC build simulator: pick the parts and see expected FPS in popular games and the bottleneck, case airflow with pressure and temperatures, the recommended power supply and how much an upgrade gains, with the swaps it forces. It is an estimate.",
+          "description": "PC build simulator, from old PCs and Xeon X99 kits to high end: step-by-step picking with only compatible parts, expected FPS and bottleneck in popular games, case airflow with temperatures, recommended power supply, upgrades with the swaps they force, and prices with history and the cheapest store. It is an estimate.",
           "category": "Hardware"
         },
         "es": {
-          "description": "Simulador de armado de PC: elige las piezas y mira los FPS esperados en juegos populares y el cuello de botella, el flujo de aire del gabinete con presión y temperaturas, la fuente recomendada y cuánto rinde una mejora, con los cambios que obliga. Es una estimación.",
+          "description": "Simulador de armado de PC, desde PCs antiguas y kits Xeon X99 hasta la gama alta: elección paso a paso solo con piezas compatibles, FPS esperados y cuello de botella en juegos populares, flujo de aire con temperaturas, fuente recomendada, mejoras con los cambios que obligan y precios con historial y la tienda más barata. Es una estimación.",
           "category": "Hardware"
         },
         "th": {
